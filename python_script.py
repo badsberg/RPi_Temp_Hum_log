@@ -92,7 +92,7 @@ def pushQueue ():
     #read sensor
     try:
       logging.warning ("pushQueue: Start subprocess")
-      output = subprocess.check_output(["./Adafruit_DHT", "2302", "4"])
+      output = subprocess.check_output(["./DHT", "2302", "4"])
       logging.warning ("pushQueue: End subprocess")
 
     except:
