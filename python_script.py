@@ -9,6 +9,8 @@ import time
 import datetime
 import gspread
 import logging
+import sys
+
 logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
 
 
@@ -20,9 +22,10 @@ sched = Scheduler(coalesce = True)
 # ===========================================================================
 
 # Account details for google docs
-email       = 'xxx@gmail.com'
-password    = 'yyy'
+email       = sys.argv[0]
+password    = sys.argv[1]
 spreadsheetName = 'TempFugtLog'
+print ("email '%s'; password '%s'" %(email, password))
 
 # ===========================================================================
 # Example Code
