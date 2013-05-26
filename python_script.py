@@ -22,10 +22,9 @@ sched = Scheduler(coalesce = True)
 # ===========================================================================
 
 # Account details for google docs
-email       = sys.argv[0]
-password    = sys.argv[1]
+email       = sys.argv[1]
+password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
-print ("email '%s'; password '%s'" %(email, password))
 
 # ===========================================================================
 # Example Code
