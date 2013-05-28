@@ -93,31 +93,31 @@ def pushQueue ():
         while (getMoreMeas == True):
             logging.warning ("pushQueue: Measurement no. %d" % validMeasNo)
             #read sensor
-        try:
-            logging.warning ("pushQueue: Start subprocess")
-            output = subprocess.check_output(["./DHT", "2302", "4"])
-            logging.warning ("pushQueue: End subprocess")
+			try:
+				logging.warning ("pushQueue: Start subprocess")
+            	output = subprocess.check_output(["./DHT", "2302", "4"])
+            	logging.warning ("pushQueue: End subprocess")
 
-        except:
-            loging.warning ("pushQueue: problems execiting subprocess")
+        	except:
+            	loging.warning ("pushQueue: problems execiting subprocess")
 
-        else:
-            nofMeas = nofMeas + 1
-            logging.warning ("pushQueue: Process reading from sensor")
-            matchTemp = re.search("Temp =\s+([0-9.]+)", output)
-            matchHum = re.search("Hum =\s+([0-9.]+)", output)
+        	else:
+            	nofMeas = nofMeas + 1
+            	logging.warning ("pushQueue: Process reading from sensor")
+            	matchTemp = re.search("Temp =\s+([0-9.]+)", output)
+            	matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
-        if (matchTemp and matchHum):
-            #print("counter: %d; Temp: %.1f; hum: %.1f" % (measNo, float(matchTemp.group(1)), float(matchHum.group(1))))
-            accTemp = accTemp + float(matchTemp.group(1))
-            accHum = accHum + float(matchHum.group(1))
-            validMeasNo = validMeasNo + 1
+        	if (matchTemp and matchHum):
+            	#print("counter: %d; Temp: %.1f; hum: %.1f" % (measNo, float(matchTemp.group(1)), float(matchHum.group(1))))
+            	accTemp = accTemp + float(matchTemp.group(1))
+            	accHum = accHum + float(matchHum.group(1))
+            	validMeasNo = validMeasNo + 1
 
-        if (validMeasNo < nofMeas):
-            getMoreMeas = True
-            time.sleep(30)
-        else:
-            getMoreMeas = False
+        	if (validMeasNo < nofMeas):
+            	getMoreMeas = True
+            	time.sleep(30)
+        	else:
+            	getMoreMeas = False
 
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
