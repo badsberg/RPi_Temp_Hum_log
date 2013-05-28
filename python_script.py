@@ -86,7 +86,7 @@ def pushQueue ():
         pushQueueActive = True
         getMoreMeas = True
         validMeasNo = 0
-        nofMeas = 0
+        totalmeasNo = 0
         accTemp = 0
         accHum = 0
 
@@ -102,7 +102,7 @@ def pushQueue ():
                 loging.warning ("pushQueue: problems execiting subprocess")
 
             else:
-                nofMeas = nofMeas + 1
+                totalmeasNo = totalmeasNo + 1
                 logging.warning ("pushQueue: Process reading from sensor")
                 matchTemp = re.search("Temp =\s+([0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
