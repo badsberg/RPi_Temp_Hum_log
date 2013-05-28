@@ -80,7 +80,7 @@ def pushQueue ():
     global queueLock
     global pushQueueActive
     
-    nofMeas = 10
+    nofMeas = 2
 
     if (pushQueueActive == False):
         pushQueueActive = True
