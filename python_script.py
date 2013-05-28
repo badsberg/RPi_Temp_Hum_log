@@ -86,12 +86,12 @@ def pushQueue ():
         pushQueueActive = True
         getMoreMeas = True
         validMeasNo = 0
-        totalmeasNo = 0
+        totalMeasNo = 0
         accTemp = 0
         accHum = 0
 
         while (getMoreMeas == True):
-            logging.warning ("pushQueue: Measurement no. %d" % validMeasNo)
+            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             #read sensor
             try:
                 logging.warning ("pushQueue: Start subprocess")
@@ -102,7 +102,7 @@ def pushQueue ():
                 loging.warning ("pushQueue: problems execiting subprocess")
 
             else:
-                totalmeasNo = totalmeasNo + 1
+                totalMeasNo = totalMeasNo + 1
                 logging.warning ("pushQueue: Process reading from sensor")
                 matchTemp = re.search("Temp =\s+([0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
@@ -133,7 +133,7 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
         queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
-        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, totalmeasNo ))
+        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), totalMeasNo, totalmeasNo ))
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
