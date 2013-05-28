@@ -119,7 +119,7 @@ def pushQueue ():
             elif (totalMeasNo > 20):
                 getMoreMeas = False
                 
-            else 
+            else:
                 getMoreMeas = False
                 
                 
