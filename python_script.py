@@ -107,10 +107,10 @@ def pushQueue ():
                 matchTemp = re.search("Temp =\s+([0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
-            if (matchTemp and matchHum):
-                accTemp = accTemp + float(matchTemp.group(1))
-                accHum = accHum + float(matchHum.group(1))
-                validMeasNo = validMeasNo + 1
+                if (matchTemp and matchHum):
+                    accTemp = accTemp + float(matchTemp.group(1))
+                    accHum = accHum + float(matchHum.group(1))
+                    validMeasNo = validMeasNo + 1
 
             if (validMeasNo < nofMeas):
                 getMoreMeas = True
