@@ -187,7 +187,7 @@ def popQueue ():
   logging.warning ("popQueue: End")
 
 def main():
-      #pushQueue()
+      pushQueue()
       #popQueue()
 
       sched.add_interval_job(popQueue, seconds=60)
