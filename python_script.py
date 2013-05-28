@@ -49,6 +49,7 @@ class Queue:
 queueTime = Queue()
 queueTemperatur = Queue()
 queueHumidity = Queue()
+queueDebugData = Queue()
 queueLock = False
 pushQueueActive = False
 popQueueActive = False
@@ -84,7 +85,8 @@ def pushQueue ():
     if (pushQueueActive == False)
         pushQueueActive = True
         getMoreMeas = True
-        measNo = 0
+        validMeasNo = 0
+        nofMeas = 0
         accTemp = 0
         accHum = 0
 
@@ -100,6 +102,7 @@ def pushQueue ():
             loging.warning ("pushQueue: problems execiting subprocess")
 
         else:
+            nofMeas = nofMeas + 1
             logging.warning ("pushQueue: Process reading from sensor")
             matchTemp = re.search("Temp =\s+([0-9.]+)", output)
             matchHum = re.search("Hum =\s+([0-9.]+)", output)
@@ -108,9 +111,9 @@ def pushQueue ():
             #print("counter: %d; Temp: %.1f; hum: %.1f" % (measNo, float(matchTemp.group(1)), float(matchHum.group(1))))
             accTemp = accTemp + float(matchTemp.group(1))
             accHum = accHum + float(matchHum.group(1))
-            measNo = measNo +1
+            validMeasNo = validMeasNo + 1
 
-        if (measNo < nofMeas):
+        if (validMeasNo < nofMeas):
             getMoreMeas = True
             time.sleep(30)
         else:
@@ -125,6 +128,7 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue ("%.1f" % (accTemp / nofMeas))
         queueHumidity.enqueue ("%.1f" % (accHum / nofMeas))
+        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, nofMeas ))
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
@@ -153,6 +157,7 @@ def popQueue ():
       dateTimeStamp = queueTime.dequeue()
       temp = queueTemperatur.dequeue()
       humidity = queueHumidity.dequeue()
+      debugData = queueDebugData.dequeue()
       queueLock = False
         
       logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
@@ -162,16 +167,17 @@ def popQueue ():
         #cell_list[1].value=temp
         #cell_list[2].value=humidity
         #workSheet.update_cells(cell_list)
-        workSheet.update_cell (2,9,queueTime.size())
-        workSheet.update_cell (2,1,dateTimeStamp);
-        workSheet.update_cell (2,2,temp);
-        workSheet.update_cell (2,3,humidity);
+        workSheet.update_cell (2,1,dateTimeStamp)
+        workSheet.update_cell (2,2,temp)
+        workSheet.update_cell (2,3,humidity)
+        workSheet.update_cell (2,4,debugData)
 
       except:
         queueLock = True
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue (temp)
         queueHumidity.enqueue (humidity)
+        queueDebugData.enqueue (debugData)
         queueLock = False
         logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
