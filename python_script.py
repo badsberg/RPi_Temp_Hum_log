@@ -82,7 +82,7 @@ def pushQueue ():
     
     nofMeas = 10
 
-    if (pushQueueActive == False)
+    if (pushQueueActive == False):
         pushQueueActive = True
         getMoreMeas = True
         validMeasNo = 0
