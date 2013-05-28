@@ -116,8 +116,12 @@ def pushQueue ():
                 getMoreMeas = True
                 time.sleep(30)
                
-            else:
+            elif (totalMeasNo > 20):
                 getMoreMeas = False
+                
+            else 
+                getMoreMeas = False
+                
                 
 
         while (queueLock == True):
@@ -127,8 +131,8 @@ def pushQueue ():
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
-        queueTemperatur.enqueue ("%.1f" % (accTemp / nofMeas))
-        queueHumidity.enqueue ("%.1f" % (accHum / nofMeas))
+        queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
+        queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
         queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, totalmeasNo ))
         queueLock =  False
 
@@ -188,7 +192,7 @@ def popQueue ():
   logging.warning ("popQueue: End")
 
 def main():
-      pushQueue()
+      #pushQueue()
       #popQueue()
 
       sched.add_interval_job(popQueue, seconds=60)
@@ -209,6 +213,8 @@ def main():
       #sched.add_cron_job(pushQueue, minute = 55)
 
       sched.start()
+      
+      pushQueue()
 
       while True:
         pass
