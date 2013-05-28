@@ -140,7 +140,7 @@ def pushQueue ():
         pushQueueActive = False  
     
     else:
-        logging.warning ("pushQueue:Skipped because is is already running")
+        logging.warning ("pushQueue: Skipped because is already running")
 
 def popQueue ():
   global queueLock
