@@ -76,57 +76,62 @@ def getWorksheet():
 
 
 def pushQueue ():
-  global queueLock
-  global pushQueueActive
-  accTemp = 0
-  accHum = 0
-  nofMeas = 10
+    global queueLock
+    global pushQueueActive
+    
+    nofMeas = 10
 
-  pushQueueActive = True
-  getMoreMeas = True
-  measNo = 0
+    if (pushQueueActive == False)
+        pushQueueActive = True
+        getMoreMeas = True
+        measNo = 0
+        accTemp = 0
+        accHum = 0
 
-  while (getMoreMeas == True):
-    logging.warning ("pushQueue: Measurement no. %d" % measNo)
-    #read sensor
-    try:
-      logging.warning ("pushQueue: Start subprocess")
-      output = subprocess.check_output(["./DHT", "2302", "4"])
-      logging.warning ("pushQueue: End subprocess")
+        while (getMoreMeas == True):
+            logging.warning ("pushQueue: Measurement no. %d" % measNo)
+            #read sensor
+        try:
+            logging.warning ("pushQueue: Start subprocess")
+            output = subprocess.check_output(["./DHT", "2302", "4"])
+            logging.warning ("pushQueue: End subprocess")
 
-    except:
-      loging.warning ("pushQueue: problems execiting subprocess")
+        except:
+            loging.warning ("pushQueue: problems execiting subprocess")
 
-    else:
-      logging.warning ("pushQueue: Process reading from sensor")
-      matchTemp = re.search("Temp =\s+([0-9.]+)", output)
-      matchHum = re.search("Hum =\s+([0-9.]+)", output)
+        else:
+            logging.warning ("pushQueue: Process reading from sensor")
+            matchTemp = re.search("Temp =\s+([0-9.]+)", output)
+            matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
-      if (matchTemp and matchHum):
-        #print("counter: %d; Temp: %.1f; hum: %.1f" % (measNo, float(matchTemp.group(1)), float(matchHum.group(1))))
-        accTemp = accTemp + float(matchTemp.group(1))
-        accHum = accHum + float(matchHum.group(1))
-        measNo = measNo +1
+        if (matchTemp and matchHum):
+            #print("counter: %d; Temp: %.1f; hum: %.1f" % (measNo, float(matchTemp.group(1)), float(matchHum.group(1))))
+            accTemp = accTemp + float(matchTemp.group(1))
+            accHum = accHum + float(matchHum.group(1))
+            measNo = measNo +1
 
-    if (measNo < nofMeas):
-      getMoreMeas = True
-      time.sleep(30)
+        if (measNo < nofMeas):
+            getMoreMeas = True
+            time.sleep(30)
+        else:
+            getMoreMeas = False
+
+        while (queueLock == True):
+            logging.warning("pushQueue: wait for queueLock")
+            time.sleep (2)
+
+        dateTimeStamp = datetime.datetime.now()
+        queueLock=True
+        queueTime.enqueue (dateTimeStamp)
+        queueTemperatur.enqueue ("%.1f" % (accTemp / nofMeas))
+        queueHumidity.enqueue ("%.1f" % (accHum / nofMeas))
+        queueLock =  False
+
+        logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
+        pushQueueActive = False  
+    
     else:
-      getMoreMeas = False
-
-  while (queueLock == True):
-    logging.warning("pushQueue: wait for queueLock")
-    time.sleep (2)
-
-  dateTimeStamp = datetime.datetime.now()
-  queueLock=True
-  queueTime.enqueue (dateTimeStamp)
-  queueTemperatur.enqueue ("%.1f" % (accTemp / nofMeas))
-  queueHumidity.enqueue ("%.1f" % (accHum / nofMeas))
-  queueLock =  False
-
-  logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
-  pushQueueActive = False  
+        logging.warning ("pushQueue:Skipped because is is already running")
 
 def popQueue ():
   global queueLock
