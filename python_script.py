@@ -113,10 +113,10 @@ def pushQueue ():
                     validMeasNo = validMeasNo + 1
 
             if (validMeasNo < nofMeas):
+                getMoreMeas = False
+            else:
                 getMoreMeas = True
                 time.sleep(30)
-            else:
-                getMoreMeas = False
 
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
