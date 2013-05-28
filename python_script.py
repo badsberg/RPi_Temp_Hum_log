@@ -113,10 +113,12 @@ def pushQueue ():
                     validMeasNo = validMeasNo + 1
 
             if (validMeasNo < nofMeas):
-                getMoreMeas = False
-            else:
                 getMoreMeas = True
                 time.sleep(30)
+               
+            else:
+                getMoreMeas = False
+                
 
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
@@ -127,7 +129,7 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue ("%.1f" % (accTemp / nofMeas))
         queueHumidity.enqueue ("%.1f" % (accHum / nofMeas))
-        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, nofMeas ))
+        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, totalmeasNo ))
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
