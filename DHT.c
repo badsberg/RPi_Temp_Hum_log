@@ -112,7 +112,7 @@ int readDHT(int type, int pin) {
             if ((i>3) && (i%2 == 0)) {
                 // shove each bit into the storage bytes
                 data[j/8] <<= 1;
-                if (counter > 200)
+                if (counter2 > 200)
                     data[j/8] |= 1;
                 j++;
             }
