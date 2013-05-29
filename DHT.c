@@ -72,6 +72,7 @@ int bitidx = 0;
 
 int readDHT(int type, int pin) {
     int counter = 0;
+    int counter2 = 0;
     int laststate = HIGH;
     int j=0;
 
@@ -101,15 +102,15 @@ int readDHT(int type, int pin) {
     {
         // read data!
         for (int i=0; i< MAXTIMINGS; i++) {
-            counter = 0;
+            counter2 = 0;
             while ( bcm2835_gpio_lev(pin) == laststate) {
-  	            counter++;
+  	            counter2++;
 	            //nanosleep(1);		// overclocking might change this?
-                if (counter == 1000)
+                if (counter2 == 1000)
 	                break;
             }
             laststate = bcm2835_gpio_lev(pin);
-            if (counter == 1000) break;
+            if (counter2 == 1000) break;
             bits[bitidx++] = counter;
 
             if ((i>3) && (i%2 == 0)) {
@@ -131,7 +132,10 @@ int readDHT(int type, int pin) {
 
     printf("Data (%d): 0x%x 0x%x 0x%x 0x%x 0x%x\n", j, data[0], data[1], data[2], data[3], data[4]);
 #endif
-
+    printf("j: %d; Checksum: %d; counter: %d; counter2: %d",
+    j, data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF)),
+    counter,
+    counter2)
     if ((j >= 39) &&
       (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF)) ) {
         // yay!
