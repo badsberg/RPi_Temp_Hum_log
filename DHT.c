@@ -90,12 +90,12 @@ int readDHT(int type, int pin) {
 
     // wait for pin to drop?
     counter = 0;
-    while (bcm2835_gpio_lev(pin) == 1 && counter < 1000000) {
+    while (bcm2835_gpio_lev(pin) == 1 && counter < 1000) {
         counter++;
         //usleep(1);
     }
 
-    if (counter < 1000000)
+    if (counter < 1000)
     {
         // read data!
         for (int i=0; i< MAXTIMINGS; i++) {
@@ -107,7 +107,7 @@ int readDHT(int type, int pin) {
             }
             laststate = bcm2835_gpio_lev(pin);
             if (counter2 == 1000) break;
-            bits[bitidx++] = counter;
+            bits[bitidx++] = counter2;
 
             if ((i>3) && (i%2 == 0)) {
                 // shove each bit into the storage bytes
