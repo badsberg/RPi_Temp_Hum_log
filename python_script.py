@@ -112,18 +112,16 @@ def pushQueue ():
                     accHum = accHum + float(matchHum.group(1))
                     validMeasNo = validMeasNo + 1
 
-            if (validMeasNo < nofMeas):
+            if (totalMeasNo >= 20):
+                getMoreMeas = False
+                
+            elif (validMeasNo < nofMeas):
                 getMoreMeas = True
                 time.sleep(10)
-               
-            elif (totalMeasNo > 20):
-                getMoreMeas = False
                 
             else:
-                getMoreMeas = False
-                
-                
-
+                getMoreMeas = False    
+        
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
             time.sleep (2)
