@@ -114,7 +114,7 @@ def pushQueue ():
 
             if (validMeasNo < nofMeas):
                 getMoreMeas = True
-                time.sleep(30)
+                time.sleep(10)
                
             elif (totalMeasNo > 20):
                 getMoreMeas = False
