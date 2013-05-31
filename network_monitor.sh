@@ -7,3 +7,4 @@ else
     sudo ifup --force wlan0
 fi
 sudo ifconfig wlan0 | grep "inet addr:" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
+ping -c 1 192.168.1.1 | grep '1 received'
