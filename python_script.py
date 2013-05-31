@@ -15,7 +15,7 @@ logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='
 
 
 # Start the scheduler
-sched = Scheduler(coalesce = True)
+sched = Scheduler()
 
 # ===========================================================================
 # Google Account Details
@@ -55,24 +55,27 @@ pushQueueActive = False
 popQueueActive = False
 
 def getWorksheet():
-  try:
-    gc = gspread.login(email, password)
-
-  except:
-    logging.error ("Unable to login")
-    return 0
-
-  else:
     try:
-      spreadSheet = gc.open(spreadsheetName)
+        logging.warning ("Try login")
+        gc = gspread.login(email, password)
 
     except:
-      logging.error("Unable to open spread sheet: %s" % spreadsheetName)
-      return 0
+        logging.error ("Unable to login")
+        return 0
 
     else:
-      workSheet = spreadSheet.get_worksheet(7)
-      return workSheet
+        try:
+            logging.warning("Try open spreadsheet")
+            spreadSheet = gc.open(spreadsheetName)
+
+        except:
+            logging.error("Unable to open spread sheet: %s" % spreadsheetName)
+            return 0
+
+        else:
+            logging.warning("Open spredsheet succesfully")
+            workSheet = spreadSheet.get_worksheet(7)
+            return workSheet
      
 
 
@@ -117,7 +120,7 @@ def pushQueue ():
                 
             elif (validMeasNo < nofMeas):
                 getMoreMeas = True
-                time.sleep(10)
+                time.sleep(30)
                 
             else:
                 getMoreMeas = False    
