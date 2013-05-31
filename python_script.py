@@ -56,24 +56,24 @@ popQueueActive = False
 
 def getWorksheet():
     try:
-        logging.warning ("Try login")
+        logging.warning ("getWorksheet: Try login")
         gc = gspread.login(email, password)
 
     except:
-        logging.error ("Unable to login")
+        logging.error ("getWorksheet: Unable to login")
         return 0
 
     else:
         try:
-            logging.warning("Try open spreadsheet")
+            logging.warning("getWorksheet: Try open spreadsheet")
             spreadSheet = gc.open(spreadsheetName)
 
         except:
-            logging.error("Unable to open spread sheet: %s" % spreadsheetName)
+            logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
             return 0
 
         else:
-            logging.warning("Open spredsheet succesfully")
+            logging.warning("getWorksheet: Open spredsheet succesfully")
             workSheet = spreadSheet.get_worksheet(7)
             return workSheet
      
