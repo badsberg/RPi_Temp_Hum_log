@@ -59,11 +59,8 @@ def getWorksheet():
         output = subprocess.check_output(["ping", "-c", "1", "192.168.1.1"])
         match = re.search("1 received", output)
         logging.warning (output)
-        if (!match):
-            raise Exception('Not network connection')
-            
-        else:
-            try:
+        if (match):
+             try:
                 logging.warning ("getWorksheet: Try login")
                 gc = gspread.login(email, password)
 
@@ -84,8 +81,15 @@ def getWorksheet():
                     logging.warning("getWorksheet: Open spredsheet succesfully")
                     workSheet = spreadSheet.get_worksheet(7)
                     return workSheet
-        Except:
-            logging.warning("getWorksheet: No network connection")
+        else:
+           logging.warning("getWorksheet: Not network connection") 
+           return 0
+           
+    Except:
+        logging.warning("getWorksheet: can't run subprocess 'ping'")
+        return 0
+            
+        
      
 
 
