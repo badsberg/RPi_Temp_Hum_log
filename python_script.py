@@ -85,7 +85,7 @@ def getWorksheet():
            logging.warning("getWorksheet: Not network connection") 
            return 0
            
-    Except:
+    except:
         logging.warning("getWorksheet: can't run subprocess 'ping'")
         return 0
             
