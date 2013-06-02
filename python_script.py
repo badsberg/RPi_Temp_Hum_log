@@ -60,7 +60,7 @@ def getWorksheet():
         match = re.search("1 received", output)
         logging.warning (output)
         if (match):
-             try:
+            try:
                 logging.warning ("getWorksheet: Try login")
                 gc = gspread.login(email, password)
 
