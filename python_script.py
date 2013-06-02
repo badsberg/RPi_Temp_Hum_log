@@ -56,26 +56,36 @@ popQueueActive = False
 
 def getWorksheet():
     try:
-        logging.warning ("getWorksheet: Try login")
-        gc = gspread.login(email, password)
-
-    except:
-        logging.error ("getWorksheet: Unable to login")
-        return 0
-
-    else:
-        try:
-            logging.warning("getWorksheet: Try open spreadsheet")
-            spreadSheet = gc.open(spreadsheetName)
-
-        except:
-            logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
-            return 0
-
+        output = subprocess.check_output(["ping", "-c", "1", "192.168.1.1"])
+        match = re.search("1 received", output)
+        logging.warning (output)
+        if (!match):
+            raise Exception('Not network connection')
+            
         else:
-            logging.warning("getWorksheet: Open spredsheet succesfully")
-            workSheet = spreadSheet.get_worksheet(7)
-            return workSheet
+            try:
+                logging.warning ("getWorksheet: Try login")
+                gc = gspread.login(email, password)
+
+            except:
+                logging.error ("getWorksheet: Unable to login")
+                return 0
+
+            else:
+                try:
+                    logging.warning("getWorksheet: Try open spreadsheet")
+                    spreadSheet = gc.open(spreadsheetName)
+
+                except:
+                    logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
+                    return 0
+
+                else:
+                    logging.warning("getWorksheet: Open spredsheet succesfully")
+                    workSheet = spreadSheet.get_worksheet(7)
+                    return workSheet
+        Except:
+            logging.warning("getWorksheet: No network connection")
      
 
 
