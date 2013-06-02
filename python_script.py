@@ -10,6 +10,7 @@ import datetime
 import gspread
 import logging
 import sys
+import os
 
 logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
 
@@ -55,43 +56,31 @@ pushQueueActive = False
 popQueueActive = False
 
 def getWorksheet():
-    try:
-        output = subprocess.check_output(["ping", "-c", "1", "192.168.1.1"])
-        match = re.search("1 received", output)
-        logging.warning (output)
-        if (match):
+    if (os.system("ping -c 1 www.google.com") == 0):
+        try:
+            logging.warning ("getWorksheet: Try login")
+            gc = gspread.login(email, password)
+
+        except:
+            logging.error ("getWorksheet: Unable to login")
+            return 0
+
+        else:
             try:
-                logging.warning ("getWorksheet: Try login")
-                gc = gspread.login(email, password)
+                logging.warning("getWorksheet: Try open spreadsheet")
+                spreadSheet = gc.open(spreadsheetName)
 
             except:
-                logging.error ("getWorksheet: Unable to login")
+                logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
                 return 0
 
             else:
-                try:
-                    logging.warning("getWorksheet: Try open spreadsheet")
-                    spreadSheet = gc.open(spreadsheetName)
-
-                except:
-                    logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
-                    return 0
-
-                else:
-                    logging.warning("getWorksheet: Open spredsheet succesfully")
-                    workSheet = spreadSheet.get_worksheet(7)
-                    return workSheet
-        else:
-           logging.warning("getWorksheet: Not network connection") 
-           return 0
-           
-    except:
-        logging.warning("getWorksheet: can't run subprocess 'ping'")
-        return 0
-            
-        
-     
-
+                logging.warning("getWorksheet: Open spredsheet succesfully")
+                workSheet = spreadSheet.get_worksheet(7)
+                return workSheet
+    else:
+       logging.warning("getWorksheet: No network connection") 
+       return 0
 
 def pushQueue ():
     global queueLock
