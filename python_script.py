@@ -76,8 +76,15 @@ def getWorksheet():
 
             else:
                 logging.warning("getWorksheet: Open spredsheet succesfully")
-                workSheet = spreadSheet.get_worksheet(7)
-                return workSheet
+                try:
+                    workSheet = spreadSheet.get_worksheet(7)
+                    
+                except:
+                    logging.error("getWorksheet: Unable to get worksheet")
+                    return 0;
+                    
+                else: 
+                  return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
        return 0
