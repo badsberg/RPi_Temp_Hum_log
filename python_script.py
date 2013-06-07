@@ -54,36 +54,57 @@ queueDebugData = Queue()
 queueLock = False
 pushQueueActive = False
 popQueueActive = False
+nofFailedLogin = 0
+nofFailedOpenWorksheet = 0
+nofFailedGetWorksheet = 0
+nofFailedRunSubprocess = 0
+nofFailedUpdateCell = 0
+popQueueDebugString = ''
 
 def getWorksheet():
+    global nofFailedLogin
+    global nofFailedOpenWorksheet
+    global nofFailedGetWorksheet
+    global popQueueDebugString
+    
     if (os.system("ping -c 1 192.168.1.1") == 0):
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
 
         except:
+            nofFailedLogin =+ 1
             logging.error ("getWorksheet: Unable to login")
             return 0
 
         else:
+            popQueueDebugString = '%d / ' %(nofFailedLogin)
+            nofFailedLogin = 0
+            
             try:
                 logging.warning("getWorksheet: Try open spreadsheet")
                 spreadSheet = gc.open(spreadsheetName)
 
             except:
+                nofFailedOpenWorksheet =+ 1
                 logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
                 return 0
 
             else:
+                popQueueDebugString += '%d / ' %(nofFailedOpenWorksheet)
+                nofFailedOpenWorksheet = 0
                 logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
                     workSheet = spreadSheet.get_worksheet(7)
                     
                 except:
+                    nofFailedGetWorksheet += 1
                     logging.error("getWorksheet: Unable to get worksheet")
                     return 0
                     
-                else: 
+                else:
+                    popQueueDebugString += '%d / ' %(nofFailedGetWorksheet)
+                    nofFailedGetWorksheet = 0
                     return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
@@ -154,53 +175,59 @@ def pushQueue ():
         logging.warning ("pushQueue: Skipped because is already running")
 
 def popQueue ():
-  global queueLock
-  global popQueueActive
-  global pushQueueActive
+    global queueLock
+    global popQueueActive
+    global pushQueueActive
+    global nofFailedUpdateCell
+    global popQueueDebugString
 
-  logging.warning ("popQueue: Start")
+    logging.warning ("popQueue: Start")
   
-  if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
-    popQueueActive = True   
-    workSheet = getWorksheet()
-    if (workSheet != 0):
-      while (queueLock == True):
-        logging.warning("popQueue: wait for queueLock")
-        time.sleep (2)
+    if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
+        popQueueActive = True   
+        workSheet = getWorksheet()
+        if (workSheet != 0):
+            while (queueLock == True):
+            logging.warning("popQueue: wait for queueLock")
+            time.sleep (2)
       
-      queueLock = True
-      queueSize = queueTime.size()
-      dateTimeStamp = queueTime.dequeue()
-      temp = queueTemperatur.dequeue()
-      humidity = queueHumidity.dequeue()
-      debugData = queueDebugData.dequeue()
-      queueLock = False
-        
-      logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
-      try:
-        #cell_list=worksheet.range('A2:C2')
-        #cell_list[0].value=dateTimeStamp
-        #cell_list[1].value=temp
-        #cell_list[2].value=humidity
-        #workSheet.update_cells(cell_list)
-        workSheet.update_cell (2,1,dateTimeStamp)
-        workSheet.update_cell (2,2,temp)
-        workSheet.update_cell (2,3,humidity)
-        workSheet.update_cell (2,4,debugData)
-
-      except:
         queueLock = True
-        queueTime.enqueue (dateTimeStamp)
-        queueTemperatur.enqueue (temp)
-        queueHumidity.enqueue (humidity)
-        queueDebugData.enqueue (debugData)
+        queueSize = queueTime.size()
+        dateTimeStamp = queueTime.dequeue()
+        temp = queueTemperatur.dequeue()
+        humidity = queueHumidity.dequeue()
+        debugData = queueDebugData.dequeue()
         queueLock = False
-        logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
-    
-    popQueueActive = False
-  else:
-    logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
-  logging.warning ("popQueue: End")
+        
+        logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
+        try:
+            #cell_list=worksheet.range('A2:C2')
+            #cell_list[0].value=dateTimeStamp
+            #cell_list[1].value=temp
+            #cell_list[2].value=humidity
+            #workSheet.update_cells(cell_list)
+            workSheet.update_cell (2,1,dateTimeStamp)
+            workSheet.update_cell (2,2,temp)
+            workSheet.update_cell (2,3,humidity)
+            workSheet.update_cell (2,4,debugData)
+            popQueueDebugString += '%d / ' %(nofFailedUpdateCell)
+            nofFailedUpdateCell = 0
+            workSheet.update_cell (2,5,datetime.datetime.now().strftime("%H:%M:%S / %s "%(popQueueDebugString)))
+
+        except:
+            nofFailedUpdateCell += 1
+            queueLock = True
+            queueTime.enqueue (dateTimeStamp)
+            queueTemperatur.enqueue (temp)
+            queueHumidity.enqueue (humidity)
+            queueDebugData.enqueue (debugData)
+            queueLock = False
+            logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
+          
+        popQueueActive = False
+    else:
+        logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
+        logging.warning ("popQueue: End")
 
 def main():
       #pushQueue()
