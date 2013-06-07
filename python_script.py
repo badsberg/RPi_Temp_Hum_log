@@ -212,7 +212,6 @@ def popQueue ():
             workSheet.update_cell (2,4,debugData)
             popQueueDebugString += '%d' %(nofFailedUpdateCell)
             popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-            print (popQueueDebugString)
             nofFailedUpdateCell = 0
             
             workSheet.update_cell (2,5,popQueueDebugString)
