@@ -78,7 +78,7 @@ def getWorksheet():
             return 0
 
         else:
-            popQueueDebugString = '%d / ' %(nofFailedLogin)
+            popQueueDebugString = ' / %d / ' %(nofFailedLogin)
             nofFailedLogin = 0
             
             try:
@@ -211,9 +211,11 @@ def popQueue ():
             workSheet.update_cell (2,3,humidity)
             workSheet.update_cell (2,4,debugData)
             popQueueDebugString += '%d' %(nofFailedUpdateCell)
+            popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
             print (popQueueDebugString)
             nofFailedUpdateCell = 0
-            workSheet.update_cell (2,5,datetime.datetime.now().strftime("%H:%M:%S / %s "%(popQueueDebugString)))
+            
+            workSheet.update_cell (2,5,datetime.datetime.now().strftime("%H:%M:%S"))
 
         except:
             nofFailedUpdateCell += 1
