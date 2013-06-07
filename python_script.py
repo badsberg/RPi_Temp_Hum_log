@@ -188,8 +188,8 @@ def popQueue ():
         workSheet = getWorksheet()
         if (workSheet != 0):
             while (queueLock == True):
-            logging.warning("popQueue: wait for queueLock")
-            time.sleep (2)
+            	logging.warning("popQueue: wait for queueLock")
+            	time.sleep (2)
       
         queueLock = True
         queueSize = queueTime.size()
