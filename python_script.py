@@ -228,7 +228,8 @@ def popQueue ():
         popQueueActive = False
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
-        logging.warning ("popQueue: End")
+
+    logging.warning ("popQueue: End")
 
 def main():
       #pushQueue()
