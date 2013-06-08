@@ -191,43 +191,40 @@ def popQueue ():
             	logging.warning("popQueue: wait for queueLock")
             	time.sleep (2)
       
-        queueLock = True
-        queueSize = queueTime.size()
-        dateTimeStamp = queueTime.dequeue()
-        temp = queueTemperatur.dequeue()
-        humidity = queueHumidity.dequeue()
-        debugData = queueDebugData.dequeue()
-        queueLock = False
-        
-        logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
-        try:
-            #cell_list=worksheet.range('A2:C2')
-            #cell_list[0].value=dateTimeStamp
-            #cell_list[1].value=temp
-            #cell_list[2].value=humidity
-            #workSheet.update_cells(cell_list)
-            workSheet.update_cell (2,1,dateTimeStamp)
-            workSheet.update_cell (2,2,temp)
-            workSheet.update_cell (2,3,humidity)
-            workSheet.update_cell (2,4,debugData)
-            popQueueDebugString += '%d' %(nofFailedUpdateCell)
-            popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-            nofFailedUpdateCell = 0
-            
-            workSheet.update_cell (2,5,popQueueDebugString)
-
-        except:
-            nofFailedUpdateCell += 1
             queueLock = True
-            queueTime.enqueue (dateTimeStamp)
-            queueTemperatur.enqueue (temp)
-            queueHumidity.enqueue (humidity)
-            queueDebugData.enqueue (debugData)
+            queueSize = queueTime.size()
+            dateTimeStamp = queueTime.dequeue()
+            temp = queueTemperatur.dequeue()
+            humidity = queueHumidity.dequeue()
+            debugData = queueDebugData.dequeue()
             queueLock = False
-            logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
-        else:
-          nofFailedUpdateCell = 0;
-          
+        
+            logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
+            try:
+                #cell_list=worksheet.range('A2:C2')
+                #cell_list[0].value=dateTimeStamp
+                #cell_list[1].value=temp
+                #cell_list[2].value=humidity
+                #workSheet.update_cells(cell_list)
+                workSheet.update_cell (2,1,dateTimeStamp)
+                workSheet.update_cell (2,2,temp)
+                workSheet.update_cell (2,3,humidity)
+                workSheet.update_cell (2,4,debugData)
+                popQueueDebugString += '%d' %(nofFailedUpdateCell)
+                popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
+                nofFailedUpdateCell = 0
+                workSheet.update_cell (2,5,popQueueDebugString)
+
+            except:
+                nofFailedUpdateCell += 1
+                queueLock = True
+                queueTime.enqueue (dateTimeStamp)
+                queueTemperatur.enqueue (temp)
+                queueHumidity.enqueue (humidity)
+                queueDebugData.enqueue (debugData)
+                queueLock = False
+                logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
+                      
         popQueueActive = False
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
