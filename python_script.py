@@ -133,7 +133,7 @@ def pushQueue ():
                 logging.warning ("pushQueue: End subprocess")
 
             except:
-                loging.warning ("pushQueue: problems execiting subprocess")
+                logging.warning ("pushQueue: problems execiting subprocess")
 
             else:
                 totalMeasNo = totalMeasNo + 1
