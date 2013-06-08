@@ -1,5 +1,6 @@
 NOW=$(date +"%D-%H:%M:%S") 
-if ping -c 1 www.google.com | grep '1 received' ; then
+#if ping -c 1 www.google.com | grep '1 received' ; then
+if  ping -c 1 www.google.com  >/dev/null ; then
     echo $NOW  "Network connection running" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
 else
     echo $NOW  "Network connection down! Attempting reconnection." >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
