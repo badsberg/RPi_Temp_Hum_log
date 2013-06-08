@@ -212,7 +212,6 @@ def popQueue ():
                 workSheet.update_cell (2,4,debugData)
                 popQueueDebugString += '%d' %(nofFailedUpdateCell)
                 popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-                nofFailedUpdateCell = 0
                 workSheet.update_cell (2,5,popQueueDebugString)
 
             except:
@@ -224,33 +223,24 @@ def popQueue ():
                 queueDebugData.enqueue (debugData)
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
-                      
+
+            else:
+                nofFailedUpdateCell = 0                
+                
         popQueueActive = False
+        
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
     logging.warning ("popQueue: End")
 
 def main():
-      #pushQueue()
-      #popQueue()
-
       sched.add_interval_job(popQueue, seconds=60)
 
       sched.add_cron_job(pushQueue, minute =  0)
       sched.add_cron_job(pushQueue, minute = 15)
       sched.add_cron_job(pushQueue, minute = 30)
       sched.add_cron_job(pushQueue, minute = 45)
-
-      #sched.add_cron_job(pushQueue, minute =  5)
-      #sched.add_cron_job(pushQueue, minute = 20)
-      #sched.add_cron_job(pushQueue, minute = 35)
-      #sched.add_cron_job(pushQueue, minute = 50)
-
-      #sched.add_cron_job(pushQueue, minute = 10)
-      #sched.add_cron_job(pushQueue, minute = 25)
-      #sched.add_cron_job(pushQueue, minute = 40)
-      #sched.add_cron_job(pushQueue, minute = 55)
 
       sched.start()
       
