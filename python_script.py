@@ -210,7 +210,7 @@ def popQueue ():
                 workSheet.update_cell (2,2,temp)
                 workSheet.update_cell (2,3,humidity)
                 workSheet.update_cell (2,4,debugData)
-                popQueueDebugString += '%d' %(nofFailedUpdateCell)
+                popQueueDebugString += '%d / %d' %(nofFailedUpdateCell, queueTime.size())
                 popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
                 workSheet.update_cell (2,5,popQueueDebugString)
 
