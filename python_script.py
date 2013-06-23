@@ -213,13 +213,13 @@ def popQueue ():
                 #cell_list[1].value=temp
                 #cell_list[2].value=humidity
                 #workSheet.update_cells(cell_list)
-                workSheet.update_cell (2,1,dateTimeStamp)
-                workSheet.update_cell (2,2,temp)
-                workSheet.update_cell (2,3,humidity)
-                workSheet.update_cell (2,4,debugData)
+                workSheetId.update_cell (2,1,dateTimeStamp)
+                workSheetId.update_cell (2,2,temp)
+                workSheetId.update_cell (2,3,humidity)
+                workSheetId.update_cell (2,4,debugData)
                 popQueueDebugString += '%d / %d' %(nofFailedUpdateCell, queueTime.size())
                 popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-                workSheet.update_cell (2,5,popQueueDebugString)
+                workSheetId.update_cell (2,5,popQueueDebugString)
 
             except:
                 getWorksheetFlag = True
