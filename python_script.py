@@ -80,7 +80,7 @@ def getWorksheet():
             return 0
 
         else:
-            popQueueDebugString = ' / %d / ' %(nofFailedLogin)
+            popQueueDebugString += ' / %d / ' %(nofFailedLogin)
             nofFailedLogin = 0
             
             try:
@@ -189,6 +189,7 @@ def popQueue ():
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
+        popQueueDebugString = ''
         if (getWorksheetFlag == True):
             workSheetId = getWorksheet()
             getWorksheetFlag = False
