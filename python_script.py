@@ -54,59 +54,37 @@ queueDebugData = Queue()
 queueLock = False
 pushQueueActive = False
 popQueueActive = False
-nofFailedLogin = 0
-nofFailedOpenWorksheet = 0
-nofFailedGetWorksheet = 0
-nofFailedRunSubprocess = 0
-nofFailedUpdateCell = 0
-popQueueDebugString = ''
-getWorksheetFlag = True
-workSheetId = 0
+
 
 def getWorksheet():
-    global nofFailedLogin
-    global nofFailedOpenWorksheet
-    global nofFailedGetWorksheet
-    global popQueueDebugString
-    
     if (os.system("ping -c 1 192.168.1.1") == 0):
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
 
         except:
-            nofFailedLogin =+ 1
             logging.error ("getWorksheet: Unable to login")
             return 0
 
         else:
-            popQueueDebugString += ' / %d / ' %(nofFailedLogin)
-            nofFailedLogin = 0
-            
             try:
                 logging.warning("getWorksheet: Try open spreadsheet")
                 spreadSheet = gc.open(spreadsheetName)
 
             except:
-                nofFailedOpenWorksheet =+ 1
                 logging.error("getWorksheet: Unable to open spread sheet: %s" % spreadsheetName)
                 return 0
 
             else:
-                popQueueDebugString += '%d / ' %(nofFailedOpenWorksheet)
-                nofFailedOpenWorksheet = 0
                 logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
                     workSheet = spreadSheet.get_worksheet(7)
                     
                 except:
-                    nofFailedGetWorksheet += 1
                     logging.error("getWorksheet: Unable to get worksheet")
                     return 0
                     
                 else:
-                    popQueueDebugString += '%d' %(nofFailedGetWorksheet)
-                    nofFailedGetWorksheet = 0
                     return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
@@ -167,7 +145,7 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
         queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
-        queueDebugData.enqueue (" %d / %d / %d" %(queueTime.size(), validMeasNo, totalMeasNo ))
+        queueDebugData.enqueue ("Queue size: %03d; Valid meas: %03d; Total meas: %03d" %(queueTime.size(), validMeasNo, totalMeasNo ))
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
@@ -180,10 +158,6 @@ def popQueue ():
     global queueLock
     global popQueueActive
     global pushQueueActive
-    global nofFailedUpdateCell
-    global popQueueDebugString
-    global getWorksheetFlag
-    global workSheetId
 
     logging.warning ("popQueue: Start")
   
@@ -191,8 +165,11 @@ def popQueue ():
         popQueueActive = True 
         popQueueDebugString = ''
         if (getWorksheetFlag == True):
+            popQueueDebugString = '; Open worksheet : 1'
             workSheetId = getWorksheet()
             getWorksheetFlag = False
+        else
+            popQueueDebugString = '; Open worksheet : 0'
             
         if (workSheetId != 0):
             while (queueLock == True):
@@ -204,27 +181,30 @@ def popQueue ():
             dateTimeStamp = queueTime.dequeue()
             temp = queueTemperatur.dequeue()
             humidity = queueHumidity.dequeue()
-            debugData = queueDebugData.dequeue()
+            pushDebugData = queueDebugData.dequeue()
             queueLock = False
         
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
-                #cell_list=worksheet.range('A2:C2')
-                #cell_list[0].value=dateTimeStamp
-                #cell_list[1].value=temp
-                #cell_list[2].value=humidity
-                #workSheet.update_cells(cell_list)
+                #cell_list=worksheet.range('A2:E2')
+                cell_list[0].value=dateTimeStamp
+                cell_list[1].value=temp
+                cell_list[2].value=humidity
+                cell_list[3].value=pushDebugData
+                cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S") + 
+                            '; Queue size: %03d' %(queueTime.size())+ 
+                            + popQueueDebugString 
+                workSheet.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
-                workSheetId.update_cell (2,2,temp)
-                workSheetId.update_cell (2,3,humidity)
-                workSheetId.update_cell (2,4,debugData)
-                popQueueDebugString = ' / %d / %d' %(nofFailedUpdateCell, queueTime.size()) + popQueueDebugString
-                popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-                workSheetId.update_cell (2,5,popQueueDebugString)
+                #workSheetId.update_cell (2,2,temp)
+                #workSheetId.update_cell (2,3,humidity)
+                #workSheetId.update_cell (2,4,debugData)
+                #popQueueDebugString = ' / %d / %d' %(nofFailedUpdateCell, queueTime.size()) + popQueueDebugString
+                #popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
+                #workSheetId.update_cell (2,5,popQueueDebugString)
 
             except:
                 getWorksheetFlag = True
-                nofFailedUpdateCell += 1
                 queueLock = True
                 queueTime.enqueue (dateTimeStamp)
                 queueTemperatur.enqueue (temp)
@@ -232,10 +212,7 @@ def popQueue ():
                 queueDebugData.enqueue (debugData)
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
-
-            else:
-                nofFailedUpdateCell = 0                
-                
+    
         popQueueActive = False
         
     else:
