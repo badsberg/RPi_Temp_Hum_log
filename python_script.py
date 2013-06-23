@@ -191,9 +191,9 @@ def popQueue ():
                 cell_list[1].value=temp
                 cell_list[2].value=humidity
                 cell_list[3].value=pushDebugData
-                cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S") + 
-                            '; Queue size: %03d' %(queueTime.size())+ 
-                            + popQueueDebugString 
+                cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
+                cell_list[4].value+='; Queue size: %03d' %(queueTime.size())
+                cell_list[4].value+= popQueueDebugString 
                 workSheet.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 #workSheetId.update_cell (2,2,temp)
