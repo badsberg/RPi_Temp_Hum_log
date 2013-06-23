@@ -54,6 +54,7 @@ queueDebugData = Queue()
 queueLock = False
 pushQueueActive = False
 popQueueActive = False
+getWorksheetFlag = True
 
 
 def getWorksheet():
@@ -158,6 +159,7 @@ def popQueue ():
     global queueLock
     global popQueueActive
     global pushQueueActive
+    global getWorksheetFlag
 
     logging.warning ("popQueue: Start")
   
