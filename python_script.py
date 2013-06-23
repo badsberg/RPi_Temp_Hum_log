@@ -169,11 +169,11 @@ def popQueue ():
         if (getWorksheetFlag == True):
             popQueueDebugString = '1'
             workSheetId = getWorksheet()
-            getWorksheetFlag = False
         else:
             popQueueDebugString = '0'
             
         if (workSheetId != 0):
+            getWorksheetFlag = False
             while (queueLock == True):
             	logging.warning("popQueue: wait for queueLock")
             	time.sleep (2)
@@ -194,9 +194,9 @@ def popQueue ():
                 cell_list[2].value=humidity
                 cell_list[3].value=pushDebugData
                 cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
-                cell_list[4].value+='/%03d' %(queueTime.size())
-                cell_list[4].value+='/'+popQueueDebugString 
-                workSheet.update_cells(cell_list)
+                cell_list[4].value+='/%03d/' %(queueTime.size())
+                cell_list[4].value+=popQueueDebugString 
+                workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 #workSheetId.update_cell (2,2,temp)
                 #workSheetId.update_cell (2,3,humidity)
