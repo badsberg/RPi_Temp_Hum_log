@@ -60,6 +60,8 @@ nofFailedGetWorksheet = 0
 nofFailedRunSubprocess = 0
 nofFailedUpdateCell = 0
 popQueueDebugString = ''
+getWorksheetFlag = True
+workSheetId = 0
 
 def getWorksheet():
     global nofFailedLogin
@@ -180,13 +182,18 @@ def popQueue ():
     global pushQueueActive
     global nofFailedUpdateCell
     global popQueueDebugString
+    global getWorksheetFlag
+    global workSheetId
 
     logging.warning ("popQueue: Start")
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
-        popQueueActive = True   
-        workSheet = getWorksheet()
-        if (workSheet != 0):
+        popQueueActive = True 
+        if (getWorksheetFlag == True):
+            workSheetId = getWorksheet()
+            getWorksheetFlag = False
+            
+        if (workSheetId != 0):
             while (queueLock == True):
             	logging.warning("popQueue: wait for queueLock")
             	time.sleep (2)
@@ -215,6 +222,7 @@ def popQueue ():
                 workSheet.update_cell (2,5,popQueueDebugString)
 
             except:
+                getWorksheetFlag = True
                 nofFailedUpdateCell += 1
                 queueLock = True
                 queueTime.enqueue (dateTimeStamp)
