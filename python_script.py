@@ -188,7 +188,7 @@ def popQueue ():
         
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
-                #cell_list=worksheet.range('A2:E2')
+                cell_list=worksheet.range('A2:E2')
                 cell_list[0].value=dateTimeStamp
                 cell_list[1].value=temp
                 cell_list[2].value=humidity
@@ -211,7 +211,7 @@ def popQueue ():
                 queueTime.enqueue (dateTimeStamp)
                 queueTemperatur.enqueue (temp)
                 queueHumidity.enqueue (humidity)
-                queueDebugData.enqueue (debugData)
+                queueDebugData.enqueue (pushDebugData)
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
