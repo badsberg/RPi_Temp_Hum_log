@@ -105,7 +105,7 @@ def getWorksheet():
                     return 0
                     
                 else:
-                    popQueueDebugString += '%d / ' %(nofFailedGetWorksheet)
+                    popQueueDebugString += '%d' %(nofFailedGetWorksheet)
                     nofFailedGetWorksheet = 0
                     return workSheet
     else:
@@ -218,7 +218,7 @@ def popQueue ():
                 workSheetId.update_cell (2,2,temp)
                 workSheetId.update_cell (2,3,humidity)
                 workSheetId.update_cell (2,4,debugData)
-                popQueueDebugString += '%d / %d' %(nofFailedUpdateCell, queueTime.size())
+                popQueueDebugString = ' / %d / %d' %(nofFailedUpdateCell, queueTime.size()) + popQueueDebugString
                 popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
                 workSheetId.update_cell (2,5,popQueueDebugString)
 
