@@ -167,7 +167,6 @@ def popQueue ():
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
-        popQueueDebugString = ''
         if (getWorksheetFlag == True):
             popQueueDebugString = '1'
             workSheetId = getWorksheet()
