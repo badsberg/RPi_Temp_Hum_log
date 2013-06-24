@@ -55,6 +55,7 @@ queueLock = False
 pushQueueActive = False
 popQueueActive = False
 getWorksheetFlag = True
+workSheetId = 0
 
 
 def getWorksheet():
@@ -160,6 +161,7 @@ def popQueue ():
     global popQueueActive
     global pushQueueActive
     global getWorksheetFlag
+    global workSheetId
 
     logging.warning ("popQueue: Start")
   
