@@ -147,8 +147,8 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
         queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
-        queueDebugData.enqueue ("%03d/%02d/%02d" %(queueTime.size(), validMeasNo, totalMeasNo ))
-        logging.warning ("pushQueue: %03d/%02d/%02d" %(queueTime.size(), validMeasNo, totalMeasNo ))
+        queueDebugData.enqueue ("%03d;%02d;%02d" %(queueTime.size(), validMeasNo, totalMeasNo ))
+        logging.warning ("pushQueue: %03d;%02d;%02d" %(queueTime.size(), validMeasNo, totalMeasNo ))
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
@@ -197,7 +197,7 @@ def popQueue ():
                 cell_list[3].value=pushDebugData
                 logging.warning (pushDebugData)
                 cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
-                cell_list[4].value+='/%03d/' %(queueTime.size())
+                cell_list[4].value+=';%03d;' %(queueTime.size())
                 cell_list[4].value+=popQueueDebugString 
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
