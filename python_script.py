@@ -189,16 +189,15 @@ def popQueue ():
         
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
-                cell_list=workSheetId.range('A2:E2')
-                cell_list[0].value=dateTimeStamp
-                cell_list[1].value=temp
-                cell_list[2].value=humidity
-                cell_list[3].value=pushDebugData
-                cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
-                cell_list[4].value+=';%03d;' %(queueTime.size())
-                cell_list[4].value+=popQueueDebugString 
+                cell_list=workSheetId.range('B2:E2')
+                cell_list[0].value=temp
+                cell_list[1].value=humidity
+                cell_list[2].value=pushDebugData
+                cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
+                cell_list[3].value+=';%03d;' %(queueTime.size())
+                cell_list[3].value+=popQueueDebugString 
                 workSheetId.update_cells(cell_list)
-                #workSheetId.update_cell (2,1,dateTimeStamp)
+                workSheetId.update_cell (2,1,dateTimeStamp)
                 #workSheetId.update_cell (2,2,temp)
                 #workSheetId.update_cell (2,3,humidity)
                 #workSheetId.update_cell (2,4,debugData)
