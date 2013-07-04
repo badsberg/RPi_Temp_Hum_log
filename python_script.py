@@ -164,8 +164,6 @@ def popQueue ():
     global workSheetId
 
     logging.warning ("popQueue: Start")
-    
-    time.sleep(40)
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
