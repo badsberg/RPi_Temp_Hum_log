@@ -228,10 +228,10 @@ def popQueue ():
 def main():
       sched.add_interval_job(popQueue, seconds=30)
 
-      sched.add_cron_job(pushQueue, minute =  0)
-      sched.add_cron_job(pushQueue, minute = 15)
-      sched.add_cron_job(pushQueue, minute = 30)
-      sched.add_cron_job(pushQueue, minute = 45)
+      sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 30, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 45, max_instances=2)
         
 
       sched.start()
