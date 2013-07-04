@@ -16,7 +16,7 @@ logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='
 
 
 # Start the scheduler
-sched = Scheduler()
+sched = Scheduler(misfire_grace_time = 240)
 
 # ===========================================================================
 # Google Account Details
@@ -232,16 +232,7 @@ def main():
       sched.add_cron_job(pushQueue, minute = 15)
       sched.add_cron_job(pushQueue, minute = 30)
       sched.add_cron_job(pushQueue, minute = 45)
-      
-      sched.add_cron_job(pushQueue, minute =  5)
-      sched.add_cron_job(pushQueue, minute = 20)
-      sched.add_cron_job(pushQueue, minute = 35)
-      sched.add_cron_job(pushQueue, minute = 50)
-      
-      sched.add_cron_job(pushQueue, minute = 10)
-      sched.add_cron_job(pushQueue, minute = 25)
-      sched.add_cron_job(pushQueue, minute = 40)
-      sched.add_cron_job(pushQueue, minute = 55)
+        
 
       sched.start()
       
