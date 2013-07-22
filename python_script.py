@@ -59,7 +59,7 @@ workSheetId = 0
 
 
 def getWorksheet():
-    if (os.system("ping -c 1 192.168.1.1") == 0):
+    if (os.system("ping -c 1 192.168.1.1 > /dev/null") == 0):
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
@@ -142,12 +142,19 @@ def pushQueue ():
             logging.warning("pushQueue: wait for queueLock")
             time.sleep (2)
 
+        
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
-        queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
-        queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
-        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo, totalMeasNo ))
+        
+        if (validMeasNo > 0):
+          queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
+          queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
+        else:
+          queueTemperatur.enqueue ("0.0")
+          queueHumidity.enqueue ("0.0")
+          
+        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo, totalMeasNo ))          
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
