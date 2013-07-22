@@ -149,16 +149,19 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         
         if (validMeasNo > 10):
-          queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
-          queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
+          tempForLog = accTemp / validMeasNo
+          humForLog = accHum / validMeasNo
         else:
-          queueTemperatur.enqueue ("")
-          queueHumidity.enqueue ("")
+          tempForLog = 0.0
+          humForLog = 0.0
+        
+        queueTemperatur.enqueue ("%.1f" % (tempForLog))
+        queueHumidity.enqueue ("%.1f" % (humForLog))
           
         queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo, totalMeasNo ))          
         queueLock =  False
 
-        logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), accTemp / nofMeas, accHum / nofMeas)) 
+        logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), tempForLog, humForLog)) 
         pushQueueActive = False  
     
     else:
