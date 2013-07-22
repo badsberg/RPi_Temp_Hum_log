@@ -147,7 +147,7 @@ def pushQueue ():
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
         
-        if (validMeasNo > 0):
+        if (validMeasNo > 9):
           queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
           queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
         else:
