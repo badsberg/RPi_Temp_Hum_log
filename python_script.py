@@ -147,12 +147,12 @@ def pushQueue ():
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
         
-        if (validMeasNo > 9):
+        if (validMeasNo > 10):
           queueTemperatur.enqueue ("%.1f" % (accTemp / validMeasNo))
           queueHumidity.enqueue ("%.1f" % (accHum / validMeasNo))
         else:
-          queueTemperatur.enqueue ("0.0")
-          queueHumidity.enqueue ("0.0")
+          queueTemperatur.enqueue ("")
+          queueHumidity.enqueue ("")
           
         queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo, totalMeasNo ))          
         queueLock =  False
