@@ -80,7 +80,7 @@ def getWorksheet():
             else:
                 logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
-                    workSheet = spreadSheet.get_worksheet(7)
+                    workSheet = spreadSheet.get_worksheet(8)
                     
                 except:
                     logging.error("getWorksheet: Unable to get worksheet")
