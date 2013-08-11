@@ -127,7 +127,7 @@ def pushQueue ():
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
                     logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
-                    validMeasNo = validMeasNo + 1
+                    #validMeasNo = validMeasNo + 1
 
             if (totalMeasNo >= 20):
                 getMoreMeas = False
@@ -152,8 +152,8 @@ def pushQueue ():
           tempForLog = accTemp / validMeasNo
           humForLog = accHum / validMeasNo
         else:
-          tempForLog = 0.0
-          humForLog = 0.0
+          tempForLog = 255 
+          humForLog = 255
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
