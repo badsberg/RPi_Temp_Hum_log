@@ -56,6 +56,8 @@ pushQueueActive = False
 popQueueActive = False
 getWorksheetFlag = True
 workSheetId = 0
+lastPopedTimeStamp
+lastWdtTimeStamp
 
 
 def getWorksheet():
@@ -173,6 +175,7 @@ def popQueue ():
     global pushQueueActive
     global getWorksheetFlag
     global workSheetId
+    global lastPopedTimeStamp
 
     logging.warning ("popQueue: Start")
   
@@ -210,6 +213,8 @@ def popQueue ():
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 
+                lastPopedTimeStamp = dateTimeStamp
+                
                 #workSheetId.update_cell (2,2,temp)
                 #workSheetId.update_cell (2,3,humidity)
                 #workSheetId.update_cell (2,4,debugData)
@@ -233,9 +238,21 @@ def popQueue ():
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
     logging.warning ("popQueue: End")
+    
+def wdt():
+    global lastPopedTimeStamp
+    
+    logging.warning ("wdt: pushQueueActive: %d; popQueueActive: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s", %(pushQueueActive, popQueueActive, lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));  
+    if (popQueueActive == True and pushQueueActive == False and lastPopedTimeStamp == lastWdtTimeStamp):
+    	logging.warning ("wdt: Reset RPi. pushQueueActive: %d; popQueueActive: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s", %(pushQueueActive, popQueueActive, lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));
+    else:
+        lastWdtTimeStamp = lastPopedTimeStamp 
+    	
 
 def main():
       sched.add_interval_job(popQueue, seconds=30)
+      
+      sched.add_interval_job(wdt, seconds=900)
 
       sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
