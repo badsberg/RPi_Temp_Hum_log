@@ -247,7 +247,7 @@ def wdt():
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
     
-    if (getWorksheetFlag == False and queueTime.size() != 0 and lastPopedTimeStamp == lastWdtTimeStamp):
+    if (getWorksheetFlag == False and lastPopedTimeStamp == lastWdtTimeStamp):
     	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
     	restart()
     else:
@@ -263,7 +263,7 @@ def restart():
 def main():
       sched.add_interval_job(popQueue, seconds=30)
       
-      sched.add_interval_job(wdt, seconds=900)
+      sched.add_interval_job(wdt, seconds=1800)
 
       sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
