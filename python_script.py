@@ -110,7 +110,7 @@ def pushQueue ():
 
         while (getMoreMeas == True):
             logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
-            subprocess.call(["sudo reboot"])
+            restart()
             #read sensor
             try:
                 logging.warning ("pushQueue: Start subprocess")
@@ -240,6 +240,7 @@ def popQueue ():
 
     logging.warning ("popQueue: End")
     
+
 def wdt():
     global lastPopedTimeStamp
     global lastWdtTimeStamp
@@ -252,7 +253,13 @@ def wdt():
     	subprocess.call(["sudo reboot"])
     else:
         lastWdtTimeStamp = lastPopedTimeStamp 
-    	
+        
+
+def restart():
+    command = "/usr/bin/sudo /sbin/shutdown -r now"
+    import subprocess
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   	
+
 
 def main():
       sched.add_interval_job(popQueue, seconds=30)
