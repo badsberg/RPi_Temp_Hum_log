@@ -1,8 +1,9 @@
 NOW=$(date +"%D-%H:%M:%S") 
 if  ping -c 1 www.google.com  >/dev/null ; then
-    echo $NOW  sudo iwlist wlan0 scan | grep Quality >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
+    echo $NOW  "Network connection up!" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
+    sudo iwlist wlan0 scan | grep Quality >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
 else
-    echo $NOW  "Network connection down! " >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
+    echo $NOW  "Network connection down!" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
     #sudo ifdown wlan0 
     #sleep 5
     #sudo ifup --force wlan0 
