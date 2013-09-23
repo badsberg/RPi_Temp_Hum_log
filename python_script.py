@@ -242,10 +242,11 @@ def popQueue ():
 def wdt():
     global lastPopedTimeStamp
     global lastWdtTimeStamp
+    global getWorksheetFlag
     
-    logging.warning ("wdt: pushQueueActive: %d; popQueueActive: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(pushQueueActive, popQueueActive, lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
-    if (pushQueueActive == False and lastPopedTimeStamp == lastWdtTimeStamp):
-    	logging.warning ("wdt: Reset RPi. pushQueueActive: %d; popQueueActive: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(pushQueueActive, popQueueActive, lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));
+    logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
+    if (getWorksheetFlag == false and queueTime.size() != 0 and lastPopedTimeStamp == lastWdtTimeStamp):
+    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));
     else:
         lastWdtTimeStamp = lastPopedTimeStamp 
     	
