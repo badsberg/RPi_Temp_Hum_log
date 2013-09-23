@@ -245,7 +245,7 @@ def wdt():
     global getWorksheetFlag
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
-    if (getWorksheetFlag == false and queueTime.size() != 0 and lastPopedTimeStamp == lastWdtTimeStamp):
+    if (getWorksheetFlag == False and queueTime.size() != 0 and lastPopedTimeStamp == lastWdtTimeStamp):
     	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));
     else:
         lastWdtTimeStamp = lastPopedTimeStamp 
