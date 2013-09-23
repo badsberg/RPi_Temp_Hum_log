@@ -245,8 +245,10 @@ def wdt():
     global getWorksheetFlag
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
+    subprocess.call(["sudo reboot"])
     if (getWorksheetFlag == False and queueTime.size() != 0 and lastPopedTimeStamp == lastWdtTimeStamp):
-    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")));
+    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
+    	subprocess.call(["sudo reboot"])
     else:
         lastWdtTimeStamp = lastPopedTimeStamp 
     	
@@ -260,9 +262,7 @@ def main():
       sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 30, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 45, max_instances=2)
-        
-   
-      wdt()
+      
       sched.start()
       
       while True:
