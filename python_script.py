@@ -56,8 +56,8 @@ pushQueueActive = False
 popQueueActive = False
 getWorksheetFlag = True
 workSheetId = 0
-lastPopedTimeStamp
-lastWdtTimeStamp
+lastPopedTimeStamp = 0
+lastWdtTimeStamp = 0
 
 
 def getWorksheet():
