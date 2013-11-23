@@ -61,7 +61,7 @@ lastWdtTimeStamp = datetime.datetime.now()
 
 
 def getWorksheet():
-    if (os.system("ping -c 1 www.google.com") == 0):
+    if (os.system("ping -c 4 192.168.1.1") == 0):
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
