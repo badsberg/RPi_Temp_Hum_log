@@ -12,7 +12,7 @@ import logging
 import sys
 import os
 
-logging.basicConfig(filename='python_script.log',level=logging.ERROR, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
 
 
 # Start the scheduler
