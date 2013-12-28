@@ -28,7 +28,7 @@ email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
 
-fifoname = os.path.join(tempfile.mkdtemp(), 'myfifo')
+fifoname = 'myfifo'
 
 # ===========================================================================
 # Example Code
