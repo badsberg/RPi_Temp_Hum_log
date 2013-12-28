@@ -284,6 +284,8 @@ def main():
       
       sched.start()
       
+      pushQueue()
+      
       while True:
         pass
 
