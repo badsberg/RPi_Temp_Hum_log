@@ -159,10 +159,10 @@ def pushQueue ():
           humForLog = 255
         
         try:
-          pipeout = os.open(fifoname,os.O_CREAT | os.O_APPEND | os.O_WRONLY)
+          pipeout = os.open(fifoname,os.O_WRONLY)
           try:
             msgString = ('%.1f; %.1f; %03d; %02d; %02d\n' %(tempForLog, humForLog, queueTime.size(), validMeasNo, totalMeasNo))
-            os.write(pipeout,msgString)
+            os.write(pipeout,msgString).encode()
             #pipeout.write(msgString)
             #pipeout.close()
             os.close(pipeout)
@@ -275,8 +275,8 @@ def restart():
 
 
 def main():
-      #if not os.path.exists(fifoname):
-      #  os.mkfifo(fifoname)
+      if not os.path.exists(fifoname):
+        os.mkfifo(fifoname)
         
       #sched.add_interval_job(popQueue, seconds=30)
       
