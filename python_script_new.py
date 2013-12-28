@@ -276,16 +276,16 @@ def main():
       if not os.path.exists(fifoname):
         os.mkfifo(fifoname)
         
-      sched.add_interval_job(popQueue, seconds=30)
+      #sched.add_interval_job(popQueue, seconds=30)
       
-      sched.add_interval_job(wdt, seconds=1800)
+      #sched.add_interval_job(wdt, seconds=1800)
 
-      sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 30, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 45, max_instances=2)
+      #sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
+      #sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
+      #sched.add_cron_job(pushQueue, minute = 30, max_instances=2)
+      #sched.add_cron_job(pushQueue, minute = 45, max_instances=2)
       
-      sched.start()
+      #sched.start()
       
       pushQueue()
       
