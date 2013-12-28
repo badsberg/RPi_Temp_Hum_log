@@ -273,6 +273,9 @@ def restart():
 
 
 def main():
+      if not os.path.exixts(fifoname):
+        os.mkfifo(fifoname)
+        
       sched.add_interval_job(popQueue, seconds=30)
       
       sched.add_interval_job(wdt, seconds=1800)
