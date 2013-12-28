@@ -12,7 +12,7 @@ import logging
 import sys
 import os
 
-logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='python_script.log',level=logging.ERROR, format='%(asctime)s %(message)s')
 
 
 # Start the scheduler
@@ -26,6 +26,7 @@ sched = Scheduler(misfire_grace_time = 240)
 email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
+fifoname = 'fifofile.txt'
 
 # ===========================================================================
 # Example Code
@@ -156,6 +157,18 @@ def pushQueue ():
         else:
           tempForLog = 255 
           humForLog = 255
+        
+        try:
+          pipeout = os.open(fifoname,os.O_WRONLY)
+          try:
+            msgString = ('%.1f; %.1f; %03d; %02d; %02d' %(tempForLog, humForLog, queueTime.size(), validMeasNo, totalMeasNo))
+            os.write(pipeout,msgString)
+            os.close()
+          except:
+            logging.error ("pushQueue: can't write string %s" %(msgString))
+        except: 
+          logging.error ("pushQueue: can't open file: %s" %(fifoname))
+          
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
