@@ -161,7 +161,7 @@ def pushQueue ():
         try:
           pipeout = os.open(fifoname,os.O_WRONLY)
           try:
-            msgString = ('%.1f; %.1f; %03d; %02d; %02d' %(tempForLog, humForLog, queueTime.size(), validMeasNo, totalMeasNo))
+            msgString = ('%.1f; %.1f; %03d; %02d; %02d\n' %(tempForLog, humForLog, queueTime.size(), validMeasNo, totalMeasNo))
             os.write(pipeout,msgString)
             #pipeout.write(msgString)
             #pipeout.close()
