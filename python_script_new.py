@@ -11,6 +11,7 @@ import gspread
 import logging
 import sys
 import os
+import tempfile
 
 logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
 
@@ -26,7 +27,8 @@ sched = Scheduler(misfire_grace_time = 240)
 email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
-fifoname = '/home/pi/.trans_fifo'
+
+fifoname = os.path.join(tempfile.mkdtemp(), 'myfifo')
 
 # ===========================================================================
 # Example Code
