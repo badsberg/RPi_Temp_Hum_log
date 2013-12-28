@@ -26,7 +26,7 @@ sched = Scheduler(misfire_grace_time = 240)
 email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
-fifoname = 'fifofile.txt'
+fifoname = 'fifofile'
 
 # ===========================================================================
 # Example Code
