@@ -275,8 +275,8 @@ def restart():
 
 
 def main():
-      if not os.path.exists(fifoname):
-        os.mkfifo(fifoname)
+      #if not os.path.exists(fifoname):
+      #  os.mkfifo(fifoname)
         
       #sched.add_interval_job(popQueue, seconds=30)
       
