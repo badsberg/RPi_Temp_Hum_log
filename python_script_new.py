@@ -158,7 +158,7 @@ def pushQueue ():
           tempForLog = 255 
           humForLog = 255
         
-        #try:
+        try:
           pipeout = os.open(fifoname,'w')
           try:
             msgString = ('%.1f; %.1f; %03d; %02d; %02d\n' %(tempForLog, humForLog, queueTime.size(), validMeasNo, totalMeasNo))
@@ -168,8 +168,8 @@ def pushQueue ():
             os.close(pipeout)
           except:
             logging.error ("pushQueue: can't write string %s" %(msgString))
-        #except: 
-         # logging.error ("pushQueue: can't open file: %s" %(fifoname))
+        except: 
+          logging.error ("pushQueue: can't open file: %s" %(fifoname))
           
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
