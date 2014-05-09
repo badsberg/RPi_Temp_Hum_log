@@ -237,7 +237,7 @@ def popQueue ():
     
         popQueueActive = False
         
-        if (nofPops >=4 and queueTime.size() == 0)
+        if (nofPops >=4 and queueTime.size() == 0):
             nofPops = nofPops + 1
           	logging.warning ("popQueue: Reboot")
           	restart()
