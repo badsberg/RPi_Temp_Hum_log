@@ -58,6 +58,7 @@ getWorksheetFlag = True
 workSheetId = 0
 lastPopedTimeStamp = datetime.datetime.now()
 lastWdtTimeStamp = datetime.datetime.now()
+nofPops = 0
 
 
 def getWorksheet():
@@ -176,6 +177,7 @@ def popQueue ():
     global getWorksheetFlag
     global workSheetId
     global lastPopedTimeStamp
+    global nofPops
 
     logging.warning ("popQueue: Start")
   
@@ -209,7 +211,8 @@ def popQueue ():
                 cell_list[2].value=pushDebugData
                 cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
                 cell_list[3].value+='; %03d; ' %(queueTime.size())
-                cell_list[3].value+=popQueueDebugString 
+                cell_list[3].value+=popQueueDebugString
+                cell_list[3].value+=;' %02d' %(popQueueDebugString)
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 
@@ -233,6 +236,13 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
+        
+        if (nofPops >=96 and queueTime.size() == 0)
+            nofPops = nogPops + 1
+          	logging.warning ("popQueue: Reboot")
+          	restart()
+          
+          
         
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
@@ -260,6 +270,9 @@ def restart():
 
 
 def main():
+      global nofPops
+      
+      nofPops = 0
       sched.add_interval_job(popQueue, seconds=30)
       
       sched.add_interval_job(wdt, seconds=1800)
