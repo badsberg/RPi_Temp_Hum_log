@@ -236,9 +236,9 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
+        nofPops = nofPops + 1
         
         if (nofPops >=4 and queueTime.size() == 0):
-            nofPops = nofPops + 1
             logging.warning ("popQueue: Reboot")
             restart()
           
