@@ -212,7 +212,7 @@ def popQueue ():
                 cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
                 cell_list[3].value+='; %03d; ' %(queueTime.size())
                 cell_list[3].value+=popQueueDebugString
-                cell_list[3].value+='; %02d' %(popQueueDebugString)
+                cell_list[3].value+='; %02d' %(nofPops)
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 
