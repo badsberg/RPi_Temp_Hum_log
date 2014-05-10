@@ -222,14 +222,7 @@ def popQueue ():
         	if (nofPops >=4 and queueTime.size() == 0):
             	    logging.warning ("popQueue: Reboot")
                     restart()
-                
-                #workSheetId.update_cell (2,2,temp)
-                #workSheetId.update_cell (2,3,humidity)
-                #workSheetId.update_cell (2,4,debugData)
-                #popQueueDebugString = ' / %d / %d' %(nofFailedUpdateCell, queueTime.size()) + popQueueDebugString
-                #popQueueDebugString = datetime.datetime.now().strftime("%H:%M:%S") + popQueueDebugString
-                #workSheetId.update_cell (2,5,popQueueDebugString)
-
+      
             except:
                 getWorksheetFlag = True
                 queueLock = True
@@ -241,9 +234,6 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
-        
-          
-          
         
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
