@@ -12,7 +12,7 @@ import logging
 import sys
 import os
 
-logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday, level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
+logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
 
 
 # Start the scheduler
