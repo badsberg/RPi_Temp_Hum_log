@@ -12,7 +12,7 @@ import logging
 import sys
 import os
 
-logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='python_script.log',level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
 
 
 # Start the scheduler
@@ -219,7 +219,7 @@ def popQueue ():
                 lastPopedTimeStamp = dateTimeStamp
                 
                 nofPops = nofPops + 1
-        	if (nofPops >=96 and queueTime.size() == 0):
+        	if (nofPops >=4 and queueTime.size() == 0):
             	    logging.warning ("popQueue: Reboot")
                     restart()
       
