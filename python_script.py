@@ -256,7 +256,7 @@ def wdt():
     else:
         lastWdtTimeStamp = lastPopedTimeStamp
         
-    sched.remove_jobstore(popJobAlias)
+    sched.unschedule_job(popJobAlias)
     #popJobAlias = sched.add_interval_job(popQueue, seconds=30)
     
         
