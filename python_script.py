@@ -59,6 +59,7 @@ workSheetId = 0
 lastPopedTimeStamp = datetime.datetime.now()
 lastWdtTimeStamp = datetime.datetime.now()
 nofPops = 0
+popJobAlias = 0
 
 
 def getWorksheet():
@@ -245,6 +246,7 @@ def wdt():
     global lastPopedTimeStamp
     global lastWdtTimeStamp
     global getWorksheetFlag
+    global popJobAlias
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
     
@@ -252,7 +254,11 @@ def wdt():
     	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
     	restart()
     else:
-        lastWdtTimeStamp = lastPopedTimeStamp 
+        lastWdtTimeStamp = lastPopedTimeStamp
+        
+    sched.remove_jobstore(popJobAlias)
+    #popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+    
         
 
 def restart():
@@ -262,11 +268,12 @@ def restart():
 
 def main():
       global nofPops
+      global popJobAlias
       
       nofPops = 0
-      sched.add_interval_job(popQueue, seconds=30)
+      popJobAlias = sched.add_interval_job(popQueue, seconds=30)
       
-      sched.add_interval_job(wdt, seconds=1800)
+      sched.add_interval_job(wdt, seconds=180)
 
       sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
