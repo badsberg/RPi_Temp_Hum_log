@@ -251,16 +251,15 @@ def wdt():
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
     
     if (getWorksheetFlag == False and lastPopedTimeStamp == lastWdtTimeStamp):
-    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
-    	restart()
+    	#logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
+    	#restart()
+    	logging.warning ("wdt: Reschedule popJob. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
+    	sched.unschedule_job(popJobAlias)
+        time.sleep(15)
+        popJobAlias = sched.add_interval_job(popQueue, seconds=30)
     else:
         lastWdtTimeStamp = lastPopedTimeStamp
-        
-    sched.unschedule_job(popJobAlias)
-    time.sleep(10)
-    popJobAlias = sched.add_interval_job(popQueue, seconds=30)
-    
-        
+  
 
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
