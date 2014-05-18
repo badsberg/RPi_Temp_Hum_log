@@ -247,6 +247,7 @@ def wdt():
     global lastWdtTimeStamp
     global getWorksheetFlag
     global popJobAlias
+    global popQueueActive
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
     
@@ -255,6 +256,7 @@ def wdt():
     	#restart()
     	logging.warning ("wdt: Reschedule popJob. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
     	sched.unschedule_job(popJobAlias)
+    	popQueueActive = False
         time.sleep(2)
         popJobAlias = sched.add_interval_job(popQueue, seconds=30)
     else:
