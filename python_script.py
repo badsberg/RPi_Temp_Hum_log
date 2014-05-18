@@ -255,7 +255,7 @@ def wdt():
     	#restart()
     	logging.warning ("wdt: Reschedule popJob. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
     	sched.unschedule_job(popJobAlias)
-        time.sleep(15)
+        time.sleep(2)
         popJobAlias = sched.add_interval_job(popQueue, seconds=30)
     else:
         lastWdtTimeStamp = lastPopedTimeStamp
@@ -273,7 +273,7 @@ def main():
       nofPops = 0
       popJobAlias = sched.add_interval_job(popQueue, seconds=30)
       
-      sched.add_interval_job(wdt, seconds=180)
+      sched.add_interval_job(wdt, seconds=1800)
 
       sched.add_cron_job(pushQueue, minute =  0, max_instances=2)
       sched.add_cron_job(pushQueue, minute = 15, max_instances=2)
