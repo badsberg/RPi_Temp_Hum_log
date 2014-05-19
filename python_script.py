@@ -111,19 +111,19 @@ def pushQueue ():
         accHum = 0
 
         while (getMoreMeas == True):
-            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
+            #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             #read sensor
             try:
-                logging.warning ("pushQueue: Start subprocess")
+                #logging.warning ("pushQueue: Start subprocess")
                 output = subprocess.check_output(["./DHT", "2302", "4"])
-                logging.warning ("pushQueue: End subprocess")
+                #logging.warning ("pushQueue: End subprocess")
 
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
 
             else:
                 totalMeasNo = totalMeasNo + 1
-                logging.warning ("pushQueue: Process reading from sensor")
+                #logging.warning ("pushQueue: Process reading from sensor")
                 matchTemp = re.search("Temp =\s+([0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
