@@ -138,7 +138,7 @@ def pushQueue ():
                 
             elif (validMeasNo < nofMeas):
                 getMoreMeas = True
-                time.sleep(30)
+                time.sleep(20)
                 
             else:
                 getMoreMeas = False    
@@ -273,7 +273,7 @@ def main():
       global popJobAlias
       
       nofPops = 0
-      popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+      popJobAlias = sched.add_interval_job(popQueue, seconds=20)
       
       sched.add_interval_job(wdt, seconds=1800)
 
