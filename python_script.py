@@ -277,10 +277,10 @@ def main():
       
       sched.add_interval_job(wdt, seconds=1800)
 
-      sched.add_cron_job(pushQueue, minute = 12, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 27, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 42, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 57, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 10, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 25, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 40, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 55, max_instances=2)
       
       sched.start()
       
