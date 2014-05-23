@@ -180,9 +180,10 @@ def popQueue ():
     global lastPopedTimeStamp
     global nofPops
 
-    logging.warning ("popQueue: Start")
+    
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
+    	logging.warning ("popQueue: Start")
         popQueueActive = True 
         if (getWorksheetFlag == True):
             popQueueDebugString = '1'
@@ -235,12 +236,11 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
-        
+        logging.warning ("popQueue: End")
+       
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
-    logging.warning ("popQueue: End")
-    
 
 def wdt():
     global lastPopedTimeStamp
