@@ -138,7 +138,7 @@ def pushQueue ():
                 
             elif (validMeasNo < nofMeas):
                 getMoreMeas = True
-                time.sleep(20)
+                time.sleep(15)
                 
             else:
                 getMoreMeas = False    
@@ -277,10 +277,10 @@ def main():
       
       sched.add_interval_job(wdt, seconds=1800)
 
-      sched.add_cron_job(pushQueue, minute = 10, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 25, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 40, max_instances=2)
-      sched.add_cron_job(pushQueue, minute = 55, max_instances=2)
+      sched.add_cron_job(pushQueue, minute = 10)
+      sched.add_cron_job(pushQueue, minute = 25)
+      sched.add_cron_job(pushQueue, minute = 40)
+      sched.add_cron_job(pushQueue, minute = 55)
       
       sched.start()
       
