@@ -270,12 +270,12 @@ def restart():
     
 def job_listener(event):
 	if (event.job =="popQueue"):
-	    logging ("job_listener: popQueue")
+	    logging.warning ("job_listener: popQueue")
 	elif (event.job =="pushQueue"):
-	    logging ("job_listener: pushQueue")
+	    logging.warning ("job_listener: pushQueue")
 	    
 	if (event.exception):
-           logging ("job_listener: '%s' crashed" % (event.job))        
+           logging.warning ("job_listener: '%s' crashed" % (event.job))        
  
 def main():
       global nofPops
