@@ -271,12 +271,12 @@ def restart():
 def job_listener(event):
 	global missedPopQueue
 	global popJobAlias
-    global popQueueActive
-    global pushQueueActive
-    global pushJobAlias1
-    global pushJobAlias2
-    global pushJobAlias3
-    global pushJobAlias4
+    	global popQueueActive
+    	global pushQueueActive
+    	global pushJobAlias1
+    	global pushJobAlias2
+    	global pushJobAlias3
+    	global pushJobAlias4
         
 	jobString = "%s" % (event.job)
 
