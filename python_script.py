@@ -275,7 +275,7 @@ def job_listener(event):
 	elif (jobString.find('pushQueue') != -1):
 	    logging.warning ("job_listener: pushQueue")
 	    
-	logging.warning ("job_listener: '%s' executed" % (event.job)) 
+	#logging.warning ("job_listener: '%s' executed" % (event.job)) 
 	    
 	if (event.exception):
            logging.warning ("job_listener: '%s' crashed" % (event.job))        
