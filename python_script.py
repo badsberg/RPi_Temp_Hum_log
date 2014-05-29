@@ -61,7 +61,11 @@ lastPopedTimeStamp = datetime.datetime.now()
 lastWdtTimeStamp = datetime.datetime.now()
 nofPops = 0
 popJobAlias = 0
-
+pushJobAlias1 = 0 
+pushJobAlias2 = 0
+pushJobAlias3 = 0
+pushJobAlias4 = 0
+missedPopQueue = 0
 
 def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
@@ -247,19 +251,15 @@ def wdt():
     global lastPopedTimeStamp
     global lastWdtTimeStamp
     global getWorksheetFlag
-    global popJobAlias
-    global popQueueActive
+   
     
     logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
     
     if (getWorksheetFlag == False and lastPopedTimeStamp == lastWdtTimeStamp):
-    	#logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
-    	#restart()
-    	logging.warning ("wdt: Reschedule popJob. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
-    	sched.unschedule_job(popJobAlias)
-    	popQueueActive = False
-        time.sleep(2)
-        popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
+    	restart()
+    	
+    	
     else:
         lastWdtTimeStamp = lastPopedTimeStamp
   
@@ -269,30 +269,66 @@ def restart():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   
     
 def job_listener(event):
+	global missedPopQueue
+	global popJobAlias
+    global popQueueActive
+    global pushQueueActive
+    global pushJobAlias1
+    global pushJobAlias2
+    global pushJobAlias3
+    global pushJobAlias4
+        
 	jobString = "%s" % (event.job)
-	if (jobString.find('popQueue') != -1):
-	    logging.warning ("job_listener: popQueue")
-	elif (jobString.find('pushQueue') != -1):
-	    logging.warning ("job_listener: pushQueue")
-	    
-	#logging.warning ("job_listener: '%s' executed" % (event.job)) 
-	    
+
 	if (event.exception):
-           logging.warning ("job_listener: '%s' crashed" % (event.job))        
+        if (jobString.find('popQueue') != -1):
+            missedPopQueue = missedPopQueue +1
+            if (missedPopQueue > 10 ):
+                sched.unschedule_job(popJobAlias)
+              	missedPopQueue = 0
+              	popQueueActive = False
+                time.sleep(2)
+                popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+                logging.warning ("job_listener: popQueue rescheduled")
+            else:
+	            logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
+	    elif (jobString.find('pushQueue') != -1):
+	        sched.unschedule_job(pushJobAlias1)
+	        sched.unschedule_job(pushJobAlias2)
+	        sched.unschedule_job(pushJobAlias3)
+	        sched.unschedule_job(pushJobAlias4)
+	        pushQueueActive = False
+	        time.sleep(2)
+	        pushJobAlias1=sched.add_cron_job(pushQueue, minute = 10)
+            pushJobAlias2=sched.add_cron_job(pushQueue, minute = 25)
+            pushJobAlias3=sched.add_cron_job(pushQueue, minute = 40)
+            pushJobAlias4=sched.add_cron_job(pushQueue, minute = 55)
+	        logging.warning ("job_listener: pushQueue rescheduled")
+    else:
+        if (jobString.find('popQueue') != -1):
+            missedPopQueue = 0
+	        logging.warning ("job_listener: popQueue sucessful")
+	    elif (jobString.find('pushQueue') != -1):
+	        logging.warning ("job_listener: pushQueue sucessful")
+        
 
 def main():
-      global nofPops
-      global popJobAlias
+    global nofPops
+    global popJobAlias
+    global pushJobAlias1
+    global pushJobAlias2
+    global pushJobAlias3
+    global pushJobAlias4
       
       nofPops = 0
       popJobAlias = sched.add_interval_job(popQueue, seconds=30)
       
-      sched.add_interval_job(wdt, seconds=1800)
+      #sched.add_interval_job(wdt, seconds=1800)
 
-      sched.add_cron_job(pushQueue, minute = 10)
-      sched.add_cron_job(pushQueue, minute = 25)
-      sched.add_cron_job(pushQueue, minute = 40)
-      sched.add_cron_job(pushQueue, minute = 55)
+      pushJobAlias1=sched.add_cron_job(pushQueue, minute = 10)
+      pushJobAlias2=sched.add_cron_job(pushQueue, minute = 25)
+      pushJobAlias3=sched.add_cron_job(pushQueue, minute = 40)
+      pushJobAlias4=sched.add_cron_job(pushQueue, minute = 55)
       
       sched.add_listener(job_listener,
                    events.EVENT_JOB_EXECUTED |
