@@ -269,10 +269,12 @@ def restart():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   
     
 def job_listener(event):
-	if (event.job =="popQueue"):
+	if (event.job =='popQueue'):
 	    logging.warning ("job_listener: popQueue")
-	elif (event.job =="pushQueue"):
+	elif (event.job =='pushQueue'):
 	    logging.warning ("job_listener: pushQueue")
+	    
+	logging.warning ("job_listener: '%s' executed" % (event.job)) 
 	    
 	if (event.exception):
            logging.warning ("job_listener: '%s' crashed" % (event.job))        
