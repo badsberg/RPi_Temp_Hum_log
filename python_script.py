@@ -265,7 +265,14 @@ def wdt():
 
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   	
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   
+    
+def job_listener(event):
+    #print str(event)
+    #while not q.empty():
+        get_ = "msg from job '%s'" % (event.job())
+        #print get_
+        logging.warning(get_)
 
 
 def main():
@@ -281,6 +288,11 @@ def main():
       sched.add_cron_job(pushQueue, minute = 25)
       sched.add_cron_job(pushQueue, minute = 40)
       sched.add_cron_job(pushQueue, minute = 55)
+      
+      sched.add_listener(job_listener,
+                   events.EVENT_JOB_EXECUTED |
+                   events.EVENT_JOB_MISSED |
+                   events.EVENT_JOB_ERROR)
       
       sched.start()
       
