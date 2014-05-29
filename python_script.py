@@ -282,7 +282,7 @@ def main():
       global popJobAlias
       
       nofPops = 0
-      popJobAlias = sched.add_interval_job(popQueue, seconds=20)
+      popJobAlias = sched.add_interval_job(popQueue, seconds=30)
       
       sched.add_interval_job(wdt, seconds=1800)
 
