@@ -270,9 +270,9 @@ def restart():
     
 def job_listener(event):
 	jobString = "%s" % (event.job)
-	if (jobstring.find('popQueue') != -1):
+	if (jobString.find('popQueue') != -1):
 	    logging.warning ("job_listener: popQueue")
-	elif (jobstring.find('pushQueue') != -1):
+	elif (jobString.find('pushQueue') != -1):
 	    logging.warning ("job_listener: pushQueue")
 	    
 	logging.warning ("job_listener: '%s' executed" % (event.job)) 
