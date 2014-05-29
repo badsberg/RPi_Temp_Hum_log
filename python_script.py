@@ -269,16 +269,16 @@ def restart():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   
     
 def job_listener(event):
-	global missedPopQueue
-	global popJobAlias
-    	global popQueueActive
-    	global pushQueueActive
-    	global pushJobAlias1
-    	global pushJobAlias2
-    	global pushJobAlias3
-    	global pushJobAlias4
+    global missedPopQueue
+    global popJobAlias
+    global popQueueActive
+    global pushQueueActive
+    global pushJobAlias1
+    global pushJobAlias2
+    global pushJobAlias3
+    global pushJobAlias4
         
-	jobString = "%s" % (event.job)
+    jobString = "%s" % (event.job)
 
     if (event.exception):
         if (jobString.find('popQueue') != -1):
