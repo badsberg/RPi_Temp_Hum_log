@@ -271,7 +271,7 @@ def restart():
 def job_listener(event):
     #print str(event)
     #while not q.empty():
-        get_ = "msg from job '%s'" % (event.job())
+        get_ = "msg from job '%s'" % (event.job)
         #print get_
         logging.warning(get_)
 
