@@ -320,24 +320,24 @@ def main():
     global pushJobAlias3
     global pushJobAlias4
       
-      nofPops = 0
-      popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+    nofPops = 0
+    popJobAlias = sched.add_interval_job(popQueue, seconds=30)
       
-      #sched.add_interval_job(wdt, seconds=1800)
+    #sched.add_interval_job(wdt, seconds=1800)
 
-      pushJobAlias1=sched.add_cron_job(pushQueue, minute = 10)
-      pushJobAlias2=sched.add_cron_job(pushQueue, minute = 25)
-      pushJobAlias3=sched.add_cron_job(pushQueue, minute = 40)
-      pushJobAlias4=sched.add_cron_job(pushQueue, minute = 55)
+    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 10)
+    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 25)
+    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 40)
+    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 55)
       
-      sched.add_listener(job_listener,
-                   events.EVENT_JOB_EXECUTED |
-                   events.EVENT_JOB_MISSED |
-                   events.EVENT_JOB_ERROR)
+    sched.add_listener(job_listener,
+           events.EVENT_JOB_EXECUTED |
+           events.EVENT_JOB_MISSED |
+           events.EVENT_JOB_ERROR)
       
-      sched.start()
+    sched.start()
       
-      while True:
+    while True:
         pass
 
 main()
