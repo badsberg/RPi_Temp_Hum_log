@@ -307,9 +307,9 @@ def job_listener(event):
     else:
         if (jobString.find('popQueue') != -1):
             missedPopQueue = 0
-            logging.warning ("job_listener: popQueue sucessful")
-        elif (jobString.find('pushQueue') != -1):
-            logging.warning ("job_listener: pushQueue sucessful")
+            #logging.warning ("job_listener: popQueue sucessful")
+        #elif (jobString.find('pushQueue') != -1):
+        #    logging.warning ("job_listener: pushQueue sucessful")
         
 
 def main():
