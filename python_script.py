@@ -288,7 +288,7 @@ def job_listener(event):
                 missedPopQueue = 0
                 popQueueActive = False
                 time.sleep(2)
-                popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+                popJobAlias = sched.add_interval_job(popQueue, seconds=15)
                 logging.warning ("job_listener: popQueue rescheduled")
             else:
                 logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
@@ -321,7 +321,7 @@ def main():
     global pushJobAlias4
       
     nofPops = 0
-    popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+    popJobAlias = sched.add_interval_job(popQueue, seconds=15)
       
     #sched.add_interval_job(wdt, seconds=1800)
 
