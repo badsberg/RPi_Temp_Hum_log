@@ -222,6 +222,11 @@ def popQueue ():
                 
                 lastPopedTimeStamp = dateTimeStamp
                 
+                if (queueSize > 0):
+                    reschedulePopQueue(False)
+                else:
+                    reschedulePopQueue(True)
+                    
                 nofPops = nofPops + 1
                 if (nofPops >=96 and queueTime.size() == 0):
                     logging.warning ("popQueue: Reboot")
@@ -238,6 +243,9 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
+        
+        else:
+            reschedulePopQueue(True)
 
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
@@ -272,8 +280,10 @@ def reschedulePopQueue (lowFrequency):
         sched.unschedule_job(popJobAlias)
         if (lowFrequency == True):
             popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+            logging.warning ("First schedule. LowFrequency")
         else:
             popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            logging.warning ("First schedule. HighFrequency")
           
     else:
         if (lowFrequency == True):
@@ -281,11 +291,14 @@ def reschedulePopQueue (lowFrequency):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=300)
                 popQueueIntervalSeconds = 300
+                logging.warning ("Reschedule. HighFrequency")
+                
         else:
             if (popQueueIntervalSeconds == 300):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=15)
                 popQueueIntervalSeconds = 15
+                logging.warning ("Reschedule. LowFrequency")
 
     
 def job_listener(event):
