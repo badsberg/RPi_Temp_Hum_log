@@ -226,7 +226,7 @@ def popQueue ():
                 
                 lastPopedTimeStamp = dateTimeStamp
                 
-                if (queueSize > 0):
+                if (queueTime.size() > 0):
                     reschedulePopQueue(False)
                 else:
                     reschedulePopQueue(True)
@@ -296,14 +296,14 @@ def reschedulePopQueue (lowFrequency):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=300)
                 popQueueIntervalSeconds = 300
-                logging.warning ("Reschedule. HighFrequency")
+                logging.warning ("Reschedule. LowFrequency")
                 
         else:
             if (popQueueIntervalSeconds == 300):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=15)
                 popQueueIntervalSeconds = 15
-                logging.warning ("Reschedule. LowFrequency")
+                logging.warning ("Reschedule. HighFrequency")
 
     
 def job_listener(event):
