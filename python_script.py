@@ -242,10 +242,10 @@ def popQueue ():
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
-        popQueueActive = False
-        
-        else:
+    	else:
             reschedulePopQueue(True)
+            
+        popQueueActive = False
 
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
