@@ -192,7 +192,10 @@ def popQueue ():
     	#logging.warning ("popQueue: Start")
         popQueueActive = True 
         if (getWorksheetFlag == True):
+            popQueueDebugString = '1'
             workSheetId = getWorksheet()
+        else:
+            popQueueDebugString = '0'
 
         if (workSheetId != 0):
             getWorksheetFlag = False
