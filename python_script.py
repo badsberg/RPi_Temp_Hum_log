@@ -172,6 +172,7 @@ def pushQueue ():
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), tempForLog, humForLog)) 
         pushQueueActive = False  
+        reschedulePopQueue(False)
     
     else:
         logging.warning ("pushQueue: Skipped because is already running")
