@@ -65,6 +65,7 @@ pushJobAlias2 = 0
 pushJobAlias3 = 0
 pushJobAlias4 = 0
 missedPopQueue = 0
+popQueueIntervalSeconds=300
 
 def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
@@ -264,7 +265,7 @@ def restart():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
     
 def reschedulePopQueue (lowFrequency):
-    global popQueueState
+    global popQueueIntervalSeconds
     global popJobAlias
     
     if (popJobAlias == 0):
@@ -276,13 +277,15 @@ def reschedulePopQueue (lowFrequency):
           
     else:
         if (lowFrequency == True):
-            if (popJobAlias.seconds == 15):
+            if (popQueueIntervalSeconds == 15):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+                popQueueIntervalSeconds = 300
         else:
-            if (popJobAlias.seconds == 300):
+            if (popQueueIntervalSeconds == 300):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+                popQueueIntervalSeconds = 15
 
     
 def job_listener(event):
@@ -301,11 +304,12 @@ def job_listener(event):
         if (jobString.find('popQueue') != -1):
             missedPopQueue = missedPopQueue +1
             if (missedPopQueue > 10 ):
-                sched.unschedule_job(popJobAlias)
+                #sched.unschedule_job(popJobAlias)
                 missedPopQueue = 0
                 popQueueActive = False
-                time.sleep(2)
-                popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+                #time.sleep(2)
+                #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+                reschedulePopQueue(True)
                 logging.warning ("job_listener: popQueue rescheduled")
             else:
                 logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
@@ -338,7 +342,8 @@ def main():
     global pushJobAlias4
       
     nofPops = 0
-    popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+    #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+    reschedulePopQueue(True)
       
     #sched.add_interval_job(wdt, seconds=1800)
 
