@@ -190,11 +190,8 @@ def popQueue ():
     	#logging.warning ("popQueue: Start")
         popQueueActive = True 
         if (getWorksheetFlag == True):
-            popQueueDebugString = '1'
             workSheetId = getWorksheet()
-        else:
-            popQueueDebugString = '0'
-            
+
         if (workSheetId != 0):
             getWorksheetFlag = False
             while (queueLock == True):
@@ -240,8 +237,7 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
         popQueueActive = False
-        #logging.warning ("popQueue: End")
-       
+
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
@@ -265,7 +261,29 @@ def wdt():
 
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)   
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
+    
+def reschedulePopQueue (lowFrequency):
+    global popQueueState
+    global popJobAlias
+    
+    if (popJobAlias == 0):
+        sched.unschedule_job(popJobAlias)
+        if (lowFrequency == True):
+            popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+        else:
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+          
+    else:
+        if (lowFrequency == True):
+            if (popJobAlias.seconds == 15):
+                sched.unschedule_job(popJobAlias)
+                popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+        else:
+            if (popJobAlias.seconds == 300):
+                sched.unschedule_job(popJobAlias)
+                popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+
     
 def job_listener(event):
     global missedPopQueue
