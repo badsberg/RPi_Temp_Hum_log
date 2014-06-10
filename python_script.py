@@ -277,7 +277,6 @@ def reschedulePopQueue (lowFrequency):
     global popJobAlias
     
     if (popJobAlias == 0):
-        sched.unschedule_job(popJobAlias)
         if (lowFrequency == True):
             popJobAlias = sched.add_interval_job(popQueue, seconds=300)
             logging.warning ("First schedule. LowFrequency")
