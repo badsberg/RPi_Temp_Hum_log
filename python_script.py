@@ -284,26 +284,27 @@ def reschedulePopQueue (lowFrequency):
         if (lowFrequency == True):
             popJobAlias = sched.add_interval_job(popQueue, seconds=300)
             popQueueIntervalSeconds = 300
-            logging.warning ("First schedule. LowFrequency")
+            logging.warning ("reschedulePopQueue: First schedule. LowFrequency")
         else:
             popJobAlias = sched.add_interval_job(popQueue, seconds=15)
             popQueueIntervalSeconds = 15
-            logging.warning ("First schedule. HighFrequency")
+            logging.warning ("reschedulePopQueue: First schedule. HighFrequency")
           
     else:
         if (lowFrequency == True):
             if (popQueueIntervalSeconds == 15):
                 sched.unschedule_job(popJobAlias)
-                popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+                #popJobAlias = sched.add_interval_job(popQueue, seconds=300)
+                popJobAlias = 0
                 popQueueIntervalSeconds = 300
-                logging.warning ("Reschedule. LowFrequency")
+                logging.warning ("reschedulePopQueue: Reschedule. LowFrequency")
                 
         else:
             if (popQueueIntervalSeconds == 300):
                 sched.unschedule_job(popJobAlias)
                 popJobAlias = sched.add_interval_job(popQueue, seconds=15)
                 popQueueIntervalSeconds = 15
-                logging.warning ("Reschedule. HighFrequency")
+                logging.warning ("reschedulePopQueue: Reschedule. HighFrequency")
 
     
 def job_listener(event):
