@@ -366,10 +366,10 @@ def main():
       
     #sched.add_interval_job(wdt, seconds=1800)
 
-    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 12)
-    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 27)
-    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 42)
-    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 57)
+    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
+    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
+    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
+    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
       
     sched.add_listener(job_listener,
            events.EVENT_JOB_EXECUTED |
