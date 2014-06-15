@@ -331,6 +331,7 @@ def job_listener(event):
     jobString = "%s" % (event.job)
 
     if (event.exception):
+    	logging.warning ("job_listener: Exception: %s" (%jobString))
         if (jobString.find('popQueue') != -1):
             missedPopQueue = missedPopQueue +1
             if (missedPopQueue > 10 ):
@@ -350,10 +351,10 @@ def job_listener(event):
             sched.unschedule_job(pushJobAlias4)
             pushQueueActive = False
             time.sleep(2)
-            pushJobAlias1=sched.add_cron_job(pushQueue, minute = 10)
-            pushJobAlias2=sched.add_cron_job(pushQueue, minute = 25)
-            pushJobAlias3=sched.add_cron_job(pushQueue, minute = 40)
-            pushJobAlias4=sched.add_cron_job(pushQueue, minute = 55)
+            pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
+            pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
+            pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
+            pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
             logging.warning ("job_listener: pushQueue rescheduled")
     else:
         if (jobString.find('popQueue') != -1):
