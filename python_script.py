@@ -73,7 +73,7 @@ def getWorksheet():
     global resetNetwork
     
     if (os.system("ping -c 4 192.168.1.1") == 0):
-        resetNetwork == True 
+        resetNetwork = True 
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
