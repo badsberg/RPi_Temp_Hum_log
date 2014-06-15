@@ -331,7 +331,7 @@ def job_listener(event):
     jobString = "%s" % (event.job)
 
     if (event.exception):
-    	logging.warning ("job_listener: Exception: %s" (%jobString))
+    	logging.warning ("job_listener: Exception: %s" %(jobString))
         if (jobString.find('popQueue') != -1):
             missedPopQueue = missedPopQueue +1
             if (missedPopQueue > 10 ):
