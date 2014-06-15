@@ -66,9 +66,13 @@ pushJobAlias3 = 0
 pushJobAlias4 = 0
 missedPopQueue = 0
 popQueueIntervalSeconds=300
+resetNetwork = True
 
 def getWorksheet():
+    global resetNetwork
+    
     if (os.system("ping -c 4 192.168.1.1") == 0):
+        resetNetwork == True 
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
@@ -99,6 +103,12 @@ def getWorksheet():
                     return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
+       if (resetNetwork == True)
+            os.system("ifup -a")
+            time.sleep(15)
+    	    os.system("dhclient")
+    	    resetNetwork = False
+    	    logging.warning("getWorksheet: Reset network")
        return 0
 
 def pushQueue ():
