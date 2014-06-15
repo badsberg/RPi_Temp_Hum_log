@@ -103,7 +103,7 @@ def getWorksheet():
                     return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
-       if (resetNetwork == True)
+       if (resetNetwork == True):
             os.system("ifup -a")
             time.sleep(15)
     	    os.system("dhclient")
