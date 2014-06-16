@@ -105,9 +105,9 @@ def getWorksheet():
     else:
        logging.warning("getWorksheet: No network connection") 
        if (resetNetwork == True):
-            os.system("ifup -a")
+            os.system("sudo ifup -a")
             time.sleep(15)
-    	    os.system("dhclient")
+    	    os.system("sudo dhclient")
     	    resetNetwork = False
     	    logging.warning("getWorksheet: Reset network")
        return 0
