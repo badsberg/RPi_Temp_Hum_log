@@ -8,5 +8,7 @@ else
     sudo ifup -a
     sleep 5
     sudo dhclient
+    NOW=$(date +"%D-%H:%M:%S") 
+    echo $NOW  "Network established!" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
     
 fi
