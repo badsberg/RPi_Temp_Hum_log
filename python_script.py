@@ -103,13 +103,13 @@ def getWorksheet():
                 else:
                     return workSheet
     else:
-       logging.warning("getWorksheet: No network connection") 
-       if (resetNetwork == True):
-            os.system("sudo ifup -a")
-            time.sleep(15)
-    	    os.system("sudo dhclient")
-    	    resetNetwork = False
-    	    logging.warning("getWorksheet: Reset network")
+       #logging.warning("getWorksheet: No network connection") 
+       #if (resetNetwork == True):
+       #     os.system("sudo ifup -a")
+       #     time.sleep(15)
+       #     os.system("sudo dhclient")
+       #    resetNetwork = False
+       #    logging.warning("getWorksheet: Reset network")
        return 0
 
 def pushQueue ():
@@ -243,9 +243,9 @@ def popQueue ():
                     reschedulePopQueue(True)
                     
                 nofPops = nofPops + 1
-                #if (nofPops >=96 and queueTime.size() == 0):
-                #    logging.warning ("popQueue: Reboot")
-                #    restart()
+                if (nofPops >=96 and queueTime.size() == 0):
+                    logging.warning ("popQueue: Reboot")
+                    restart()
       
             except:
                 getWorksheetFlag = True
