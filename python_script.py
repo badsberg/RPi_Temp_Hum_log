@@ -103,7 +103,7 @@ def getWorksheet():
                 else:
                     return workSheet
     else:
-       #logging.warning("getWorksheet: No network connection") 
+       logging.warning("getWorksheet: No network connection") 
        #if (resetNetwork == True):
        #     os.system("sudo ifup -a")
        #     time.sleep(15)
