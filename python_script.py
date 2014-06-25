@@ -127,7 +127,7 @@ def pushQueue ():
         accHum = 0
 
         while (getMoreMeas == True):
-            #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
+            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             #read sensor
             try:
                 #logging.warning ("pushQueue: Start subprocess")
