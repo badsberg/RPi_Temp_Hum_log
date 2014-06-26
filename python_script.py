@@ -328,10 +328,11 @@ def job_listener(event):
     global pushJobAlias2
     global pushJobAlias3
     global pushJobAlias4
-        
-    jobString = "%s" % (event.job)
+      
+    
 
     if (event.exception):
+    	jobString = "%s" % (event.job)
     	logging.warning ("job_listener: Exception: %s" %(jobString))
         if (jobString.find('popQueue') != -1):
             missedPopQueue = missedPopQueue +1
