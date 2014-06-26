@@ -1,6 +1,6 @@
 from apscheduler.scheduler import Scheduler
-#from apscheduler import events
-from apscheduler.events import *
+from apscheduler import events
+#from apscheduler.events import *
 
 #!/usr/bin/python
 
@@ -58,23 +58,11 @@ pushQueueActive = False
 popQueueActive = False
 getWorksheetFlag = True
 workSheetId = 0
-lastPopedTimeStamp = datetime.datetime.now()
-lastWdtTimeStamp = datetime.datetime.now()
 nofPops = 0
 popJobAlias = 0
-pushJobAlias1 = 0 
-pushJobAlias2 = 0
-pushJobAlias3 = 0
-pushJobAlias4 = 0
-missedPopQueue = 0
-popQueueIntervalSeconds=300
-resetNetwork = True
 
 def getWorksheet():
-    global resetNetwork
-    
     if (os.system("ping -c 4 192.168.1.1") == 0):
-        resetNetwork = True 
         try:
             logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
@@ -105,19 +93,13 @@ def getWorksheet():
                     return workSheet
     else:
        logging.warning("getWorksheet: No network connection") 
-       #if (resetNetwork == True):
-       #     os.system("sudo ifup -a")
-       #     time.sleep(15)
-       #     os.system("sudo dhclient")
-       #    resetNetwork = False
-       #    logging.warning("getWorksheet: Reset network")
        return 0
 
 def pushQueue ():
     global queueLock
     global pushQueueActive
     
-    nofMeas = 10
+    nofMeas = 5
 
     if (pushQueueActive == False):
         pushQueueActive = True
@@ -129,18 +111,14 @@ def pushQueue ():
 
         while (getMoreMeas == True):
             logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
-            #read sensor
             try:
-                #logging.warning ("pushQueue: Start subprocess")
                 output = subprocess.check_output(["./DHT", "2302", "4"])
-                #logging.warning ("pushQueue: End subprocess")
-
+ 
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
 
             else:
                 totalMeasNo = totalMeasNo + 1
-                #logging.warning ("pushQueue: Process reading from sensor")
                 matchTemp = re.search("Temp =\s+([0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
@@ -184,7 +162,7 @@ def pushQueue ():
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), tempForLog, humForLog)) 
         pushQueueActive = False  
-        reschedulePopQueue(False)
+        reschedulePopQueue(True)
     
     else:
         logging.warning ("pushQueue: Skipped because is already running")
@@ -195,14 +173,9 @@ def popQueue ():
     global pushQueueActive
     global getWorksheetFlag
     global workSheetId
-    global lastPopedTimeStamp
     global nofPops
 
-    logging.warning ("popQueue: Start")
-    time.sleep (20)
-  
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
-    	#logging.warning ("popQueue: Start")
         popQueueActive = True 
         if (getWorksheetFlag == True):
             popQueueDebugString = '1'
@@ -237,13 +210,9 @@ def popQueue ():
                 cell_list[3].value+='; %03d' %(nofPops)
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
-                
-                lastPopedTimeStamp = dateTimeStamp
-                
-                if (queueTime.size() > 0):
+               
+                if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
-                #else:
-                #    reschedulePopQueue(True)
                     
                 nofPops = nofPops + 1
                 if (nofPops >=96 and queueTime.size() == 0):
@@ -268,128 +237,53 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
-    logging.warning ("popQueue: end")
-    
-def wdt():
-    global lastPopedTimeStamp
-    global lastWdtTimeStamp
-    global getWorksheetFlag
-   
-    
-    logging.warning ("wdt: getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))  
-    
-    if (getWorksheetFlag == False and lastPopedTimeStamp == lastWdtTimeStamp):
-    	logging.warning ("wdt: Reset RPi. getWorksheetFlag: %d; queueSize: %d; lastWdtTimeStamp: %s, lastPopedTimeStamp: %s" %(getWorksheetFlag, queueTime.size(), lastWdtTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), lastPopedTimeStamp.strftime("%Y-%m-%d %H:%M:%S")))
-    	restart()
-    	
-    	
-    else:
-        lastWdtTimeStamp = lastPopedTimeStamp
-  
 
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
     
-def reschedulePopQueue (lowFrequency):
-    global popQueueIntervalSeconds
+def reschedulePopQueue (restartJob):
     global popJobAlias
     
     if (popJobAlias == 0):
-        if (lowFrequency == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=300)
-            popQueueIntervalSeconds = 300
-            logging.warning ("reschedulePopQueue: First schedule. LowFrequency")
-        else:
+        if (restartJob == True):
             popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-            popQueueIntervalSeconds = 15
-            logging.warning ("reschedulePopQueue: First schedule. HighFrequency")
-          
+            logging.warning ("reschedulePopQueue: First schedule.")
+
     else:
-        if (lowFrequency == True):
-            if (popQueueIntervalSeconds == 15):
-                sched.unschedule_job(popJobAlias)
-                #popJobAlias = sched.add_interval_job(popQueue, seconds=300)
-                popJobAlias = 0
-                popQueueIntervalSeconds = 300
-                logging.warning ("reschedulePopQueue: Reschedule. LowFrequency")
+        if (restartJob == False):
+            sched.unschedule_job(popJobAlias)
+            popJobAlias = 0
+            logging.warning ("reschedulePopQueue: Stop schedule")
                 
         else:
-            if (popQueueIntervalSeconds == 300):
-                sched.unschedule_job(popJobAlias)
-                popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-                popQueueIntervalSeconds = 15
-                logging.warning ("reschedulePopQueue: Reschedule. HighFrequency")
+            sched.unschedule_job(popJobAlias)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            logging.warning ("reschedulePopQueue: Restart")
 
     
 def job_listener(event):
-    global missedPopQueue
     global popJobAlias
     global popQueueActive
     global pushQueueActive
-    global pushJobAlias1
-    global pushJobAlias2
-    global pushJobAlias3
-    global pushJobAlias4
-      
-    
+
     logging.warning ("job_listener: Exception")
-    #if (event.exception):
-    	#jobString = "%s" % (event.job)
-    	#logging.warning ("job_listener: Exception: %s" %(jobString))
-    	
-        #if (jobString.find('popQueue') != -1):
-        #    missedPopQueue = missedPopQueue +1
-        #    if (missedPopQueue > 10 ):
-        #        #sched.unschedule_job(popJobAlias)
-        #        missedPopQueue = 0
-        #        popQueueActive = False
-        #        #time.sleep(2)
-        #        #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-        #        reschedulePopQueue(True)
-        #        logging.warning ("job_listener: popQueue rescheduled")
-        #    else:
-        #        logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
-        #elif (jobString.find('pushQueue') != -1):
-        #    sched.unschedule_job(pushJobAlias1)
-        #    sched.unschedule_job(pushJobAlias2)
-        #    sched.unschedule_job(pushJobAlias3)
-        #    sched.unschedule_job(pushJobAlias4)
-        #    pushQueueActive = False
-        #    time.sleep(2)
-        #    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
-        #    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
-        #    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
-        #    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
-        #    logging.warning ("job_listener: pushQueue rescheduled")
-    #else:
-    #    if (jobString.find('popQueue') != -1):
-    #        missedPopQueue = 0
-    #        #logging.warning ("job_listener: popQueue sucessful")
-        #elif (jobString.find('pushQueue') != -1):
-        #    logging.warning ("job_listener: pushQueue sucessful")
+    reschedulePopQueue(False)
         
 
 def main():
     global nofPops
     global popJobAlias
-    global pushJobAlias1
-    global pushJobAlias2
-    global pushJobAlias3
-    global pushJobAlias4
-      
-    nofPops = 0
-    #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-    reschedulePopQueue(False)
-      
-    #sched.add_interval_job(wdt, seconds=1800)
 
-    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
-    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
-    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
-    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
+    nofPops = 0
+    reschedulePopQueue(True)
+
+    sched.add_cron_job(pushQueue, minute = 00)
+    sched.add_cron_job(pushQueue, minute = 15)
+    sched.add_cron_job(pushQueue, minute = 30)
+    sched.add_cron_job(pushQueue, minute = 45)
       
-    sched.add_listener(job_listener,EVENT_JOB_MISSED)
+    sched.add_listener(job_listener,events.EVENT_JOB_MISSED)
       
     sched.start()
       
