@@ -230,7 +230,7 @@ def popQueue ():
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     
     	else:
-            reschedulePopQueue(True)
+            reschedulePopQueue(False)
             
         popQueueActive = False
 
