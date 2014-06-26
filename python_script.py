@@ -198,7 +198,8 @@ def popQueue ():
     global lastPopedTimeStamp
     global nofPops
 
-    
+    logging.warning ("popQueue: Start")
+    time.sleep (20)
   
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
     	#logging.warning ("popQueue: Start")
@@ -223,7 +224,7 @@ def popQueue ():
             pushDebugData = queueDebugData.dequeue()
             queueLock = False
         
-            time.sleep (20)
+            
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
                 cell_list=workSheetId.range('B2:E2')
@@ -331,38 +332,39 @@ def job_listener(event):
     global pushJobAlias4
       
     
-
-    if (event.exception):
-    	jobString = "%s" % (event.job)
-    	logging.warning ("job_listener: Exception: %s" %(jobString))
-        if (jobString.find('popQueue') != -1):
-            missedPopQueue = missedPopQueue +1
-            if (missedPopQueue > 10 ):
-                #sched.unschedule_job(popJobAlias)
-                missedPopQueue = 0
-                popQueueActive = False
-                #time.sleep(2)
-                #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-                reschedulePopQueue(True)
-                logging.warning ("job_listener: popQueue rescheduled")
-            else:
-                logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
-        elif (jobString.find('pushQueue') != -1):
-            sched.unschedule_job(pushJobAlias1)
-            sched.unschedule_job(pushJobAlias2)
-            sched.unschedule_job(pushJobAlias3)
-            sched.unschedule_job(pushJobAlias4)
-            pushQueueActive = False
-            time.sleep(2)
-            pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
-            pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
-            pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
-            pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
-            logging.warning ("job_listener: pushQueue rescheduled")
-    else:
-        if (jobString.find('popQueue') != -1):
-            missedPopQueue = 0
-            #logging.warning ("job_listener: popQueue sucessful")
+    logging.warning ("job_listener: Exception")
+    #if (event.exception):
+    	#jobString = "%s" % (event.job)
+    	#logging.warning ("job_listener: Exception: %s" %(jobString))
+    	
+        #if (jobString.find('popQueue') != -1):
+        #    missedPopQueue = missedPopQueue +1
+        #    if (missedPopQueue > 10 ):
+        #        #sched.unschedule_job(popJobAlias)
+        #        missedPopQueue = 0
+        #        popQueueActive = False
+        #        #time.sleep(2)
+        #        #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+        #        reschedulePopQueue(True)
+        #        logging.warning ("job_listener: popQueue rescheduled")
+        #    else:
+        #        logging.warning ("job_listener: popQueue crashed (%d)" %(missedPopQueue))
+        #elif (jobString.find('pushQueue') != -1):
+        #    sched.unschedule_job(pushJobAlias1)
+        #    sched.unschedule_job(pushJobAlias2)
+        #    sched.unschedule_job(pushJobAlias3)
+        #    sched.unschedule_job(pushJobAlias4)
+        #    pushQueueActive = False
+        #    time.sleep(2)
+        #    pushJobAlias1=sched.add_cron_job(pushQueue, minute = 00)
+        #    pushJobAlias2=sched.add_cron_job(pushQueue, minute = 15)
+        #    pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
+        #    pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
+        #    logging.warning ("job_listener: pushQueue rescheduled")
+    #else:
+    #    if (jobString.find('popQueue') != -1):
+    #        missedPopQueue = 0
+    #        #logging.warning ("job_listener: popQueue sucessful")
         #elif (jobString.find('pushQueue') != -1):
         #    logging.warning ("job_listener: pushQueue sucessful")
         
