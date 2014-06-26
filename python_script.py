@@ -268,7 +268,7 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
 
-    logging.warning ("popQueue: Start")
+    logging.warning ("popQueue: end")
     
 def wdt():
     global lastPopedTimeStamp
