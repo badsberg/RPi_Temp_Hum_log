@@ -1,5 +1,6 @@
 from apscheduler.scheduler import Scheduler
-from apscheduler import events
+#from apscheduler import events
+from apscheduler.events import *
 
 #!/usr/bin/python
 
@@ -385,7 +386,7 @@ def main():
     pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
     pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
       
-    sched.add_listener(job_listener)
+    sched.add_listener(job_listener,EVENT_JOB_MISSED)
       
     sched.start()
       
