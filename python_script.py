@@ -240,8 +240,8 @@ def popQueue ():
                 
                 if (queueTime.size() > 0):
                     reschedulePopQueue(False)
-                else:
-                    reschedulePopQueue(True)
+                #else:
+                #    reschedulePopQueue(True)
                     
                 nofPops = nofPops + 1
                 if (nofPops >=96 and queueTime.size() == 0):
