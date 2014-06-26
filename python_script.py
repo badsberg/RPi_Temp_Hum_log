@@ -375,7 +375,7 @@ def main():
       
     nofPops = 0
     #popJobAlias = sched.add_interval_job(popQueue, seconds=15)
-    #reschedulePopQueue(True)
+    reschedulePopQueue(False)
       
     #sched.add_interval_job(wdt, seconds=1800)
 
