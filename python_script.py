@@ -222,6 +222,7 @@ def popQueue ():
             pushDebugData = queueDebugData.dequeue()
             queueLock = False
         
+            time.sleep (20)
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
                 cell_list=workSheetId.range('B2:E2')
@@ -383,10 +384,7 @@ def main():
     pushJobAlias3=sched.add_cron_job(pushQueue, minute = 30)
     pushJobAlias4=sched.add_cron_job(pushQueue, minute = 45)
       
-    sched.add_listener(job_listener,
-           events.EVENT_JOB_EXECUTED |
-           events.EVENT_JOB_MISSED |
-           events.EVENT_JOB_ERROR)
+    sched.add_listener(job_listener)
       
     sched.start()
       
