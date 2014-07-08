@@ -14,8 +14,8 @@ import logging
 import sys
 import os
 
-#logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
-logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
+#logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
 
 # Start the scheduler
 sched = Scheduler(misfire_grace_time = 240)
@@ -215,9 +215,9 @@ def popQueue ():
                     reschedulePopQueue(False)
                     
                 nofPops = nofPops + 1
-                #if (nofPops >=96 and queueTime.size() == 0):
-                #    logging.warning ("popQueue: Reboot")
-                #    restart()
+                if (nofPops >=96 and queueTime.size() == 0):
+                    logging.warning ("popQueue: Reboot")
+                    restart()
       
             except:
                 getWorksheetFlag = True
