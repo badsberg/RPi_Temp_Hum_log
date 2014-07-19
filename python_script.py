@@ -245,6 +245,7 @@ def restart():
     
 def reschedulePopQueue (restartJob):
     global popJobAlias
+    global popQueueActive
     
     if (popJobAlias == 0):
         if (restartJob == True):
@@ -252,6 +253,7 @@ def reschedulePopQueue (restartJob):
             logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
+    	popQueueActive =  False
         if (restartJob == False):
             sched.unschedule_job(popJobAlias)
             popJobAlias = 0
@@ -264,10 +266,7 @@ def reschedulePopQueue (restartJob):
 
     
 def job_listener(event):
-    global pushQueueActive
-
     logging.warning ("job_listener: Exception")
-    popQueueActive = False
     reschedulePopQueue(False)
         
 
