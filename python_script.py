@@ -153,6 +153,7 @@ def pushQueue ():
         else:
           logging.warning ("pushQueue: Sensor not working. Reboot")
           restart()
+          time.sleep (10)
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
@@ -263,11 +264,10 @@ def reschedulePopQueue (restartJob):
 
     
 def job_listener(event):
-    global popJobAlias
-    global popQueueActive
     global pushQueueActive
 
     logging.warning ("job_listener: Exception")
+    popQueueActive = False
     reschedulePopQueue(False)
         
 
