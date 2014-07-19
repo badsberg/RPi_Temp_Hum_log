@@ -271,9 +271,6 @@ def job_listener(event):
         
 
 def main():
-    global nofPops
-    global popJobAlias
-
     sched.add_cron_job(pushQueue, minute = 00)
     sched.add_cron_job(pushQueue, minute = 15)
     sched.add_cron_job(pushQueue, minute = 30)
