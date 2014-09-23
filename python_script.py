@@ -267,7 +267,7 @@ def reschedulePopQueue (restartJob):
     
 def job_listener(event):
     logging.warning ("job_listener: Exception")
-    reschedulePopQueue(True)
+    reschedulePopQueue(False)
         
 
 def main():
