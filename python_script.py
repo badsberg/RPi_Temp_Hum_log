@@ -261,7 +261,7 @@ def reschedulePopQueue (restartJob):
                 
         else:
             sched.unschedule_job(popJobAlias)
-            time.sleep (10)
+            time.sleep (2)
             popJobAlias = sched.add_interval_job(popQueue, seconds=15)
             logging.warning ("reschedulePopQueue: Restart.")
 
