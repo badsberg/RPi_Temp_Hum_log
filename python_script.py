@@ -229,7 +229,9 @@ def popQueue ():
                 queueDebugData.enqueue (pushDebugData)
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
-    
+    	    
+    	    logging.warning ("popQueue: End")
+    	    
     	else:
             reschedulePopQueue(False)
             
