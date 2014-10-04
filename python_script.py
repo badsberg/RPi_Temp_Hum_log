@@ -175,7 +175,9 @@ def popQueue ():
     global getWorksheetFlag
     global workSheetId
     global nofPops
-
+    
+    logging.warning ("popQueue: Start")
+    
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
         if (getWorksheetFlag == True):
@@ -230,7 +232,7 @@ def popQueue ():
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     	    
-    	    logging.warning ("popQueue: End")
+    	    
     	    
     	else:
             reschedulePopQueue(False)
@@ -239,7 +241,8 @@ def popQueue ():
 
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
-
+        
+    logging.warning ("popQueue: End")
 
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
