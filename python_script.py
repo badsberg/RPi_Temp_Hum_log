@@ -217,10 +217,10 @@ def popQueue ():
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
                     
-                #nofPops = nofPops + 1
-                #if (nofPops >=96 and queueTime.size() == 0):
-                #    logging.warning ("popQueue: Reboot")
-                #    restart()
+                nofPops = nofPops + 1
+                if (nofPops >=96 and queueTime.size() == 0):
+                    logging.warning ("popQueue: Reboot")
+                    restart()
       
             except:
                 getWorksheetFlag = True
