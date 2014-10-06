@@ -60,6 +60,7 @@ getWorksheetFlag = True
 workSheetId = 0
 nofPops = 0
 popJobAlias = 0
+nofMissedPops = 0
 
 def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
@@ -175,6 +176,7 @@ def popQueue ():
     global getWorksheetFlag
     global workSheetId
     global nofPops
+    global nofMissedPops
     
     logging.warning ("popQueue: Start")
     
@@ -210,7 +212,9 @@ def popQueue ():
                 cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
                 cell_list[3].value+='; %03d; ' %(queueTime.size())
                 cell_list[3].value+=popQueueDebugString
-                cell_list[3].value+='; %03d' %(nofPops)
+                #cell_list[3].value+='; %03d' %(nofPops)
+                cell_list[3].value+='; %01d' %(nofMissedPops)
+                
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                
@@ -242,8 +246,9 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
         
+    nofMissedPops = 0
     logging.warning ("popQueue: End")
-
+    
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
@@ -254,7 +259,7 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=60)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
             logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
@@ -267,14 +272,19 @@ def reschedulePopQueue (restartJob):
         else:
             sched.unschedule_job(popJobAlias)
             time.sleep (2)
-            popJobAlias = sched.add_interval_job(popQueue, seconds=60)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
             logging.warning ("reschedulePopQueue: Restart.")
 
     
 def job_listener(event):
-    logging.warning ("job_listener: Exception")
-    reschedulePopQueue(True)
-        
+    global nofMissedPops
+    
+    nofMissedPops = nofMissedPops + 1
+    logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
+    
+    if nofMissedPops > 8:
+        reschedulePopQueue(True)
+      
 
 def main():
     sched.add_cron_job(pushQueue, minute = 00)
