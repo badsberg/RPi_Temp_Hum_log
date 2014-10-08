@@ -217,6 +217,8 @@ def popQueue ():
                 
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
+                
+                nofMissedPops = 0
                
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
@@ -245,8 +247,7 @@ def popQueue ():
 
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
-        
-    nofMissedPops = 0
+   
     logging.warning ("popQueue: End")
     
 def restart():
