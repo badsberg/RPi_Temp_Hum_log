@@ -283,7 +283,7 @@ def job_listener(event):
     nofMissedPops = nofMissedPops + 1
     logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
     
-    if nofMissedPops > 20:
+    if nofMissedPops > 30:
     	reschedulePopQueue(True)
       
 
