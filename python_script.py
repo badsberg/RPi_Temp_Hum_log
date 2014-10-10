@@ -260,7 +260,7 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=5)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
             logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
@@ -273,7 +273,7 @@ def reschedulePopQueue (restartJob):
         else:
             sched.unschedule_job(popJobAlias)
             time.sleep (2)
-            popJobAlias = sched.add_interval_job(popQueue, seconds=5)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
             logging.warning ("reschedulePopQueue: Restart.")
 
     
@@ -284,8 +284,7 @@ def job_listener(event):
     logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
     
     if nofMissedPops > 20:
-    	nofMissedPops = 0
-        reschedulePopQueue(True)
+    	reschedulePopQueue(True)
       
 
 def main():
