@@ -215,12 +215,12 @@ def popQueue ():
                 #cell_list[3].value+='; %03d' %(nofPops)
                 cell_list[3].value+='; %01d' %(nofMissedPops)
                 
+                logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
+                nofMissedPops = 0
+                
                 workSheetId.update_cells(cell_list)
                 workSheetId.update_cell (2,1,dateTimeStamp)
                 
-                logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
-                nofMissedPops = 0
-               
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
                     
