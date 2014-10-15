@@ -213,7 +213,7 @@ def popQueue ():
                 cell_list[3].value+='; %03d; ' %(queueTime.size())
                 cell_list[3].value+=popQueueDebugString
                 #cell_list[3].value+='; %03d' %(nofPops)
-                cell_list[3].value+='; %01d' %(nofMissedPops)
+                cell_list[3].value+='; %02d' %(nofMissedPops)
                 
                 logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
