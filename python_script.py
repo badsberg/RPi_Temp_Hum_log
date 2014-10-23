@@ -261,7 +261,7 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
             logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
@@ -274,7 +274,7 @@ def reschedulePopQueue (restartJob):
         else:
             sched.unschedule_job(popJobAlias)
             time.sleep (2)
-            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
             logging.warning ("reschedulePopQueue: Restart.")
 
     
