@@ -299,6 +299,7 @@ def main():
     sched.start()
       
     while True:
-        pass
+        #pass
+        sleep(1)
 
 main()
