@@ -300,6 +300,6 @@ def main():
       
     while True:
         #pass
-        sleep(1)
+        time.sleep(30)
 
 main()
