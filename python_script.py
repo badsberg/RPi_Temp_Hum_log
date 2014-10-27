@@ -215,7 +215,7 @@ def popQueue ():
                 #cell_list[3].value+='; %03d' %(nofPops)
                 cell_list[3].value+='; %02d' %(nofMissedPops)
                 
-                logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
+                #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
                 
                 workSheetId.update_cells(cell_list)
@@ -282,7 +282,7 @@ def job_listener(event):
     global nofMissedPops
     
     nofMissedPops = nofMissedPops + 1
-    logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
+    #logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
     
     if nofMissedPops > 30:
     	reschedulePopQueue(True)
