@@ -65,7 +65,7 @@ nofMissedPops = 0
 def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
         try:
-            logging.warning ("getWorksheet: Try login")
+            #logging.warning ("getWorksheet: Try login")
             gc = gspread.login(email, password)
 
         except:
@@ -74,7 +74,7 @@ def getWorksheet():
 
         else:
             try:
-                logging.warning("getWorksheet: Try open spreadsheet")
+                #logging.warning("getWorksheet: Try open spreadsheet")
                 spreadSheet = gc.open(spreadsheetName)
 
             except:
@@ -82,7 +82,7 @@ def getWorksheet():
                 return 0
 
             else:
-                logging.warning("getWorksheet: Open spredsheet succesfully")
+                #logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
                     workSheet = spreadSheet.get_worksheet(8)
                     
@@ -111,7 +111,7 @@ def pushQueue ():
         accHum = 0
 
         while (getMoreMeas == True):
-            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
+            #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
                 output = subprocess.check_output(["./DHT", "2302", "4"])
  
@@ -126,7 +126,7 @@ def pushQueue ():
                 if (matchTemp and matchHum):
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
-                    logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
+                    #logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
                     validMeasNo = validMeasNo + 1
 
             if (totalMeasNo >= 10):
@@ -261,21 +261,21 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
-            logging.warning ("reschedulePopQueue: First schedule.")
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            #logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
     	popQueueActive =  False
         if (restartJob == False):
             sched.unschedule_job(popJobAlias)
             popJobAlias = 0
-            logging.warning ("reschedulePopQueue: Stop schedule")
+            #logging.warning ("reschedulePopQueue: Stop schedule")
                 
         else:
             sched.unschedule_job(popJobAlias)
             time.sleep (2)
-            popJobAlias = sched.add_interval_job(popQueue, seconds=10)
-            logging.warning ("reschedulePopQueue: Restart.")
+            popJobAlias = sched.add_interval_job(popQueue, seconds=15)
+            #logging.warning ("reschedulePopQueue: Restart.")
 
     
 def job_listener(event):
