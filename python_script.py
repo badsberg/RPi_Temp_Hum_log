@@ -178,7 +178,7 @@ def popQueue ():
     global nofPops
     global nofMissedPops
     
-    logging.warning ("popQueue: Start")
+    #logging.warning ("popQueue: Start")
     
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
@@ -249,7 +249,7 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
-    logging.warning ("popQueue: End")
+    #logging.warning ("popQueue: End")
     
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
