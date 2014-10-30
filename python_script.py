@@ -1,4 +1,4 @@
-from apscheduler.scheduler import Scheduler
+from apscheduler.scheduler import BackgroundScheduler
 from apscheduler import events
 #from apscheduler.events import *
 
@@ -18,7 +18,7 @@ logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().we
 #logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
 
 # Start the scheduler
-sched = Scheduler(misfire_grace_time = 240)
+sched = BackgroundScheduler()
 
 # ===========================================================================
 # Google Account Details
@@ -261,20 +261,20 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+            popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
             #logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
     	popQueueActive =  False
         if (restartJob == False):
-            sched.unschedule_job(popJobAlias)
+            popJobAlias.remove()
             popJobAlias = 0
             #logging.warning ("reschedulePopQueue: Stop schedule")
                 
         else:
-            sched.unschedule_job(popJobAlias)
+            popJobAlias.remove()
             time.sleep (2)
-            popJobAlias = sched.add_interval_job(popQueue, seconds=30)
+            popJobAlias = sched.add_job(popQueue, 'interval' seconds=30)
             #logging.warning ("reschedulePopQueue: Restart.")
 
     
@@ -289,10 +289,10 @@ def job_listener(event):
       
 
 def main():
-    sched.add_cron_job(pushQueue, minute = 00)
-    sched.add_cron_job(pushQueue, minute = 15)
-    sched.add_cron_job(pushQueue, minute = 30)
-    sched.add_cron_job(pushQueue, minute = 45)
+    sched.add_job(pushQueue, 'cron', minute = 00)
+    sched.add_job(pushQueue, 'cron', minute = 15)
+    sched.add_job(pushQueue, 'cron', minute = 30)
+    sched.add_job(pushQueue, 'cron', minute = 45)
       
     sched.add_listener(job_listener,events.EVENT_JOB_MISSED)
       
