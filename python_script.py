@@ -113,7 +113,8 @@ def pushQueue ():
         while (getMoreMeas == True):
             logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
-                output = "Temp = 20.0, Hum = 50.0\n" #subprocess.check_output(["./DHT", "2302", "4"])
+                outpuuptiet = "Temp = 20.0, Hum = 50.0\n" 
+                #output = subprocess.check_output(["./DHT", "2302", "4"])
  
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
@@ -126,7 +127,7 @@ def pushQueue ():
                 if (matchTemp and matchHum):
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
-                    logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
+                    #logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
                     validMeasNo = validMeasNo + 1
 
             if (totalMeasNo >= 10):
@@ -261,20 +262,20 @@ def reschedulePopQueue (restartJob):
     if (popJobAlias == 0):
         if (restartJob == True):
             popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
-            logging.warning ("reschedulePopQueue: First schedule.")
+            #logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
     	popQueueActive =  False
         if (restartJob == False):
             popJobAlias.remove()
             popJobAlias = 0
-            logging.warning ("reschedulePopQueue: Stop schedule")
+            #logging.warning ("reschedulePopQueue: Stop schedule")
                 
         else:
             popJobAlias.remove()
             time.sleep (2)
             popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
-            logging.warning ("reschedulePopQueue: Restart.")
+            #logging.warning ("reschedulePopQueue: Restart.")
 
     
 def job_listener(event):
