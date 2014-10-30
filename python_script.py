@@ -113,7 +113,7 @@ def pushQueue ():
         while (getMoreMeas == True):
             #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
-                output = subprocess.check_output(["./DHT", "2302", "4"])
+                output = "Temp = 20.0, Hum = 50.0\n" #subprocess.check_output(["./DHT", "2302", "4"])
  
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
