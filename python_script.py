@@ -247,6 +247,7 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
+    time.sleep (30)
     logging.warning ("popQueue: End")
     
 def restart():
