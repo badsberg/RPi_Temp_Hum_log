@@ -178,7 +178,7 @@ def popQueue ():
     global nofPops
     global nofMissedPops
     
-    #logging.warning ("popQueue: Start")
+    logging.warning ("popQueue: Start")
     
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
@@ -239,8 +239,6 @@ def popQueue ():
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
     	    
-    	    
-    	    
     	else:
             reschedulePopQueue(False)
             
@@ -249,7 +247,7 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
-    #logging.warning ("popQueue: End")
+    logging.warning ("popQueue: End")
     
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
@@ -262,20 +260,20 @@ def reschedulePopQueue (restartJob):
     if (popJobAlias == 0):
         if (restartJob == True):
             popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
-            #logging.warning ("reschedulePopQueue: First schedule.")
+            logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
     	popQueueActive =  False
         if (restartJob == False):
             popJobAlias.remove()
             popJobAlias = 0
-            #logging.warning ("reschedulePopQueue: Stop schedule")
+            logging.warning ("reschedulePopQueue: Stop schedule")
                 
         else:
             popJobAlias.remove()
             time.sleep (2)
             popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
-            #logging.warning ("reschedulePopQueue: Restart.")
+            logging.warning ("reschedulePopQueue: Restart.")
 
     
 def job_listener(event):
