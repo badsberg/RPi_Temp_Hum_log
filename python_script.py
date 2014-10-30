@@ -189,7 +189,7 @@ def popQueue ():
             popQueueDebugString = '0'
 
         if (workSheetId != 0):
-            getWorksheetFlag = False
+            #getWorksheetFlag = False
             while (queueLock == True):
             	logging.warning("popQueue: wait for queueLock")
             	time.sleep (2)
@@ -247,7 +247,7 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
-    time.sleep (35)
+  
     logging.warning ("popQueue: End")
     
 def restart():
