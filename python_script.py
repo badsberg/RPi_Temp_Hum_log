@@ -212,9 +212,9 @@ def popQueue ():
                 cell_list[2].value=pushDebugData
                 cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
                 cell_list[3].value+='; %03d; ' %(queueTime.size())
-                cell_list[3].value+=popQueueDebugString
-                #cell_list[3].value+='; %03d' %(nofPops)
-                cell_list[3].value+='; %02d' %(nofMissedPops)
+                cell_list[3].value+='%01d' %(nofMissedPops)
+                cell_list[3].value+='; %03d' %(nofPops)
+                
                 
                 #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
@@ -261,7 +261,7 @@ def reschedulePopQueue (restartJob):
     
     if (popJobAlias == 0):
         if (restartJob == True):
-            popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
+            popJobAlias = sched.add_job(popQueue, 'interval', seconds=15)
             #logging.warning ("reschedulePopQueue: First schedule.")
 
     else:
@@ -274,7 +274,7 @@ def reschedulePopQueue (restartJob):
         else:
             popJobAlias.remove()
             time.sleep (2)
-            popJobAlias = sched.add_job(popQueue, 'interval', seconds=30)
+            popJobAlias = sched.add_job(popQueue, 'interval', seconds=15)
             #logging.warning ("reschedulePopQueue: Restart.")
 
     
@@ -284,7 +284,7 @@ def job_listener(event):
     nofMissedPops = nofMissedPops + 1
     logging.warning ("job_listener: Exception. nofMissedPops %d" %(nofMissedPops))
     
-    if nofMissedPops > 30:
+    if nofMissedPops > 8:
     	reschedulePopQueue(True)
       
 
