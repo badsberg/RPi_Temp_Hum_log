@@ -155,7 +155,7 @@ def pushQueue ():
           humForLog = accHum / validMeasNo
         else:
           logging.warning ("pushQueue: Sensor not working. Reboot")
-          #restart()
+          restart()
           time.sleep (10)
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
