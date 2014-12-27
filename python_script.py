@@ -122,7 +122,7 @@ def pushQueue ():
             else:
                 totalMeasNo = totalMeasNo + 1
                 logging.warning ("pushQueue: Sensor output :%s", output)
-                matchTemp = re.search("Temp =\s+([-9-9.]+)", output)
+                matchTemp = re.search("Temp =\s+(-?[0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
                 if (matchTemp and matchHum):
