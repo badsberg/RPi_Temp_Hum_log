@@ -111,7 +111,7 @@ def pushQueue ():
         accHum = 0
 
         while (getMoreMeas == True):
-            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
+            #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
                 #output = "Temp = 20.0, Hum = 50.0\n" 
                 output = subprocess.check_output(["./DHT", "2302", "4"])
@@ -121,7 +121,7 @@ def pushQueue ():
 
             else:
                 totalMeasNo = totalMeasNo + 1
-                logging.warning ("pushQueue: Sensor output :%s", output)
+                #logging.warning ("pushQueue: Sensor output :%s", output)
                 matchTemp = re.search("Temp =\s+(-?[0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
