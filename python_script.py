@@ -111,7 +111,7 @@ def pushQueue ():
         accHum = 0
 
         while (getMoreMeas == True):
-            #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
+            logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
                 #output = "Temp = 20.0, Hum = 50.0\n" 
                 output = subprocess.check_output(["./DHT", "2302", "4"])
@@ -154,7 +154,7 @@ def pushQueue ():
           humForLog = accHum / validMeasNo
         else:
           logging.warning ("pushQueue: Sensor not working. Reboot")
-          restart()
+          #restart()
           time.sleep (10)
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
