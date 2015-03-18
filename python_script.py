@@ -230,7 +230,7 @@ def popQueue ():
                 
                 inputSheet.update_cells(cell_list)
                 inputSheet.update_cell (2,1,dateTimeStamp)
-                summarySheet.update_cell (35,12,dateTimeStamp)
+                summarySheet.update_cell (35,12,'1')
                 
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
