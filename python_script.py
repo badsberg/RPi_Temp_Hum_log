@@ -221,9 +221,9 @@ def popQueue ():
                 cell_list[2].value=humidity
                 cell_list[3].value=pushDebugData
                 cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
-                cell_list[5].value+='; %03d; ' %(queueTime.size())
-                cell_list[6].value+='%01d' %(nofMissedPops)
-                cell_list[7].value+='; %03d' %(nofPops)
+                cell_list[4].value+='; %03d; ' %(queueTime.size())
+                cell_list[4].value+='%01d' %(nofMissedPops)
+                cell_list[4].value+='; %03d' %(nofPops)
 
                 #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
