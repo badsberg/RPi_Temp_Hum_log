@@ -215,22 +215,21 @@ def popQueue ():
             
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
-                cell_list=inputSheet.range('B2:E2')
-                cell_list[0].value=temp
-                cell_list[1].value=humidity
-                cell_list[2].value=pushDebugData
-                cell_list[3].value=datetime.datetime.now().strftime("%H:%M:%S")
-                cell_list[3].value+='; %03d; ' %(queueTime.size())
-                cell_list[3].value+='%01d' %(nofMissedPops)
-                cell_list[3].value+='; %03d' %(nofPops)
-                
-                
+                cell_list=inputSheet.range('A2:E2')
+                cell_list[0].value=dateTimeStamp
+                cell_list[1].value=temp
+                cell_list[2].value=humidity
+                cell_list[3].value=pushDebugData
+                cell_list[4].value=datetime.datetime.now().strftime("%H:%M:%S")
+                cell_list[5].value+='; %03d; ' %(queueTime.size())
+                cell_list[6].value+='%01d' %(nofMissedPops)
+                cell_list[7].value+='; %03d' %(nofPops)
+
                 #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
                 
                 inputSheet.update_cells(cell_list)
-                inputSheet.update_cell (2,1,dateTimeStamp)
-                summarySheet.update_cell (35,12,'1')
+                summarySheet.update_cell (35,12,datetime.datetime.now())
                 
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
