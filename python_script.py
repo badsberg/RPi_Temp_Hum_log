@@ -89,7 +89,7 @@ def getWorksheet():
             else:
                 #logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
-                    workSheet = inputSheet = spreadSheet.get_worksheet(8)
+                    inputSheet = spreadSheet.get_worksheet(8)
                     summarySheet = spreadSheet.get_worksheet(0)
                     
                 except:
