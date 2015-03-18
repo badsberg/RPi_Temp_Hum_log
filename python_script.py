@@ -61,6 +61,8 @@ workSheetId = 0
 nofPops = 0
 popJobAlias = 0
 nofMissedPops = 0
+summarySheet = 0
+inputSheet = 0
 
 def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
@@ -84,14 +86,15 @@ def getWorksheet():
             else:
                 #logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
-                    workSheet = spreadSheet.get_worksheet(8)
+                    workSheet = inputSheet = spreadSheet.get_worksheet(8)
+                    summarySheet = spreadSheet.get_worksheet(0)
                     
                 except:
                     logging.error("getWorksheet: Unable to get worksheet")
                     return 0
                     
                 else:
-                    return workSheet
+                    return 1
     else:
        logging.warning("getWorksheet: No network connection") 
        return 0
@@ -176,7 +179,7 @@ def popQueue ():
     global popQueueActive
     global pushQueueActive
     global getWorksheetFlag
-    global workSheetId
+    #global workSheetId
     global nofPops
     global nofMissedPops
     
@@ -207,7 +210,7 @@ def popQueue ():
             
             logging.warning ("popQueue: Pop sensor reading from Queue - Queue element: %d; Date/time: %s; Temp: %s C; Hum: %s  %%" % (queueSize, dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), temp, humidity))
             try:
-                cell_list=workSheetId.range('B2:E2')
+                cell_list=inputSheet.range('B2:E2')
                 cell_list[0].value=temp
                 cell_list[1].value=humidity
                 cell_list[2].value=pushDebugData
@@ -220,8 +223,9 @@ def popQueue ():
                 #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
                 
-                workSheetId.update_cells(cell_list)
-                workSheetId.update_cell (2,1,dateTimeStamp)
+                inputSheet.update_cells(cell_list)
+                inputSheet.update_cell (2,1,dateTimeStamp)
+                summarySheet.update_cell (35,12,dateTimeStamp)
                 
                 if (queueTime.size() <= 0):
                     reschedulePopQueue(False)
