@@ -65,6 +65,9 @@ summarySheet = 0
 inputSheet = 0
 
 def getWorksheet():
+    global inputSheet
+    global summarySheet	
+
     if (os.system("ping -c 4 192.168.1.1") == 0):
         try:
             #logging.warning ("getWorksheet: Try login")
@@ -182,6 +185,8 @@ def popQueue ():
     #global workSheetId
     global nofPops
     global nofMissedPops
+    global inputSheet
+    global summarySheet	
     
     #logging.warning ("popQueue: Start")
     
