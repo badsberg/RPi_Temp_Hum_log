@@ -188,7 +188,7 @@ def popQueue ():
     global inputSheet
     global summarySheet	
     
-    #logging.warning ("popQueue: Start")
+    logging.warning ("popQueue: Start")
     
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
@@ -225,7 +225,7 @@ def popQueue ():
                 cell_list[4].value+='%01d' %(nofMissedPops)
                 cell_list[4].value+='; %03d' %(nofPops)
 
-                #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
+                logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
                 
                 inputSheet.update_cells(cell_list)
@@ -258,7 +258,7 @@ def popQueue ():
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
   
-    #logging.warning ("popQueue: End")
+    logging.warning ("popQueue: End")
     
 def restart():
     command = "/usr/bin/sudo /sbin/shutdown -r now"
