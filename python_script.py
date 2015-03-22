@@ -248,6 +248,14 @@ def popQueue ():
                 queueDebugData.enqueue (pushDebugData)
                 queueLock = False
                 logging.warning ("popQueue: Did not write measurement at time %s into spreadsheet."  % dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"))
+
+            else:
+                try:
+            	    summarySheet.update_cell (35,12,datetime.datetime.now())
+            	    
+            	except:
+		    logging.warning ("popQueue: Did not write pop time into spreadsheet." )
+            	 	
     	    
     	else:
             reschedulePopQueue(False)
