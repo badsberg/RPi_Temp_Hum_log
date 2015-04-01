@@ -225,7 +225,7 @@ def popQueue ():
                 cell_list[4].value+='%01d' %(nofMissedPops)
                 cell_list[4].value+='; %03d' %(nofPops)
 
-                logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
+                #logging.warning ("popQueue: Reset nofMissedPops (%d)" %(nofMissedPops))
                 nofMissedPops = 0
                 
                 inputSheet.update_cells(cell_list)
@@ -265,7 +265,6 @@ def popQueue ():
     else:
         logging.warning ("popQueue: Skipped. queueSize: %d; pushQueueActive: %d; popQueueActive: %d" %(queueTime.size(), pushQueueActive, popQueueActive))
    
-  
     logging.warning ("popQueue: End")
     
 def restart():
