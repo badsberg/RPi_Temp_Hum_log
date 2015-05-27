@@ -74,7 +74,7 @@ def getWorksheet():
             gc = gspread.login(email, password)
 
         except:
-            logging.error ("getWorksheet: Unable to login")
+            logging.error ("getWorksheet: Unable to login. email: %s; password: %s" % (email,password))
             return 0
 
         else:
