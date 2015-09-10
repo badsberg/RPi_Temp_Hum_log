@@ -1,9 +1,11 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler import events
+from oauth2client.client import SignedJwtAssertionCredentials
 #from apscheduler.events import *
 
 #!/usr/bin/python
 
+import json
 import subprocess
 import re
 import sys
@@ -28,6 +30,11 @@ sched = BackgroundScheduler()
 email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
+
+json_key = json.load(open('gspread-april-2cd … ba4.json'))
+scope = ['https://spreadsheets.google.com/feeds']
+
+credentials = SignedJwtAssertionCredentials(json_key[email], json_key[password], scope)
 
 # ===========================================================================
 # Example Code
@@ -71,7 +78,8 @@ def getWorksheet():
     if (os.system("ping -c 4 192.168.1.1") == 0):
         try:
             #logging.warning ("getWorksheet: Try login")
-            gc = gspread.login(email, password)
+            gc = gspread.authorize(credentials)
+            #gc = gspread.login(email, password)
 
         except:
             logging.error ("getWorksheet: Unable to login. email: %s; password: %s" % (email,password))
