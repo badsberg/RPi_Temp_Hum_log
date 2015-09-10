@@ -319,14 +319,14 @@ def main():
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
     
-    #sched.add_job(pushQueue, 'cron', minute = 00)
+    sched.add_job(pushQueue, 'cron', minute = 00)
     #sched.add_job(pushQueue, 'cron', minute = 15)
     #sched.add_job(pushQueue, 'cron', minute = 30)
     #sched.add_job(pushQueue, 'cron', minute = 45)
       
-    #sched.add_listener(job_listener,events.EVENT_JOB_MISSED)
+    sched.add_listener(job_listener,events.EVENT_JOB_MISSED)
       
-    #sched.start()
+    sched.start()
       
     while True:
         #pass
