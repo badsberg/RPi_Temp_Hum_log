@@ -31,10 +31,10 @@ email       = sys.argv[1]
 password    = sys.argv[2]
 spreadsheetName = 'TempFugtLog'
 
-json_key = json.load(open('gspread-april-2cd … ba4.json'))
+json_key = json.load(open('gspread-april-a227d45db1abc249c322a37d08c81c2b237006e6.json'))
 scope = ['https://spreadsheets.google.com/feeds']
 
-credentials = SignedJwtAssertionCredentials(json_key[email], json_key[password], scope)
+credentials = SignedJwtAssertionCredentials(json_key[client_email], json_key[private_key], scope)
 
 # ===========================================================================
 # Example Code
