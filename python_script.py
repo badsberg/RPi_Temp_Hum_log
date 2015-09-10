@@ -2,7 +2,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler import events
 from oauth2client.client import SignedJwtAssertionCredentials
 
-from apscheduler.events import *
+#from apscheduler.events import *
 
 #!/usr/bin/python
 
