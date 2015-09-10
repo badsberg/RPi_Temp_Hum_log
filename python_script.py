@@ -1,5 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler import events
+from oauth2client.client import SignedJwtAssertionCredentials
 
 #from apscheduler.events import *
 
@@ -16,7 +17,7 @@ import logging
 import sys
 import os
 
-from oauth2client.client import SignedJwtAssertionCredentials
+
 
 logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s', filemode='w')
 #logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
