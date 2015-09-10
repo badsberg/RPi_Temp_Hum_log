@@ -72,10 +72,12 @@ popJobAlias = 0
 nofMissedPops = 0
 summarySheet = 0
 inputSheet = 0
+credentials = 0;
 
 def getWorksheet():
     global inputSheet
     global summarySheet	
+    global credentials
 
     if (os.system("ping -c 4 192.168.1.1") == 0):
         try:
@@ -315,6 +317,8 @@ def job_listener(event):
       
 
 def main():
+	global credentials
+	
 	sched.add_job(pushQueue, 'cron', minute = 00)
 	sched.add_job(pushQueue, 'cron', minute = 15)
 	sched.add_job(pushQueue, 'cron', minute = 30)
