@@ -149,7 +149,7 @@ def pushQueue ():
                     #logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
                     validMeasNo = validMeasNo + 1
 
-            if (totalMeasNo >= 10):
+            if (totalMeasNo >= 20):
                 getMoreMeas = False
                 
             elif (validMeasNo < nofMeas):
