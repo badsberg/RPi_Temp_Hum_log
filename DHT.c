@@ -92,7 +92,8 @@ int readDHT(int type, int pin) {
     counter = 0;
     while (bcm2835_gpio_lev(pin) == 1 && counter < 1000) {
         counter++;
-        usleep(1);
+        //usleep(1);
+        usleep(100);
     }
 
     if (counter < 1000)
