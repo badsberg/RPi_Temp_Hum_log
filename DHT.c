@@ -103,7 +103,7 @@ int readDHT(int type, int pin) {
             while ( bcm2835_gpio_lev(pin) == laststate && counter2 < 1000) {
   	            counter2++;
 	            //nanosleep(1);		// overclocking might change this?
-	            usleep(10000);
+	            //usleep(100);
             }
             laststate = bcm2835_gpio_lev(pin);
             if (counter2 == 1000) break;
