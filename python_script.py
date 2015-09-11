@@ -139,14 +139,14 @@ def pushQueue ():
 
             else:
                 totalMeasNo = totalMeasNo + 1
-                #logging.warning ("pushQueue: Sensor output :%s", output)
+                logging.warning ("pushQueue: Sensor output :%s", output)
                 matchTemp = re.search("Temp =\s+(-?[0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
        
                 if (matchTemp and matchHum):
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
-                    #logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
+                    logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
                     validMeasNo = validMeasNo + 1
 
             if (totalMeasNo >= 30):
