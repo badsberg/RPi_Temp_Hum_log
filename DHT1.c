@@ -111,7 +111,7 @@ int readDHT(int type, int pin) {
 	            //usleep(100);
             }
             laststate = bcm2835_gpio_lev(pin);
-            if (counter2 == 1000) break;
+            if (counter2 == 10000) break;
             bits[bitidx++] = counter2;
 
             if ((i>3) && (i%2 == 0)) {
