@@ -207,7 +207,7 @@ int expectPulse (int level,int pin)
     
     if (array_counter<100)
     {
-      time_array[array_counter]=counter;
+      time_array[array_counter]=counter1;
       level_array[array_counter++]=level;
     }
     
