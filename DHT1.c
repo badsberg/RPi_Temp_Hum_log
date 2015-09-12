@@ -189,7 +189,7 @@ int expectPulse (int level,int pin)
    tim.tv_sec = 0;
    tim.tv_nsec = 500;
 
-   if(nanosleep(&tim , &tim2)
+   
  // wait for pin to drop?
     int counter = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
