@@ -164,7 +164,7 @@ int expectPulse (int level,int pin)
         counter++;
         usleep(1);
     }
-    printf ("expectPulse: Level %d, duration %d us", level,counter);
+    printf ("expectPulse: Level %d, duration %d us\n", level,counter);
     return counter;
 }
 
