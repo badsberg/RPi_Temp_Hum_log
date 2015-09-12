@@ -71,10 +71,6 @@ int main(int argc, char **argv)
     return 0;
 } // main
 
-
-int bits[250], data[100];
-int bitidx = 0;
-
 int readDHT(int type, int pin) {
     int counter = 0;
     int counter2 = 0;
@@ -113,10 +109,10 @@ int readDHT(int type, int pin) {
     }
     for (int i=0; i< array_counter/2; i++)
     {
-       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration %d / %d us ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array[i*2+1]);
+       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration %d / %d ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array[i*2+1]);
        if (time_array[i*2]>time_array[i*2+1])
        {
-           printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
+         printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
        }
        else
        {
@@ -124,65 +120,7 @@ int readDHT(int type, int pin) {
        }   
     }
     
-    
-    if (counter < 1000)
-    {
-        // read data!
-        for (int i=0; i< MAXTIMINGS; i++) {
-            counter2 = 0;
-            while ( bcm2835_gpio_lev(pin) == laststate && counter2 < 1000) {
-  	            counter2++;
-	            //nanosleep(1);		// overclocking might change this?
-	            usleep(1);
-            }
-            laststate = bcm2835_gpio_lev(pin);
-            if (counter2 == 1000) break;
-            bits[bitidx++] = counter2;
-
-            if ((i>3) && (i%2 == 0)) {
-                // shove each bit into the storage bytes
-                data[j/8] <<= 1;
-                printf ("counter2: %d\n ",counter2);
-                if (counter2 > 200)
-                    data[j/8] |= 1;
-                j++;
-            }
-        }
-    }
-
-
-#ifdef DEBUG
-    for (int i=3; i<bitidx; i+=2) {
-        printf("bit %d: %d\n", i-3, bits[i]);
-        printf("bit %d: %d (%d)\n", i-2, bits[i+1], bits[i+1] > 200);
-    }
-
-    printf("Data (%d): 0x%x 0x%x 0x%x 0x%x 0x%x\n", j, data[0], data[1], data[2], data[3], data[4]);
-#endif
-    printf("Data (%d): 0x%x 0x%x 0x%x 0x%x 0x%x\n", j, data[0], data[1], data[2], data[3], data[4]);
-    printf("j: %d; Checksum: %d; counter: %d; counter2: %d",
-    j, data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF),
-    counter,
-    counter2);
-    if ((j >= 39) &&
-      (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF)) ) {
-        // yay!
-        if (type == DHT11)
-	        printf("Temp = %d *C, Hum = %d \%\n", data[2], data[0]);
-        if (type == DHT22) {
-	        float f, h;
-	        h= data[0] * 256 + data[1];
-	        h /= 10;
-
-	        f = (data[2] & 0x7F)* 256 + data[3];
-            f /= 10.0;
-            if (data[2] & 0x80)  f *= -1;
-	            printf("Temp =  %.1f *C, Hum = %.1f \%\n", f, h);
-        }
-        return 1;
-    }
-    return 0;
-}
+   
 int expectPulse (int level,int pin)
 { 
    struct timespec tim;
@@ -203,7 +141,10 @@ int expectPulse (int level,int pin)
         counter++;
         //nanosleep(&tim,NULL);
       }
-      
+    }
+    else
+    {
+      counter = 100000; 
     }
     
     if (array_counter<100)
