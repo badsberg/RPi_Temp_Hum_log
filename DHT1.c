@@ -92,7 +92,7 @@ int readDHT(int type, int pin) {
     
     bcm2835_gpio_write(pin, LOW);
     //usleep(1000); //2 ms
-    bcm2835_gpio_write(pin, HIGH);
+    //bcm2835_gpio_write(pin, HIGH);
     //usleep(40); //40 us
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
