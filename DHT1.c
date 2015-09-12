@@ -117,9 +117,11 @@ int readDHT(int type, int pin) {
        {
        	 if (time_array[i]>320)
        	 {
-           printf ("Bit=1\n")
+           printf ("Bit=1\n");
+       	 }
          else
-           printf ("Bit=0\n")
+         {
+           printf ("Bit=0\n");
        	 }   
    
        }
