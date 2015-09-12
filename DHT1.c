@@ -120,7 +120,7 @@ int readDHT(int type, int pin) {
          printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
-    
+}    
    
 int expectPulse (int level,int pin)
 { 
