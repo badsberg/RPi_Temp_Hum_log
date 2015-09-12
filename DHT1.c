@@ -95,8 +95,8 @@ int readDHT(int type, int pin) {
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
-    printf ("Expect High pulse. Duration %d us\n", expectPulse (HIGH));
-    printf ("Expect Low pulse. Duration %d us\n", expectPulse (LOW));
+    expectPulse (HIGH);
+    expectPulse (LOW);
     
     
     if (counter < 1000)
@@ -159,11 +159,12 @@ int readDHT(int type, int pin) {
 int expectPulse (int level)
 {
  // wait for pin to drop?
-    counter = 0;
+    int counter = 0;
     while (bcm2835_gpio_lev(pin) == level && counter < 1000) {
         counter++;
         usleep(1);
     }
+    printf ("expectPulse: Level %d, duration %d us", level,counter);
     return counter;
 }
 
