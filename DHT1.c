@@ -93,9 +93,9 @@ int readDHT(int type, int pin) {
        
        if (time_array2[i*2]<time_array2[i*2+1])
        {
-       	 int element_number = i/8;
-       	 data[element_number] += (1 << (7-(i-element_number*8)));
-         printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
+       	 int element_number = 4-i/8;
+       	 data[element_number] += (1 << ((i-element_number*8)));
+         printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,((i-element_number*8)), data[element_number]);
        }
        else
        {
