@@ -115,11 +115,11 @@ int readDHT(int type, int pin) {
        printf ("expectPulse: array_counter %d, Level %d, duration %d us ", i*2,level_array[i*2],time_array[i*2]);
        if (level_array[i*2]>level_array[i*2+1])
        {
-           printf ("Compare: %d - %d. Bit=1\n",level_array[i*2],level_array[i*2+1]);
+           printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
        }
        else
        {
-         printf ("Compare: %d - %d. Bit=0\n",level_array[i*2],level_array[i*2+1]);
+         printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
     
