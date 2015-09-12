@@ -111,7 +111,19 @@ int readDHT(int type, int pin) {
         expectPulse (HIGH,pin);
     }
     for (int i=0; i< array_counter; i++)
-       printf ("expectPulse: array_counter %d, Level %d, duration %d us\n", i,level_array[i],time_array[i]);
+    {
+       printf ("expectPulse: array_counter %d, Level %d, duration %d us ", i,level_array[i],time_array[i]);
+       if (level_array[i]==1)
+       {
+       	 if (time_array[i]>320)
+       	 {
+           printf ("Bit=1")
+         else
+           printf ("Bit=1")
+       	 }   
+   
+       }
+    }
     
     
     if (counter < 1000)
