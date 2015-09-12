@@ -108,7 +108,7 @@ int readDHT(int type, int pin) {
         expectPulse (HIGH,pin);
     }
     for (int i=0; i< array_counter; i++)
-    printf ("expectPulse: Level %d, duration %d us\n", level_array[i],time_array[i]);
+       printf ("expectPulse: array_counter %d, Level %d, duration %d us\n", array_counter,level_array[i],time_array[i]);
     
     
     if (counter < 1000)
