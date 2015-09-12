@@ -161,7 +161,7 @@ int expectPulse (int level,int pin)
 {
  // wait for pin to drop?
     int counter = 0;
-    while (bcm2835_gpio_lev(pin) == level && counter < 1000) {
+    while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
         usleep(1);
     }
