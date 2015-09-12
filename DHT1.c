@@ -165,6 +165,7 @@ int expectPulse (int level,int pin)
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
         usleep(1);
+        printf ("expectPulse-temp: Level %d, duration %d us\n", level,counter);
     }
     printf ("expectPulse: Level %d, duration %d us\n", level,counter);
     return counter;
