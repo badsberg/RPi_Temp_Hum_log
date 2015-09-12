@@ -105,7 +105,7 @@ int readDHT(int type, int pin) {
     // wait for pin to drop?
     expectPulse (LOW,pin);
     expectPulse (HIGH,pin);
-    for (int i=0; i< 40; i++)
+    for (int i=0; i< 42; i++)
     {
     	expectPulse (LOW,pin);
         expectPulse (HIGH,pin);
