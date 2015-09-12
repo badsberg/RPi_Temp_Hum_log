@@ -90,6 +90,7 @@ int readDHT(int type, int pin) {
     for (int i=0; i< array_counter/2; i++)
     {
        printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
+       
        if (time_array2[i*2]<time_array2[i*2+1])
        {
          printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
@@ -122,14 +123,15 @@ int expectPulse (int level,int pin, int measure_lenght)
           counter2++;
         //nanosleep(&tim,NULL);
         }
+        if (array_counter<100)
+        {
+      	  time_array[array_counter]=counter;
+      	  time_array2[array_counter]=counter2;
+          level_array[array_counter++]=level;
+        }
       }
     }
-    if (array_counter<100)
-    {
-      time_array[array_counter]=counter;
-      time_array2[array_counter]=counter2;
-      level_array[array_counter++]=level;
-    }
+    
     return counter;
 }
 
