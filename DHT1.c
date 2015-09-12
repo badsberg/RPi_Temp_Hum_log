@@ -117,6 +117,7 @@ int readDHT(int type, int pin) {
             if ((i>3) && (i%2 == 0)) {
                 // shove each bit into the storage bytes
                 data[j/8] <<= 1;
+                printf ("counter2: %d\n ",counter2);
                 if (counter2 > 200)
                     data[j/8] |= 1;
                 j++;
@@ -163,7 +164,7 @@ int expectPulse (int level,int pin)
     int counter = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
-        //usleep(1);
+        usleep(1);
     }
     printf ("expectPulse: Level %d, duration %d us\n", level,counter);
     return counter;
