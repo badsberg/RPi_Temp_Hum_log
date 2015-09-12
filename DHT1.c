@@ -34,7 +34,7 @@
 #define AM2302 22
 
 int readDHT(int type, int pin);
-int expectPulse (int level);
+int expectPulse (int level,int pin);
 
 int main(int argc, char **argv)
 {
@@ -156,7 +156,7 @@ int readDHT(int type, int pin) {
     }
     return 0;
 }
-int expectPulse (int level)
+int expectPulse (int level,int pin)
 {
  // wait for pin to drop?
     int counter = 0;
