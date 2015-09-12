@@ -81,6 +81,7 @@ int readDHT(int type, int pin) {
     int j=0;
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
+    usleep(100);
     
     while ( counter < 1000) {
         counter++;
@@ -89,6 +90,7 @@ int readDHT(int type, int pin) {
     }
      // Set GPIO pin to output
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
+    usleep(100);
     
     //bcm2835_gpio_write(pin, LOW);
     //usleep(1000); //2 ms
@@ -96,6 +98,7 @@ int readDHT(int type, int pin) {
     //usleep(40); //40 us
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
+    usleep(100);
 
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
