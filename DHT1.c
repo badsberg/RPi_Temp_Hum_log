@@ -80,8 +80,8 @@ int readDHT(int type, int pin) {
    
    
    
-    bcm2835_gpio_write(pin, HIGH);
-    usleep(250000);  // 250 ms
+    //bcm2835_gpio_write(pin, HIGH);
+    //usleep(250000);  // 250 ms
     
      // Set GPIO pin to output
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
