@@ -24,6 +24,7 @@
 #include <sys/time.h>
 #include <bcm2835.h>
 #include <unistd.h>
+#include <time.h>
 
 #define MAXTIMINGS 100
 
@@ -183,12 +184,17 @@ int readDHT(int type, int pin) {
     return 0;
 }
 int expectPulse (int level,int pin)
-{
+{ 
+   struct timespec tim;
+   tim.tv_sec = 0;
+   tim.tv_nsec = 500;
+
+   if(nanosleep(&tim , &tim2)
  // wait for pin to drop?
     int counter = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
-        nanosleep(1);
+        nanosleep(&tim,NULL);
         
     }
     
