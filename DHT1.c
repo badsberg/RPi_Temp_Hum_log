@@ -73,11 +73,6 @@ int main(int argc, char **argv)
 } // main
 
 int readDHT(int type, int pin) {
-    int counter = 0;
-    int counter2 = 0;
-    int laststate = HIGH;
-    int j=0;
-
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
      // Set GPIO pin to output
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
