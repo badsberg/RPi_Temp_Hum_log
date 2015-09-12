@@ -39,6 +39,7 @@ int expectPulse(int level,int pin);
 
 int time_array[100], level_array[100];
 int array_counter=0;
+int data[100];
 
 int main(int argc, char **argv)
 {
