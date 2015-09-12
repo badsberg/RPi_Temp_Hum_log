@@ -89,12 +89,12 @@ int readDHT(int type, int pin) {
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
-    expectPulse (LOW,pin);
-    expectPulse (HIGH,pin);
+    expectPulse (LOW,pin,0);
+    expectPulse (HIGH,pin,0);
     for (int i=0; i< 42; i++)
     {
-    	expectPulse (LOW,pin);
-        expectPulse (HIGH,pin);
+    	expectPulse (LOW,pin,1);
+        expectPulse (HIGH,pin,1);
     }
     for (int i=0; i< array_counter/2; i++)
     {
@@ -110,7 +110,7 @@ int readDHT(int type, int pin) {
     }
 }    
    
-int expectPulse (int level,int pin)
+int expectPulse (int level,int pin, int measure_lenght)
 { 
    struct timespec tim;
    tim.tv_sec = 0;
@@ -123,7 +123,7 @@ int expectPulse (int level,int pin)
         counter++;
         //nanosleep(&tim,NULL);
     }
-    if (counter>=1000)
+    if (measure_lenght == 1 && counter>=1000)
     {
       counter = 0;
       while (bcm2835_gpio_lev(pin) == level && counter < 10000) {
@@ -133,9 +133,9 @@ int expectPulse (int level,int pin)
     }
     else
     {
-      counter = 100000; 
+       counter = 100000;
     }
-    
+
     if (array_counter<100)
       {
         time_array[array_counter]=counter;
