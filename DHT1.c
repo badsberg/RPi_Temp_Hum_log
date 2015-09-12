@@ -34,7 +34,7 @@
 #define AM2302 22
 
 int readDHT(int type, int pin);
-int expectPulse (bool level);
+int expectPulse (int level);
 
 int main(int argc, char **argv)
 {
@@ -95,8 +95,8 @@ int readDHT(int type, int pin) {
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
-    printf ("Expect High pulse. Duration %d us\n", expectPulse (HIGH))
-    printf ("Expect Low pulse. Duration %d us\n", expectPulse (LOW))
+    printf ("Expect High pulse. Duration %d us\n", expectPulse (HIGH));
+    printf ("Expect Low pulse. Duration %d us\n", expectPulse (LOW));
     
     
     if (counter < 1000)
@@ -156,7 +156,7 @@ int readDHT(int type, int pin) {
     }
     return 0;
 }
-int expectPulse (bool level)
+int expectPulse (int level)
 {
  // wait for pin to drop?
     counter = 0;
