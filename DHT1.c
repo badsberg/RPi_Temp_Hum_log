@@ -37,7 +37,7 @@
 int readDHT(int type, int pin);
 int expectPulse (int level,int pin, int measure_lenght);
 
-int time_array[100], level_array[100];
+int time_array[100], time_array2[100], level_array[100];
 int array_counter=0;
 int data[100];
 
@@ -98,7 +98,7 @@ int readDHT(int type, int pin) {
     }
     for (int i=0; i< array_counter/2; i++)
     {
-       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration %d / %d ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array[i*2+1]);
+       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
        if (time_array[i*2]>time_array[i*2+1])
        {
          printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
@@ -118,31 +118,27 @@ int expectPulse (int level,int pin, int measure_lenght)
 
    
  // wait for pin to drop?
-    int counter = 0;
+    int counter=0,counter2 = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
         //nanosleep(&tim,NULL);
     }
-    if (measure_lenght == 1 && counter<1000)
+    if (counter < 1000)
     {
-      counter = 0;
-      while (bcm2835_gpio_lev(pin) == level && counter < 10000) {
-        counter++;
-        //nanosleep(&tim,NULL);
-      }
-    }
-    else
-    {
-       counter = 100000;
-    }
-
-    if (array_counter<100)
+      if (measure_lenght == 1)
       {
-        time_array[array_counter]=counter;
-        level_array[array_counter++]=level;
+        while (bcm2835_gpio_lev(pin) == level && counter2 < 10000) {
+          counter2++;
+        //nanosleep(&tim,NULL);
+        }
       }
-    
-    
+    }
+    if (array_counter<100)
+    {
+      time_array[array_counter]=counter;
+      time_array2[array_counter]=counter2;
+      level_array[array_counter++]=level;
+    }
     return counter;
 }
 
