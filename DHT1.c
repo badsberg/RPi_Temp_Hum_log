@@ -187,7 +187,7 @@ int expectPulse (int level,int pin)
 { 
    struct timespec tim;
    tim.tv_sec = 0;
-   tim.tv_nsec = 5;
+   tim.tv_nsec = 1;
 
    
  // wait for pin to drop?
