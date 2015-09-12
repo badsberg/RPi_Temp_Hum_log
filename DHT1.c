@@ -34,6 +34,7 @@
 #define AM2302 22
 
 int readDHT(int type, int pin);
+int expectPulse (bool level);
 
 int main(int argc, char **argv)
 {
@@ -76,25 +77,28 @@ int readDHT(int type, int pin) {
     int laststate = HIGH;
     int j=0;
 
-    // Set GPIO pin to output
-    bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
+   
+   
 
     bcm2835_gpio_write(pin, HIGH);
-    usleep(500000);  // 500 ms
+    usleep(250000);  // 250 ms
+     // Set GPIO pin to output
+     
+    bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_write(pin, LOW);
     usleep(20000);
+    bcm2835_gpio_write(pin, HIGH);
+    usleep(10000);
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
 
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
-    counter = 0;
-    while (bcm2835_gpio_lev(pin) == 1 && counter < 1000) {
-        counter++;
-        usleep(1);
-    }
-
+    printf ("Expect High pulse. Duration %d us\n", expectPulse (HIGH))
+    printf ("Expect Low pulse. Duration %d us\n", expectPulse (LOW))
+    
+    
     if (counter < 1000)
     {
         // read data!
@@ -152,3 +156,14 @@ int readDHT(int type, int pin) {
     }
     return 0;
 }
+int expectPulse (bool level)
+{
+ // wait for pin to drop?
+    counter = 0;
+    while (bcm2835_gpio_lev(pin) == level && counter < 1000) {
+        counter++;
+        usleep(1);
+    }
+    return counter;
+}
+
