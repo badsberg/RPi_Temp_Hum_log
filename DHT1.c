@@ -93,6 +93,8 @@ int readDHT(int type, int pin) {
        
        if (time_array2[i*2]<time_array2[i*2+1])
        {
+       	 int element_number = i/8;
+       	 data[element_number]=+ 1 << (i-element_number*8);
          printf ("Compare: %d - %d. Bit=1\n",i*2,i*2+1);
        }
        else
@@ -100,6 +102,8 @@ int readDHT(int type, int pin) {
          printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
+    printf ("data: %d, %d, %d, %d\n",data[0],data[1],data[2],data[3]);
+    
 }    
    
 int expectPulse (int level,int pin, int measure_lenght)
