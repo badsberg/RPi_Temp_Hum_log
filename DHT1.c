@@ -123,7 +123,10 @@ int readDHT(int type, int pin) {
          {
            printf ("Bit=0\n");
        	 }   
-   
+       }
+       else
+       {
+         printf ("\n");
        }
     }
     
