@@ -36,7 +36,7 @@
 int readDHT(int type, int pin);
 int expectPulse(int level,int pin);
 
-int time_array[60], level_array[60];
+int time_array[100], level_array[100];
 int array_counter=0;
 
 int main(int argc, char **argv)
@@ -108,7 +108,7 @@ int readDHT(int type, int pin) {
         expectPulse (HIGH,pin);
     }
     for (int i=0; i< array_counter; i++)
-       printf ("expectPulse: array_counter %d, Level %d, duration %d us\n", array_counter,level_array[i],time_array[i]);
+       printf ("expectPulse: array_counter %d, Level %d, duration %d us\n", i,level_array[i],time_array[i]);
     
     
     if (counter < 1000)
@@ -177,7 +177,7 @@ int expectPulse (int level,int pin)
         counter++;
     }
     
-    if (array_counter<60)
+    if (array_counter<100)
     {
       time_array[array_counter]=counter;
       level_array[array_counter++]=level;
