@@ -74,24 +74,15 @@ int main(int argc, char **argv)
 
 int readDHT(int type, int pin) {
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
-     // Set GPIO pin to output
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
-    //usleep(100);
-    
-    //cm2835_gpio_write(pin, LOW);
-    //usleep(1000); //2 ms
-    //bcm2835_gpio_write(pin, HIGH);
-    //usleep(1); //40 us
-
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
-    //usleep(100);
-
+   
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
     expectPulse (LOW,pin,0);
     expectPulse (HIGH,pin,0);
-    for (int i=0; i< 42; i++)
+    for (int i=0; i< 40; i++)
     {
     	expectPulse (LOW,pin,1);
         expectPulse (HIGH,pin,1);
