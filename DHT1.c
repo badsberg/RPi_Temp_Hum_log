@@ -95,8 +95,8 @@ int readDHT(int type, int pin) {
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
     // wait for pin to drop?
-    expectPulse (HIGH,pin);
     expectPulse (LOW,pin);
+    expectPulse (HIGH,pin);
     
     
     if (counter < 1000)
