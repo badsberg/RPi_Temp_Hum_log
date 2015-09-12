@@ -89,7 +89,7 @@ int readDHT(int type, int pin) {
     bcm2835_gpio_write(pin, LOW);
     usleep(10000); //10 ms
     bcm2835_gpio_write(pin, HIGH);
-    usleep(40000); //40 ms
+    usleep(40); //40 us
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
 
@@ -162,7 +162,6 @@ int expectPulse (int level,int pin)
  // wait for pin to drop?
     int counter = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
-    	printf ("expectPulse: Level %d, duration %d us\n", level,counter);
         counter++;
         usleep(10);
     }
