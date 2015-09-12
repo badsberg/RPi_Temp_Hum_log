@@ -78,14 +78,15 @@ int readDHT(int type, int pin) {
     int laststate = HIGH;
     int j=0;
 
+    bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
      // Set GPIO pin to output
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
-    usleep(100);
+    //usleep(100);
     
-    bcm2835_gpio_write(pin, LOW);
-    usleep(1000); //2 ms
-    bcm2835_gpio_write(pin, HIGH);
-    usleep(1); //40 us
+    //cm2835_gpio_write(pin, LOW);
+    //usleep(1000); //2 ms
+    //bcm2835_gpio_write(pin, HIGH);
+    //usleep(1); //40 us
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
     //usleep(100);
