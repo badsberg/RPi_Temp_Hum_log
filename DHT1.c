@@ -35,7 +35,7 @@
 #define AM2302 22
 
 int readDHT(int type, int pin);
-int expectPulse (int level,int pin, int measure_lenght)
+int expectPulse (int level,int pin, int measure_lenght);
 
 int time_array[100], level_array[100];
 int array_counter=0;
