@@ -77,7 +77,8 @@ int readDHT(int type, int pin) {
     int laststate = HIGH;
     int j=0;
 
-   
+    bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
+    
     while ( counter < 100000) {
         counter++;
         printf("Level: %d\n", bcm2835_gpio_lev(pin));
