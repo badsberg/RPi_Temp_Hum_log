@@ -79,7 +79,7 @@ int readDHT(int type, int pin) {
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
     {
       int c=0;
-      while (c<200) c++;
+      while (c<20) c++;
     }
    
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
