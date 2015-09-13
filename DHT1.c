@@ -76,11 +76,13 @@ int main(int argc, char **argv)
     
     while (readDHT(type, dhtpin)!=0 && retry_counter<5)
     {
-    	usleep (2000000);
-    	retry_counter++;
+        
+    	usleep (2000);
     	bcm2835_close();
-        usleep (2000);
+    	usleep (2000000);
         bcm2835_init();
+        retry_counter++;
+        printf("Retry: %d\n",retry_counter);
     }
     return 0;
 } // main
