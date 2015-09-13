@@ -76,14 +76,14 @@ int main(int argc, char **argv)
     
     while (readDHT(type, dhtpin)!=0 && retry_counter<10)
     {
-    	//usleep (2000);
-    	//bcm2835_close();
     	usleep (500000);
-        //bcm2835_init();
         retry_counter++;
         array_counter=0;
         temp_array_counter=0;
-        //printf("Retry: %d\n",retry_counter);
+    }
+    if (retry_counter>=10)
+    {
+      printf("No valid measurement")
     }
     return 0;
 } // main
@@ -141,7 +141,7 @@ int readDHT(int type, int pin) {
          //printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
-    printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
+    //printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
     if (((data[0]+data[1]+data[2]+data[3]) & 0xFF) == data[4] && data[4] != 0x00)
     {
       printf("Temp =  %.1f *C, Hum = %.1f \%, Retry: %d\n", ((float)data[2]*256+data[3])/10, ((float)data[0]*256+data[1])/10,retry_counter);
