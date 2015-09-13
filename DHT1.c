@@ -142,7 +142,7 @@ int readDHT(int type, int pin) {
        }   
     }
     printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
-    if (((data[0]+data[1]+data[2]+data[3]) & 0xFF) == data[4])
+    if (((data[0]+data[1]+data[2]+data[3]) & 0xFF) == data[4] && data[4] != 0x00)
     {
       printf("Temp =  %.1f *C, Hum = %.1f \%, Retry: %d\n", ((float)data[2]*256+data[3])/10, ((float)data[0]*256+data[1])/10,retry_counter);
       return 0;
