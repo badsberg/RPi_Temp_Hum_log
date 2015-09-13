@@ -93,7 +93,7 @@ int readDHT(int type, int pin) {
         expectPulse (HIGH,pin,1);
     }
     
-    for (int i=0; i< 2; i++)
+    for (int i=0; i< 1; i++)
     {
        printf ("expectPulse: temp_array_counter %d / %d, Level %d / %d, \n ", i*2,i*2+1,temp_level_array[i*2],temp_level_array[i*2+1],temp_time_array[i*2],temp_time_array[i*2+1]);
     }
