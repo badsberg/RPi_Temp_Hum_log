@@ -155,7 +155,7 @@ def pushQueue ():
                 
             elif (validMeasNo < nofMeas):
                 getMoreMeas = True
-                time.sleep(15)
+                time.sleep(5)
                 
             else:
                 getMoreMeas = False    
