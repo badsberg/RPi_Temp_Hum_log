@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 int readDHT(int type, int pin) {
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
-    //usleep (1000);
+    usleep (1000);
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
    
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
