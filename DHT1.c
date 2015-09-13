@@ -118,6 +118,8 @@ int expectPulse (int level,int pin, int measure_lenght)
     int counter=0,counter2 = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
+        int c=0;
+        while (c<10000) c++;
         //nanosleep(&tim,NULL);
     }
     if (counter < 1000)
@@ -126,6 +128,7 @@ int expectPulse (int level,int pin, int measure_lenght)
       {
         while (bcm2835_gpio_lev(pin) == level && counter2 < 10000) {
           counter2++;
+          while (c<10000) c++;
         //nanosleep(&tim,NULL);
         }
         if (array_counter<100)
