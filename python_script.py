@@ -132,7 +132,7 @@ def pushQueue ():
             #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
                 #output = "Temp = 20.0, Hum = 50.0\n" 
-                output = subprocess.check_output(["./DHT", "2302", "4"])
+                output = subprocess.check_output(["./DHT1", "2302", "4"])
  
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
@@ -142,11 +142,12 @@ def pushQueue ():
                 logging.warning ("pushQueue: Sensor output :%s", output)
                 matchTemp = re.search("Temp =\s+(-?[0-9.]+)", output)
                 matchHum = re.search("Hum =\s+([0-9.]+)", output)
+                matchRetry = re.search("Retry =\s+([0-9]+)", output)
        
                 if (matchTemp and matchHum):
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
-                    logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1))))
+                    logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f; Retry: %d " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1)), int(matchRetry.group(1)))
                     validMeasNo = validMeasNo + 1
 
             if (totalMeasNo >= 30):
