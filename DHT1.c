@@ -78,6 +78,9 @@ int main(int argc, char **argv)
     {
     	usleep (2000000);
     	retry_counter++;
+    	bcm2835_close();
+        usleep (2000);
+        bcm2835_init();
     }
     return 0;
 } // main
