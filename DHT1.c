@@ -102,8 +102,8 @@ int readDHT(int type, int pin) {
     {
        printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
        
-       //if (time_array2[i*2]<time_array2[i*2+1])
-       if (time_array2[i*2+1]>30)
+       if (time_array2[i*2]<time_array2[i*2+1])
+       //if (time_array2[i*2+1]>30)
        
        {
        	 int element_number = i/8;
