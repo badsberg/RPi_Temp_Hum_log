@@ -76,6 +76,7 @@ int main(int argc, char **argv)
     
     while (readDHT(type, dhtpin)!=0 && retry_counter<5)
     {
+    	usleep (2000000);
     	retry_counter++;
     }
     return 0;
