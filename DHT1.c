@@ -74,14 +74,14 @@ int main(int argc, char **argv)
 
     printf("Using pin #%d\n", dhtpin);
     
-    while (readDHT(type, dhtpin)!=0 && retry_counter<10)
+    while (readDHT(type, dhtpin)!=0 && retry_counter<15)
     {
     	usleep (500000);
         retry_counter++;
         array_counter=0;
         temp_array_counter=0;
     }
-    if (retry_counter>=10)
+    if (retry_counter>=15)
     {
       printf("No valid measurement");
     }
