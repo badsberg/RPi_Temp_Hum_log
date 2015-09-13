@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     }
     if (retry_counter>=10)
     {
-      printf("No valid measurement")
+      printf("No valid measurement");
     }
     return 0;
 } // main
