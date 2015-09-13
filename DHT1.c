@@ -42,6 +42,7 @@ int temp_time_array[100], temp_level_array[100];
 
 int array_counter=0;
 int temp_array_counter=0;
+int retry_counter=0;
 
 int data[100];
 
@@ -72,7 +73,11 @@ int main(int argc, char **argv)
     }
 
     printf("Using pin #%d\n", dhtpin);
-    readDHT(type, dhtpin);
+    
+    while (readDHT(type, dhtpin)!=0 && retry_counter<5)
+    {
+    	retry_counter++;
+    }
     return 0;
 } // main
 
@@ -106,31 +111,41 @@ int readDHT(int type, int pin) {
     }
     average_lenght2 = average_lenght2 / (array_counter/2);
     
-    printf("average_lenght1: %d; average_lenght2: %d\n", average_lenght1, average_lenght2);
+    //printf("average_lenght1: %d; average_lenght2: %d\n", average_lenght1, average_lenght2);
     
     for (int i=0; i< 1; i++)
     {
-       printf ("expectPulse: temp_array_counter %d / %d, Level %d / %d, duration %d / %d\n ", i*2,i*2+1,temp_level_array[i*2],temp_level_array[i*2+1],temp_time_array[i*2],temp_time_array[i*2+1]);
+       //printf ("expectPulse: temp_array_counter %d / %d, Level %d / %d, duration %d / %d\n ", i*2,i*2+1,temp_level_array[i*2],temp_level_array[i*2+1],temp_time_array[i*2],temp_time_array[i*2+1]);
     }
     
     for (int i=0; i< array_counter/2; i++)
     {
-       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
+       //printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
        
        //if (time_array2[i*2]<time_array2[i*2+1])
        if (time_array2[i*2+1]>average_lenght1)
        {
        	 int element_number = i/8;
        	 data[element_number] += (1 << (7-(i-element_number*8)));
-         printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
+         //printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
        }
        else
        {
-         printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
+         //printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
-    printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
-    printf ("Temp: %f, Fugt: %f\n", ((float)data[2]*256+data[3])/10, ((float)data[0]*256+data[1])/10);
+    //printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
+    if ((data[0]+data[1]+data[2]+data[3]) & 0xFF == data[4])
+    {
+      printf("Temp =  %.1f *C, Hum = %.1f \%, Retry: %d\n", (float)data[2]*256+data[3])/10, ((float)data[0]*256+data[1])/10,retry_counter);
+      return 0;
+    }
+    else
+    {
+      printf("Invalid checksum");
+      return 1;
+    }
+    
 }    
    
 int expectPulse (int level,int pin, int measure_lenght)
