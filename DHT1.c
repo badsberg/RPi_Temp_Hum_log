@@ -79,7 +79,7 @@ int main(int argc, char **argv)
         
     	usleep (2000);
     	bcm2835_close();
-    	usleep (2000000);
+    	usleep (20000000);
         bcm2835_init();
         retry_counter++;
         printf("Retry: %d\n",retry_counter);
