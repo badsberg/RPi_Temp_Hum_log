@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     {
     	//usleep (2000);
     	//bcm2835_close();
-    	usleep (2000000);
+    	usleep (500000);
         //bcm2835_init();
         retry_counter++;
         array_counter=0;
@@ -141,7 +141,7 @@ int readDHT(int type, int pin) {
          //printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
        }   
     }
-    printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
+    //printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
     if (((data[0]+data[1]+data[2]+data[3]) & 0xFF) == data[4])
     {
       printf("Temp =  %.1f *C, Hum = %.1f \%, Retry: %d\n", ((float)data[2]*256+data[3])/10, ((float)data[0]*256+data[1])/10,retry_counter);
@@ -149,7 +149,7 @@ int readDHT(int type, int pin) {
     }
     else
     {
-      printf("Invalid checksum\n");
+      //printf("Invalid checksum\n");
       return 1;
     }
      bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
