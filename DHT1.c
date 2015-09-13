@@ -74,11 +74,11 @@ int main(int argc, char **argv)
 
     printf("Using pin #%d\n", dhtpin);
     
-    while (readDHT(type, dhtpin)!=0 && retry_counter<5)
+    while (readDHT(type, dhtpin)!=0 && retry_counter<10)
     {
     	//usleep (2000);
     	//bcm2835_close();
-    	usleep (500000);
+    	usleep (200000);
         //bcm2835_init();
         retry_counter++;
         array_counter=0;
