@@ -76,10 +76,9 @@ int main(int argc, char **argv)
     
     while (readDHT(type, dhtpin)!=0 && retry_counter<5)
     {
-        
     	usleep (2000);
     	bcm2835_close();
-    	usleep (20000000);
+    	usleep (2000000);
         bcm2835_init();
         retry_counter++;
         printf("Retry: %d\n",retry_counter);
@@ -126,7 +125,7 @@ int readDHT(int type, int pin) {
     
     for (int i=0; i< array_counter/2; i++)
     {
-       //printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
+       printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d) ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
        
        //if (time_array2[i*2]<time_array2[i*2+1])
        if (time_array2[i*2+1]>average_lenght1)
