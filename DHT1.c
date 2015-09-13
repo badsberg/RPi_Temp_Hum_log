@@ -146,7 +146,7 @@ int readDHT(int type, int pin) {
       printf("Invalid checksum\n");
       return 1;
     }
-     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
+     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
 }    
    
 int expectPulse (int level,int pin, int measure_lenght)
