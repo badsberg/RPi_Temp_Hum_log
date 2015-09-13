@@ -104,7 +104,7 @@ int readDHT(int type, int pin) {
     {
       average_lenght2+=time_array2[i*2+1];
     }
-    average_lenght2 = average_lenght2 / (array_counter/2);
+    //average_lenght2 = average_lenght2 / (array_counter/2);
     
     printf("average_lenght1: %d; average_lenght2: %d\n", average_lenght1, average_lenght2);
     
