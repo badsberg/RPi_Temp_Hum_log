@@ -142,7 +142,11 @@ int readDHT(int type, int pin) {
        }   
     }
     //printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
-    float temp = ((float)data[2]*256+data[3])/10;
+    float temp = ((float)(data[2]& 0x7F)*256+data[3])/10;
+    if (data[2] & 0x80) //Handle negative temperature
+    {
+	temp*=-1;    
+    }
     float hum = ((float)data[0]*256+data[1])/10;
     
     if (((data[0]+data[1]+data[2]+data[3]) & 0xFF) == data[4] && data[4] != 0x00 && temp >= -40 && temp <= 80 && hum >= 0 && hum <= 100)
