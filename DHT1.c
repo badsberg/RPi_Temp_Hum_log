@@ -37,11 +37,8 @@
 int readDHT(int type, int pin);
 int expectPulse (int level,int pin, int measure_lenght);
 
-int time_array[100], time_array2[100], level_array[100];
-int temp_time_array[100], temp_level_array[100];
-
+int time_array2[100];
 int array_counter=0;
-int temp_array_counter=0;
 int retry_counter=0;
 
 int data[100];
@@ -104,44 +101,21 @@ int readDHT(int type, int pin) {
     	expectPulse (LOW,pin,1);
         expectPulse (HIGH,pin,1);
     }
-    int average_lenght1=0;
+    int average_lenght1=0; //average Lenght of the LOW
     for (int i=0; i< array_counter/2; i++)
     {
       average_lenght1+=time_array2[i*2];
     }
     average_lenght1 = average_lenght1 / (array_counter/2);
     
-    int average_lenght2=0;
     for (int i=0; i< array_counter/2; i++)
     {
-      average_lenght2+=time_array2[i*2+1];
-    }
-    average_lenght2 = average_lenght2 / (array_counter/2);
-    
-    //printf("average_lenght1: %d; average_lenght2: %d\n", average_lenght1, average_lenght2);
-    
-    for (int i=0; i< 1; i++)
-    {
-       //printf ("expectPulse: temp_array_counter %d / %d, Level %d / %d, duration %d / %d\n ", i*2,i*2+1,temp_level_array[i*2],temp_level_array[i*2+1],temp_time_array[i*2],temp_time_array[i*2+1]);
-    }
-    
-    for (int i=0; i< array_counter/2; i++)
-    {
-       //printf ("expectPulse: array_counter %d / %d, Level %d / %d, duration (%d,%d) / (%d,%d)\n ", i*2,i*2+1,level_array[i*2],level_array[i*2+1],time_array[i*2],time_array2[i*2],time_array[i*2+1],time_array2[i*2+1]);
-       
-       //if (time_array2[i*2]<time_array2[i*2+1])
        if (time_array2[i*2+1]>average_lenght1)
        {
        	 int element_number = i/8;
        	 data[element_number] += (1 << (7-(i-element_number*8)));
-         //printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
        }
-       else
-       {
-         //printf ("Compare: %d - %d. Bit=0\n",i*2,i*2+1);
-       }   
     }
-    //printf ("data: %d, %d, %d, %d, %d - checksum : %d\n",data[0],data[1],data[2],data[3],data[4],(data[0]+data[1]+data[2]+data[3]) & 0xFF);
     float temp = ((float)(data[2]& 0x7F)*256+data[3])/10;
     if (data[2] & 0x80) //Handle negative temperature
     {
@@ -156,7 +130,6 @@ int readDHT(int type, int pin) {
     }
     else
     {
-      //printf("Invalid checksum\n");
       return 1;
     }
      bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
@@ -164,39 +137,24 @@ int readDHT(int type, int pin) {
    
 int expectPulse (int level,int pin, int measure_lenght)
 { 
-   struct timespec tim;
-   tim.tv_sec = 0;
-   tim.tv_nsec = 1;
-
-   
- // wait for pin to drop?
     int counter=0,counter2 = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
         int c=0;
         while (c<200) c++;
-        //nanosleep(&tim,NULL);
     }
     if (counter < 1000)
     {
-      if (temp_array_counter<100)
-        {
-      	  temp_time_array[temp_array_counter]=counter;
-          temp_level_array[temp_array_counter++]=level;
-        }
       if (measure_lenght == 1)
       {
         while (bcm2835_gpio_lev(pin) == level && counter2 < 10000) {
           counter2++;
           int c=0;
           while (c<200) c++;
-        //nanosleep(&tim,NULL);
         }
         if (array_counter<100)
         {
-      	  time_array[array_counter]=counter;
       	  time_array2[array_counter]=counter2;
-          level_array[array_counter++]=level;
         }
       }
     }
