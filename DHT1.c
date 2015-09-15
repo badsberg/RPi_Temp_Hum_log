@@ -111,7 +111,7 @@ int readDHT(int type, int pin) {
     
     for (int i=0; i< array_counter/2; i++)
     {
-       printf ("LEnght of HIGH: %d\n", time_array2[i*2+1]);
+       //printf ("LEnght of HIGH: %d\n", time_array2[i*2+1]);
        if (time_array2[i*2+1]>average_lenght1)
        {
        	 int element_number = i/8;
