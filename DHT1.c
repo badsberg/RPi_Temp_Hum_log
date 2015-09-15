@@ -161,7 +161,7 @@ int expectPulse (int level,int pin, int measure_lenght)
         
         if (array_counter<100)
         {
-      	  time_array2[array_counter]=counter2;
+      	  time_array2[array_counter++]=counter2;
         }
       }
     }
