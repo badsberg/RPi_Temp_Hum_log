@@ -76,7 +76,6 @@ int main(int argc, char **argv)
     	usleep (500000);
         retry_counter++;
         array_counter=0;
-        temp_array_counter=0;
     }
     if (retry_counter>=15)
     {
