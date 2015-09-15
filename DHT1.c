@@ -106,19 +106,15 @@ int readDHT(int type, int pin) {
     for (int i=0; i< array_counter/2; i++)
     {
       average_lenght1+=time_array2[i*2];
-      printf ("LEnght of LOW: %d\n", time_array2[i*2]);
     }
     average_lenght1 = average_lenght1 / (array_counter/2);
-    printf("average_lenght1: %d\n", average_lenght1);
     
     for (int i=0; i< array_counter/2; i++)
     {
-        printf ("LEnght of HIGH: %d\n", time_array2[i*2+1]);
        if (time_array2[i*2+1]>average_lenght1)
        {
        	 int element_number = i/8;
        	 data[element_number] += (1 << (7-(i-element_number*8)));
-       	 printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
        }
     }
     float temp = ((float)(data[2]& 0x7F)*256+data[3])/10;
