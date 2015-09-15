@@ -92,6 +92,7 @@ int readDHT(int type, int pin) {
    
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
+    printf("readDHT\n")
     // wait for pin to drop?
     expectPulse (LOW,pin,0);
     expectPulse (HIGH,pin,0);
