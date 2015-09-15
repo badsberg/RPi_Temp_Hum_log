@@ -106,12 +106,14 @@ int readDHT(int type, int pin) {
     for (int i=0; i< array_counter/2; i++)
     {
       average_lenght1+=time_array2[i*2];
+      printf ("LEnght of LOW: %d\n", time_array2[i*2]);
     }
     average_lenght1 = average_lenght1 / (array_counter/2);
     printf("average_lenght1: %d\n", average_lenght1);
     
     for (int i=0; i< array_counter/2; i++)
     {
+        printf ("LEnght of HIGH: %d\n", time_array2[i*2+1]);
        if (time_array2[i*2+1]>average_lenght1)
        {
        	 int element_number = i/8;
@@ -140,16 +142,13 @@ int readDHT(int type, int pin) {
    
 int expectPulse (int level,int pin, int measure_lenght)
 {
-    printf ("expectPulse: %d, %d, %d\n",level,pin,measure_lenght);
-    
     int counter=0,counter2 = 0;
     while (bcm2835_gpio_lev(pin) != level && counter < 1000) {
         counter++;
         int c=0;
         while (c<200) c++;
     }
-    printf ("expectPulse: %d\n", counter);
-    
+
     if (counter < 1000)
     {
       if (measure_lenght == 1)
@@ -159,7 +158,7 @@ int expectPulse (int level,int pin, int measure_lenght)
           int c=0;
           while (c<200) c++;
         }
-        printf ("expectPulse: %d\n", counter2);
+        
         if (array_counter<100)
         {
       	  time_array2[array_counter]=counter2;
