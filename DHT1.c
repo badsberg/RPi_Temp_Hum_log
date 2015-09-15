@@ -115,8 +115,9 @@ int readDHT(int type, int pin) {
        {
        	 int element_number = i/8;
        	 data[element_number] += (1 << (7-(i-element_number*8)));
+       	 printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
        }
-        printf ("Compare: %d - %d. Bit=1 - element_number %d - bit number %d - data %d \n",i*2,i*2+1,element_number,(7-(i-element_number*8)), data[element_number]);
+        
     }
     float temp = ((float)(data[2]& 0x7F)*256+data[3])/10;
     if (data[2] & 0x80) //Handle negative temperature
