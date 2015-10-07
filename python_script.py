@@ -168,8 +168,8 @@ def pushQueue ():
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
             time.sleep (2)
-        
- 	      temp.sort()
+            
+        temp.sort()
         hum.sort()
          
         for x in range(1, len(temp)-1):
