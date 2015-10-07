@@ -121,7 +121,7 @@ def pushQueue ():
     temp=[]
     hum=[]
     
-    nofMeas = 5
+    nofMeas = 7
 
     if (pushQueueActive == False):
         pushQueueActive = True
