@@ -169,13 +169,12 @@ def pushQueue ():
             logging.warning("pushQueue: wait for queueLock")
             time.sleep (2)
         
- 	#dertermine the array position of the minimum and maximum value
-        temp.sort()
+ 	      temp.sort()
         hum.sort()
          
-         for x in range(1, len(temp)-1):
-           accTemp = accTemp + accTemp(temp(x))
-           accHum =  accHum + accHum(hum(x)
+        for x in range(1, len(temp)-1):
+          accTemp = accTemp + accTemp(temp(x))
+          accHum =  accHum + accHum(hum(x)
         
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
