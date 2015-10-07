@@ -181,12 +181,12 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         
         if (validMeasNo > 0):
-					tempForLog = accTemp / validMeasNo
-					humForLog = accHum / validMeasNo
-				else:
-          logging.warning ("pushQueue: Sensor not working. Reboot")
-          restart()
-          time.sleep (10)
+		tempForLog = accTemp / validMeasNo
+		humForLog = accHum / validMeasNo
+	else:
+		logging.warning ("pushQueue: Sensor not working. Reboot")
+		restart()
+		time.sleep (10)
         
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
