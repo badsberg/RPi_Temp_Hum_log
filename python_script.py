@@ -173,15 +173,15 @@ def pushQueue ():
         hum.sort()
          
         for x in range(1, len(temp)-1):
-          accTemp = accTemp + accTemp(temp(x))
-          accHum =  accHum + accHum(hum(x)
+					accTemp = accTemp + accTemp(temp(x))
+					accHum =  accHum + accHum(hum(x))
         
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
         
         if (validMeasNo > 0):
-          tempForLog = accTemp / validMeasNo
+					tempForLog = accTemp / validMeasNo
           humForLog = accHum / validMeasNo
         else:
           logging.warning ("pushQueue: Sensor not working. Reboot")
