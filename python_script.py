@@ -180,7 +180,7 @@ def pushQueue ():
           if(temp[meas_no]>maxTemp):
             maxTempPos = meas_no
           if(hum[meas_no]<humTemp):
-            humTempPos = meas_no
+            minHumPos = meas_no
           if(hum[meas_no]>humTemp):
             maxHumPos = meas_no  
             
