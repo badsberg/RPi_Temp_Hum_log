@@ -174,7 +174,7 @@ def pushQueue ():
         minHumPos=0
         maxHumPos=0
          
-        for meas_no in range(1, nofMeas):
+        for meas_no in range(1, validMeasNo):
           if(temp[meas_no]<minTemp):
             minTempPos = meas_no
           if(temp[meas_no]>maxTemp):
