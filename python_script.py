@@ -148,10 +148,10 @@ def pushQueue ():
                 matchRetry = re.search("Retry =\s+([0-9]+)", output)
        
                 if (matchTemp and matchHum):
-                    accTemp = accTemp + float(matchTemp.group(1))
-                    accHum = accHum + float(matchHum.group(1))
-                    temp[validMeasNo] = float(matchTemp.group(1))
-                    hum[validMeasNo] = float(matchHum.group(1))
+                    #accTemp = accTemp + float(matchTemp.group(1))
+                    #accHum = accHum + float(matchHum.group(1))
+                    temp.append(float(matchTemp.group(1)))
+                    hum.append(float(matchHum.group(1)))
                     logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f; Retry: %d " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1)), int(matchRetry.group(1))))
                     validMeasNo = validMeasNo + 1
 
@@ -170,29 +170,13 @@ def pushQueue ():
             time.sleep (2)
         
  	#dertermine the array position of the minimum and maximum value
-        minTemp=maxTemp=temp[0]
-        MinHum=maxHum=hum[0]
-        minTempPos=0
-        maxTempPos=0
-        minHumPos=0
-        maxHumPos=0
+        temp.sort()
+        hum.sort()
          
-        for meas_no in range(1, validMeasNo):
-          if(temp[meas_no]<minTemp):
-            minTempPos = meas_no
-          if(temp[meas_no]>maxTemp):
-            maxTempPos = meas_no
-          if(hum[meas_no]<humTemp):
-            minHumPos = meas_no
-          if(hum[meas_no]>humTemp):
-            maxHumPos = meas_no  
-            
-        validMeasNo = validMeasNo - 2
+         for x in range(1, len(temp)-1):
+           accTemp = accTemp + accTemp(temp(x))
+           accHum =  accHum + accHum(hum(x)
         
-        #Remove the minimum and maximum temp / hum measurement
-        accTemp = accTemp - temp[minTempPos] - temp[maxTempPos]
-        accHum = accHum - hum[minHumPos] - hum[maxHumPos]
-
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
@@ -208,7 +192,7 @@ def pushQueue ():
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
           
-        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo, totalMeasNo ))          
+        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo-2, totalMeasNo ))          
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), tempForLog, humForLog)) 
