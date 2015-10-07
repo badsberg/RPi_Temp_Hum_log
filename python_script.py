@@ -171,14 +171,17 @@ def pushQueue ():
             
         temp.sort()
         hum.sort()
-         
-        for x in range(0, len(temp)-2):
+        
+        nofAvgMeas = 0; 
+        for x in range(0, validMeasNo - 2):
 		accTemp = accTemp + temp.pop(1)
 		accHum =  accHum + hum.pop(1)
+		nofAvgMeas = nofAvgMeas + 1 
         
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
+        
         
         if (validMeasNo > 0):
 		tempForLog = accTemp / validMeasNo
@@ -191,7 +194,7 @@ def pushQueue ():
         queueTemperatur.enqueue ("%.1f" % (tempForLog))
         queueHumidity.enqueue ("%.1f" % (humForLog))
           
-        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), validMeasNo-2, totalMeasNo ))          
+        queueDebugData.enqueue ("%03d; %02d; %02d" %(queueTime.size(), nofAvgMeas, totalMeasNo ))          
         queueLock =  False
 
         logging.warning ("pushQueue: Push sensor reading into Queue - Queue element: %d; Date/time: %s; Temp: %.1f C; Hum: %.1f %%" % (queueTime.size(), dateTimeStamp.strftime("%Y-%m-%d %H:%M:%S"), tempForLog, humForLog)) 
