@@ -147,6 +147,8 @@ def pushQueue ():
                 if (matchTemp and matchHum):
                     accTemp = accTemp + float(matchTemp.group(1))
                     accHum = accHum + float(matchHum.group(1))
+                    temp[validMeasNo] = float(matchTemp.group(1))
+                    hum[validMeasNo] = float(matchHum.group(1))
                     logging.warning ("pushQueue: Measurement no. %d; Temp: %.1f; Hum: %.1f; Retry: %d " % (validMeasNo , float(matchTemp.group(1)), float(matchHum.group(1)), int(matchRetry.group(1))))
                     validMeasNo = validMeasNo + 1
 
@@ -163,8 +165,31 @@ def pushQueue ():
         while (queueLock == True):
             logging.warning("pushQueue: wait for queueLock")
             time.sleep (2)
-
         
+ 	#dertermine the array position of the minimum and maximum value
+        minTemp=maxTemp=temp[0]
+        MinHum=maxHum=hum[0]
+        minTempPos=0
+        maxTempPos=0
+        minHumPos=0
+        maxHumPos=0
+         
+        for meas_no in range(1, nofMeas):
+          if(temp[meas_no]<minTemp):
+            minTempPos = meas_no
+          if(temp[meas_no]>maxTemp):
+            maxTempPos = meas_no
+          if(hum[meas_no]<humTemp):
+            humTempPos = meas_no
+          if(hum[meas_no]>humTemp):
+            maxHumPos = meas_no  
+            
+        validMeasNo = validMeasNo - 2
+        
+        #Remove the minimum and maximum temp / hum measurement
+        accTemp = accTemp - temp[minTempPos] - temp[maxTempPos]
+        accHum = accHum - hum[minHumPos] - hum[maxHumPos]
+
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
         queueTime.enqueue (dateTimeStamp)
