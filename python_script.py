@@ -172,9 +172,9 @@ def pushQueue ():
         temp.sort()
         hum.sort()
          
-        for x in range(1, len(temp)-1):
-		accTemp = accTemp + temp(x)
-		accHum =  accHum + hum(x)
+        for x in range(0, len(temp)-2):
+		accTemp = accTemp + temp.pop(1)
+		accHum =  accHum + hum.pop(1)
         
         dateTimeStamp = datetime.datetime.now()
         queueLock=True
