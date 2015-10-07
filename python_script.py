@@ -183,9 +183,9 @@ def pushQueue ():
         queueTime.enqueue (dateTimeStamp)
         
         
-        if (validMeasNo > 0):
-		tempForLog = accTemp / validMeasNo
-		humForLog = accHum / validMeasNo
+        if (nofAvgMeas > 0):
+		tempForLog = accTemp / nofAvgMeas
+		humForLog = accHum / nofAvgMeas
 	else:
 		logging.warning ("pushQueue: Sensor not working. Reboot")
 		restart()
