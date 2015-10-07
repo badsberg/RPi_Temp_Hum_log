@@ -118,6 +118,9 @@ def pushQueue ():
     global queueLock
     global pushQueueActive
     
+    temp=[]
+    hum=[]
+    
     nofMeas = 5
 
     if (pushQueueActive == False):
