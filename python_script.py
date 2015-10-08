@@ -171,11 +171,14 @@ def pushQueue ():
             
         temp.sort()
         hum.sort()
+        logging.warning ("pushQueue: Temp meas:", temp[0:len(temp)])
+        logging.warning ("pushQueue: Hum meas:", hum[0:len(hum)])
+        
         
         nofAvgMeas = 0; 
-        for x in range(0, validMeasNo - 2):
-		accTemp = accTemp + temp.pop(1)
-		accHum =  accHum + hum.pop(1)
+        for x in range(0, validMeasNo - 4):
+		accTemp = accTemp + temp.pop(2)
+		accHum =  accHum + hum.pop(2)
 		nofAvgMeas = nofAvgMeas + 1 
         
         dateTimeStamp = datetime.datetime.now()
