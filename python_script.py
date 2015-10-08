@@ -171,8 +171,8 @@ def pushQueue ():
             
         temp.sort()
         hum.sort()
-        logging.warning ("pushQueue: Temp meas:", temp[0:len(temp)])
-        logging.warning ("pushQueue: Hum meas:", hum[0:len(hum)])
+        print("pushQueue: Temp meas: ", temp[0:len(temp)])
+        print("pushQueue: Hum meas: " ,  hum[0:len(hum)])
         
         
         nofAvgMeas = 0; 
