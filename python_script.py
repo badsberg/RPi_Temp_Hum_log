@@ -79,7 +79,7 @@ def getWorksheet():
     global summarySheet	
     global credentials
 
-    if (os.system("ping -c 4 192.168.87.1") == 0):
+    if (os.system("ping -c 4 192.168.0.1") == 0):
         try:
             #logging.warning ("getWorksheet: Try login")
             gc = gspread.authorize(credentials)
