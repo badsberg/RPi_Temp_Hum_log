@@ -11,4 +11,4 @@ else
     NOW=$(date +"%D-%H:%M:%S") 
     echo $NOW  "Network established!" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
 fi
-/opt/vc/bin/vcgencmd measure_temp /home/pi/RPi_Temp_Hum_log/network_monitor.log
+/opt/vc/bin/vcgencmd measure_temp >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
