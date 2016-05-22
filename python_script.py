@@ -298,7 +298,8 @@ def popQueue ():
     logging.warning ("popQueue: End")
     
 def restart():
-    command = "/usr/bin/sudo /sbin/shutdown -r now"
+    #command = "/usr/bin/sudo /sbin/shutdown -r now"
+    command = "/usr/bin/sudo reboot"
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
     
 def reschedulePopQueue (restartJob):
