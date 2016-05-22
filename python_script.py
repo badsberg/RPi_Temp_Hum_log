@@ -265,9 +265,11 @@ def popQueue ():
                     reschedulePopQueue(False)
                     
                 nofPops = nofPops + 1
-                if (nofPops >=1 and queueTime.size() == 0):
-                    logging.warning ("popQueue: Reboot")
-                    restart()
+                #if (nofPops >=96 and queueTime.size() == 0):
+                #    logging.warning ("popQueue: Reboot")
+                #    restart()
+                if (nofPops >=999)
+                	nofPops = 0
       
             except:
                 getWorksheetFlag = True
@@ -298,8 +300,7 @@ def popQueue ():
     logging.warning ("popQueue: End")
     
 def restart():
-    #command = "/usr/bin/sudo /sbin/shutdown -r now"
-    command = "/usr/bin/sudo reboot"
+    command = "/usr/bin/sudo /sbin/shutdown -r now"
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)  
     
 def reschedulePopQueue (restartJob):
