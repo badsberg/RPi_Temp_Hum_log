@@ -90,6 +90,7 @@ def getWorksheet():
             return 0
 
         else:
+            time.sleep(5)
             try:
                 #logging.warning("getWorksheet: Try open spreadsheet")
                 spreadSheet = gc.open(spreadsheetName)
@@ -99,6 +100,7 @@ def getWorksheet():
                 return 0
 
             else:
+            	time.sleep(5)
                 #logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
                     inputSheet = spreadSheet.get_worksheet(8)
