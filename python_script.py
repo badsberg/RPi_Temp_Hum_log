@@ -100,7 +100,7 @@ def getWorksheet():
                 return 0
 
             else:
-            	  time.sleep(5)
+            	time.sleep(5)
                 #logging.warning("getWorksheet: Open spredsheet succesfully")
                 try:
                     inputSheet = spreadSheet.get_worksheet(8)
