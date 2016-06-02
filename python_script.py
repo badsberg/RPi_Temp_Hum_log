@@ -214,7 +214,7 @@ def popQueue ():
     global popQueueActive
     global pushQueueActive
     global getWorksheetFlag
-    #global workSheetId
+    global workSheetId
     global nofPops
     global nofMissedPops
     global inputSheet
@@ -225,13 +225,10 @@ def popQueue ():
     if (queueTime.size() != 0 and pushQueueActive == False and popQueueActive == False):
         popQueueActive = True 
         if (getWorksheetFlag == True):
-            popQueueDebugString = '1'
             workSheetId = getWorksheet()
-        else:
-            popQueueDebugString = '0'
 
         if (workSheetId != 0):
-            #getWorksheetFlag = False
+            getWorksheetFlag = False
             while (queueLock == True):
             	logging.warning("popQueue: wait for queueLock")
             	time.sleep (2)
