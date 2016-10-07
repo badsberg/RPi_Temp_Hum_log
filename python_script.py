@@ -19,8 +19,8 @@ import os
 
 
 
-#logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.ERROR, format='%(asctime)s %(message)s', filemode='w')
-logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.ERROR, format='%(asctime)s %(message)s', filemode='w')
+#logging.basicConfig(filename='python_script_%d.log' % datetime.datetime.now().weekday(), level=logging.WARNING, format='%(asctime)s %(message)s')
 
 # Start the scheduler
 sched = BackgroundScheduler()
@@ -136,8 +136,8 @@ def pushQueue ():
         while (getMoreMeas == True):
             #logging.warning ("pushQueue: Measurement no. %d / %d" % (validMeasNo , totalMeasNo))
             try:
-                output = "Temp = 20.0, Hum = 50.0, Retry = 5\n" 
-                #output = subprocess.check_output(["./DHT1", "2302", "4"])
+                #output = "Temp = 20.0, Hum = 50.0, Retry = 5\n" 
+                output = subprocess.check_output(["./DHT1", "2302", "4"])
  
             except:
                 logging.warning ("pushQueue: problems execiting subprocess")
