@@ -1,5 +1,5 @@
 NOW=$(date +"%D-%H:%M:%S") 
-if  ping -c 4 192.168.0.1  >/dev/null ; then
+if  ping -c 4 www.google.com  >/dev/null ; then
     echo $NOW  "Network connection up!"
     #echo $NOW  "Network connection up!" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
     #sudo iwlist wlan0 scan | grep -e "Quality" -e "ESSID" >> /home/pi/RPi_Temp_Hum_log/network_monitor.log
